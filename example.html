@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+  <title>Error Plugin Example</title>
+  <link href="lib/video-js/video-js.css" rel="stylesheet">
+  <link href="videojs.errors.css" rel="stylesheet">
+  <script src="lib/video-js/video.js"></script>
+</head>
+<body>
+<video id="video" class="video-js vjs-default-skin" controls
+  preload="auto" width="640" height="264" poster="http://video-js.zencoder.com/oceans-clip.jpg" src="http://video-js.zencoder.com/oceans-clip.mp4a"
+  data-setup="{}">
+<p>Your browser doesn't support video.
+</video>
+<script src="videojs.errors.js"></script>
+<script>
+var video = videojs('video');
+video.errors({
+  messages: {
+   'custom-at-init': "This is a custom error message"
+  }
+});
+/*
+video.trigger({
+  type:'error',
+
+ code: 2,
+//  code: 'unknown',
+// code: 'custom-at-init',
+  target: video.el()
+});
+*/
+</script>
+</body>
+</html>

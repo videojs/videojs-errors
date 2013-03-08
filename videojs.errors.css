@@ -1,0 +1,34 @@
+.vjs-error-dialog {
+    background: #242424;
+    background: -webkit-linear-gradient(top, rgba(69,69,69,0.8) 0%, rgba(35,35,35,0.8) 50%,rgba(22,22,22,0.8) 50%, rgba(54,54,54,0.8) 100%);
+    background: -o-linear-gradient(top, #242424 50%,#1f1f1f 50%,#171717 100%); /* Opera11.10+ */
+    background: -ms-linear-gradient(top, #242424 50%,#1f1f1f 50%,#171717 100%); /* IE10+ */
+    border: 2px solid #fff;
+    border-radius: 25px;
+    color: white;
+    font-family: "Helvetica", arial, sans-serif;
+    font-size: 24px;
+    left: 0;
+    margin: 0 auto;
+    padding: 10px 15px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    width: 300px;
+    top: 10%;
+    z-index: 2;
+}
+
+.vjs-error-ok-btn {
+    background-color: #ddd;
+    border: 1px solid #161616;
+    border-radius: 5px;
+    color: #161616;
+    cursor: pointer;
+    margin: 5px auto 0;
+    width: 44px;
+}
+
+.vjs-error-ok-btn:hover {
+    background-color: #fff;
+}

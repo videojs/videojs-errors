@@ -8,28 +8,43 @@
 </head>
 <body>
 <video id="video" class="video-js vjs-default-skin" controls
-  preload="auto" width="640" height="264" poster="http://video-js.zencoder.com/oceans-clip.jpg" src="http://video-js.zencoder.com/oceans-clip.mp4a"
+  preload="auto" width="640" height="264" poster="http://video-js.zencoder.com/oceans-clip.jpg" src="http://video-js.zencoder.com/oceans-clip.mp4"
   data-setup="{}">
 <p>Your browser doesn't support video.
 </video>
 <script src="videojs.errors.js"></script>
 <script>
+// get a reference to the video.js player
 var video = videojs('video');
+
+// initialize the errors plugin with a custom error code and message
 video.errors({
   messages: {
-   'custom-at-init': "This is a custom error message"
+   3: 'This is an override for the generic MEDIA_ERR_DECODE',
+   'custom': 'This is a custom error message'
   }
 });
-/*
+
+// we're going to trigger an error manually for demonstration purposes...
 video.trigger({
   type:'error',
 
- code: 2,
-//  code: 'unknown',
-// code: 'custom-at-init',
+  // this error code would simulate a network error
+  // code: 2,
+
+  // this error code would display our MEDIA_ERR_DECODE override message
+  // code: 3,
+
+  // if the error code doesn't have an associated message, the 'unknown'
+  // message is displayed
+  // code: 'unknown',
+
+  // You can also specify a custom message like this one when you initialize
+  // the plugin
+  code: 'custom',
+
   target: video.el()
 });
-*/
 </script>
 </body>
 </html>

@@ -11,24 +11,11 @@
     left: 0;
     margin: 0 auto;
     padding: 10px 15px;
+    cursor: pointer;
     position: absolute;
     right: 0;
     text-align: center;
     width: 300px;
     top: 10%;
     z-index: 2;
-}
-
-.vjs-error-ok-btn {
-    background-color: #ddd;
-    border: 1px solid #161616;
-    border-radius: 5px;
-    color: #161616;
-    cursor: pointer;
-    margin: 5px auto 0;
-    width: 44px;
-}
-
-.vjs-error-ok-btn:hover {
-    background-color: #fff;
 }

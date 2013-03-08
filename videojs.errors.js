@@ -5,11 +5,11 @@
       // MEDIA_ERR_ABORTED
       1: "The video download was cancelled",
       // MEDIA_ERR_NETWORK
-      2: "We lost the connection to your video. Is your internet working?",
+      2: "We lost the connection to your video. Are you connected to the internet?",
       // MEDIA_ERR_DECODE
       3: "The video is bad or in a format that can't be played on your browser",
       // MEDIA_ERR_SRC_NOT_SUPPORTED
-      4: "Your browser does not support the format of this video",
+      4: "Your video is either unavailable or your browser does not support the format it's recorded in",
       // MEDIA_ERR_ENCRYPTED
       5: "The video you're trying to watch is encrypted and we don't know how to decrypt it",
       unknown: "Something we didn't anticipate just happened which is preventing your video from playing. Wait a little while and try again"
@@ -35,27 +35,21 @@
     settings = extend(defaults, options);
     messages = settings.messages;
     addEventListener = this.el().addEventListener || this.el().attachEvent;
-    
 
     this.on('error', function(event){
-      var dialog, ok, player;
+      var code, dialog, player;
       player = this;
+      code = event.target.error ? event.target.error.code : event.code;
       
       // create the dialog
       dialog = document.createElement('div');
       dialog.className = 'vjs-error-dialog';
-      dialog.textContent = messages[event.code] || messages['unknown'];
-
-      // create the 'ok' button
-      ok = document.createElement('div');
-      ok.className = 'vjs-error-ok-btn';
-      ok.textContent = "ok";
+      dialog.textContent = messages[code] || messages['unknown'];
       addEventListener.call(dialog, 'click', function(event){
         player.el().removeChild(dialog);
       }, false);
 
-      // put everything together and add it to the DOM
-      dialog.appendChild(ok);
+      // add it to the DOM
       player.el().appendChild(dialog);
     });
   });

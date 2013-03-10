@@ -16,8 +16,9 @@
     }
   };
   extend = function(obj){
-    Array.prototype.slice.call(arguments, 1).forEach(function(source){
-      var prop;
+    var arg, prop, source;
+    for (arg in arguments) {
+      source = arguments[arg];
       for (prop in source) {
         if (source[prop] && typeof source[prop] === 'object') {
           obj[prop] = extend(obj[prop] || {}, source[prop]);
@@ -25,7 +26,7 @@
           obj[prop] = source[prop];
         }
       }
-    });
+    };
     return obj;
   };
   

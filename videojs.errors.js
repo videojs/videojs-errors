@@ -5,14 +5,14 @@
       // MEDIA_ERR_ABORTED
       1: "The video download was cancelled",
       // MEDIA_ERR_NETWORK
-      2: "We lost the connection to your video. Are you connected to the internet?",
+      2: "The video connection was lost, please confirm you're connected to the internet",
       // MEDIA_ERR_DECODE
       3: "The video is bad or in a format that can't be played on your browser",
       // MEDIA_ERR_SRC_NOT_SUPPORTED
-      4: "Your video is either unavailable or your browser does not support the format it's recorded in",
-      // MEDIA_ERR_ENCRYPTED
+      4: "This video is either unavailable or not supported in this browser",
+      // MEDIA_ERR_ENCRYPTED (Chrome)
       5: "The video you're trying to watch is encrypted and we don't know how to decrypt it",
-      unknown: "Something we didn't anticipate just happened which is preventing your video from playing. Wait a little while and try again"
+      unknown: "An unanticipated problem was encountered, check back soon and try again"
     }
   };
   extend = function(obj){

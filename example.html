@@ -1,50 +1,50 @@
 <!doctype html>
 <html>
 <head>
-  <title>Error Plugin Example</title>
-  <link href="http://vjs.zencdn.net/4.0/video-js.css" rel="stylesheet">
-  <script src="http://vjs.zencdn.net/4.0/video.js"></script>
-  <link href="videojs.errors.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <title>Video.js Errors</title>
+
+  <link href="node_modules/video.js/dist/video-js/video-js.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .info {
+      background-color: #eee;
+      border: thin solid #333;
+      border-radius: 3px;
+      padding: 0 5px;
+      text-align: center;
+    }
+    .video-js {
+      margin: 40px auto;
+    }
+  </style>
 </head>
 <body>
-<video id="video" class="video-js vjs-default-skin" controls
-  preload="auto" width="640" height="264" poster="http://video-js.zencoder.com/oceans-clip.jpg" src="http://video-js.zencoder.com/oceans-clip.mp4"
-  data-setup="{}">
-<p>Your browser doesn't support video.
-</video>
-<script src="videojs.errors.js"></script>
-<script>
-// get a reference to the video.js player
-var video = videojs('video');
-
-// initialize the errors plugin with a custom error code and message
-video.errors({
-  messages: {
-   3: 'This is an override for the generic MEDIA_ERR_DECODE',
-   'custom': 'This is a custom error message'
-  }
-});
-
-// we're going to trigger an error manually for demonstration purposes...
-video.trigger({
-  type:'error',
-
-  // this error code would simulate a network error
-  // code: 2,
-
-  // this error code would display our MEDIA_ERR_DECODE override message
-  // code: 3,
-
-  // if the error code doesn't have an associated message, the 'unknown'
-  // message is displayed
-  // code: 'unknown',
-
-  // You can also specify a custom message like this one when you initialize
-  // the plugin
-  code: 'custom',
-
-  target: video.el()
-});
-</script>
+  <div class="info">
+    <p>
+      You can see the Video.js Errors plugin in action below.
+      Look at the source of this page to see how to use it with your videos.
+    </p>
+  </div>
+  <video id="video"
+         class="video-js vjs-default-skin"
+         height="300"
+         width="600"
+         controls>
+    <p>
+      Your browser doesn't support video. Please <a href="http://browsehappy.com/">upgrade your browser</a> to see the example.
+    </p>
+    <source src="http://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
+    <source src="http://vjs.zencdn.net/v/oceans.webm" type="video/webm">
+  </video>
+  <script src="node_modules/video.js/dist/video-js/video.js"></script>
+  <script src="lib/videojs-errors.js"></script>
+  <script>
+    // fire up the plugin
+    videojs('video').errors();
+  </script>
 </body>
 </html>

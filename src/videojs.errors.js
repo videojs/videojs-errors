@@ -38,20 +38,19 @@
     addEventListener = this.el().addEventListener || this.el().attachEvent;
 
     this.on('error', function(event){
+      console.log(event);
+
       var code, dialog, player;
+
       player = this;
+
       code = event.target.error ? event.target.error.code : event.code;
-      
+
       // create the dialog
-      dialog = document.createElement('div');
-      dialog.className = 'vjs-error-dialog';
-      dialog.textContent = messages[code] || messages['unknown'];
-      addEventListener.call(dialog, 'click', function(event){
-        player.el().removeChild(dialog);
-      }, false);
+      dialog = new videojs.ErrorOverlay(player, {header: 'Test Header', code: 123456, copy: 'test copy', details: 'test details'});
 
       // add it to the DOM
-      player.el().appendChild(dialog);
+      player.addChild(dialog);
     });
   });
 })();

@@ -1,56 +1,71 @@
 (function(){
-  var defaults, extend;
-  defaults = {
-    messages: {
-      // MEDIA_ERR_ABORTED
-      1: "The video download was cancelled",
-      // MEDIA_ERR_NETWORK
-      2: "The video connection was lost, please confirm you're connected to the internet",
-      // MEDIA_ERR_DECODE
-      3: "The video is bad or in a format that can't be played on your browser",
-      // MEDIA_ERR_SRC_NOT_SUPPORTED
-      4: "This video is either unavailable or not supported in this browser",
-      // MEDIA_ERR_ENCRYPTED (Chrome)
-      5: "The video you're trying to watch is encrypted and we don't know how to decrypt it",
-      unknown: "An unanticipated problem was encountered, check back soon and try again"
+  var defaults = {
+    timeout: 5000,
+    errors: {
+      0: {
+        type: "MEDIA_ERR_CUSTOM",
+        headline: "Custom Error Headline" 
+      },
+      1: {
+        type: "MEDIA_ERR_ABORTED",
+        headline: "The video download was cancelled"
+      },
+      2: {
+        type: "MEDIA_ERR_NETWORK",
+        headline: "The video connection was lost, please confirm you're connected to the internet"
+      },
+      3: {
+        type: "MEDIA_ERR_DECODE",
+        headline: "The video is bad or in a format that can't be played on your browser"
+      },
+      4: {
+        type: "MEDIA_ERR_SRC_NOT_SUPPORTED",
+        headline: "This video is either unavailable or not supported in this browser"
+      },
+      5: {
+        type: "MEDIA_ERR_ENCRYPTED",
+        headline: "The video you're trying to watch is encrypted and we don't know how to decrypt it"
+      },
+      unknown: {
+        type: "MEDIA_ERR_UNKNOWN",
+        headline: "An unanticipated problem was encountered, check back soon and try again"
+      }
     }
   };
-  extend = function(obj){
-    var arg, prop, source;
-    for (arg in arguments) {
-      source = arguments[arg];
-      for (prop in source) {
-        if (source[prop] && typeof source[prop] === 'object') {
-          obj[prop] = extend(obj[prop] || {}, source[prop]);
-        } else {
-          obj[prop] = source[prop];
-        }
-      }
-    };
-    return obj;
-  };
-  
+
   videojs.plugin('errors', function(options){
-    var addEventListener, messages, settings;
+    var timeoutListener, errors, settings, timeout, player;
 
-    settings = extend(defaults, options);
-    messages = settings.messages;
-    addEventListener = this.el().addEventListener || this.el().attachEvent;
+    settings = videojs.util.mergeOptions(defaults, options);
+    errors = settings.errors;
+    timeout = settings.timeout;
+    player = this;
 
-    this.on('error', function(event){
-      console.log(event);
+    // Create the dialog element, register it with the player,
+    // and add it to the DOM.
+    player.children.errorOverlay = new videojs.ErrorOverlay(player);
+    player.addChild(player.children.errorOverlay);
 
-      var code, dialog, player;
+    player.on('readystatechange', function() {
 
-      player = this;
+    });
 
-      code = event.target.error ? event.target.error.code : event.code;
+    // Handle Error events dispatched from player.
+    player.on('error', function(event){
 
-      // create the dialog
-      dialog = new videojs.ErrorOverlay(player, {header: 'Test Header', code: 123456, copy: 'test copy', details: 'test details'});
+      if (timeoutListener) {
+        timeoutListener = null;
+      }
 
-      // add it to the DOM
-      player.addChild(dialog);
+      console.log('received error', this.error());
+
+      var error = this.error();
+
+      player.children.errorOverlay.setCode(error.code + ' ' + errors[error.code].type);
+      player.children.errorOverlay.setHeader(errors[error.code].headline);
+      player.children.errorOverlay.setMessage(error.message);
+      player.children.errorOverlay.show();
+
     });
   });
 })();

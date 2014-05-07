@@ -12,7 +12,7 @@
 }
 
 .vjs-error-dialog {
-    background: #999999;
+    background: rgba(0,0,0,.5);
     color: white;
     font-family: 'Source Sans Pro', arial, sans-serif;
     font-size: 16px;
@@ -28,7 +28,12 @@
 }
 
 .vjs-error-container {
-    margin: 15px;
+    position: absolute;
+    top: 15px;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    background: #000;
 }
 
 .vjs-errors-heading {

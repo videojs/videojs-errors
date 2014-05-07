@@ -78,7 +78,7 @@
     player.addChild(player.children.errorOverlay);
 
     // Initialize Error Conditions
-    initCustomErrorConditions(player);
+    initCustomErrorConditions(player, settings);
 
     // Handle Error events dispatched from player.
     player.on('error', function(){

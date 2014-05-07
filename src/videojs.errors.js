@@ -46,18 +46,12 @@
     player.children.errorOverlay = new videojs.ErrorOverlay(player);
     player.addChild(player.children.errorOverlay);
 
-    player.on('readystatechange', function() {
-
-    });
-
     // Handle Error events dispatched from player.
     player.on('error', function(event){
 
       if (timeoutListener) {
         timeoutListener = null;
       }
-
-      console.log('received error', this.error());
 
       var error = this.error();
 

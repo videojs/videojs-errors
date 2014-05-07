@@ -1,6 +1,5 @@
 (function(){
   var defaults = {
-    timeout: 5000,
     errors: {
       0: {
         type: "MEDIA_ERR_CUSTOM",
@@ -29,16 +28,48 @@
       unknown: {
         type: "MEDIA_ERR_UNKNOWN",
         headline: "An unanticipated problem was encountered, check back soon and try again"
+      },
+      custom: {
+        timeout: {
+          code: 0,
+          type: "MEDIA_ERR_TIMEOUT",
+          headline: "Media Time Out",
+          message: "Your media timed out.",
+          interval: 45000
+        }
       }
     }
   };
 
+  // Setup Custom Error Conditions
+  var initCustomErrorConditions = function(player, options) {
+    // Timeout Condition
+    player.on('firstplay', function() {
+      var timeoutListener = function() {
+        player.error(options.errors.custom.timeout);
+      };
+      player.on('progress', function() {
+        timeoutListener = null;
+      });
+      player.on('play', function() {
+        timeoutListener = null;
+      });
+      player.on('pause', function() {
+        timeoutListener = null;
+      });
+      setTimeout(function(){
+        if (timeoutListener) {
+          timeoutListener();
+        }
+      }, options.errors.custom.timeout.interval);
+    });
+  };
+
   videojs.plugin('errors', function(options){
-    var timeoutListener, errors, settings, timeout, player;
+    var errors, settings, player;
 
     settings = videojs.util.mergeOptions(defaults, options);
     errors = settings.errors;
-    timeout = settings.timeout;
     player = this;
 
     // Create the dialog element, register it with the player,
@@ -46,12 +77,11 @@
     player.children.errorOverlay = new videojs.ErrorOverlay(player);
     player.addChild(player.children.errorOverlay);
 
-    // Handle Error events dispatched from player.
-    player.on('error', function(event){
+    // Initialize Error Conditions
+    initCustomErrorConditions(player);
 
-      if (timeoutListener) {
-        timeoutListener = null;
-      }
+    // Handle Error events dispatched from player.
+    player.on('error', function(){
 
       var error = this.error();
 

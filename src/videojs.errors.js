@@ -81,6 +81,12 @@
     player.children.errorOverlay = new videojs.ErrorOverlay(player);
     player.addChild(player.children.errorOverlay);
 
+    // Hide the default error display (if present)
+    if(player.el().querySelector('.vjs-error-display')) {
+      player.el().querySelector('.vjs-error-display').setAttribute('style',
+          'display: none; width: 0; height: 0');
+    }
+
     // Initialize Error Conditions
     initCustomErrorConditions(player, settings);
 

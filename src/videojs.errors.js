@@ -44,17 +44,20 @@
   // Setup Custom Error Conditions
   var initCustomErrorConditions = function(player, options) {
     // Timeout Condition
-    player.on('firstplay', function() {
+    player.on('loadstart', function() {
       var timeoutListener = function() {
         player.error(options.errors.custom.timeout);
       };
-      player.on('progress', function() {
+      player.one('progress', function() {
         timeoutListener = null;
       });
-      player.on('play', function() {
+      player.one('play', function() {
         timeoutListener = null;
       });
-      player.on('pause', function() {
+      player.one('pause', function() {
+        timeoutListener = null;
+      });
+      player.one('timeupdate', function() {
         timeoutListener = null;
       });
       setTimeout(function(){
@@ -66,6 +69,7 @@
   };
 
   videojs.plugin('errors', function(options){
+
     var errors, settings, player;
 
     settings = videojs.util.mergeOptions(defaults, options);
@@ -91,5 +95,15 @@
       player.children.errorOverlay.show();
 
     });
+
+    // When a new video is loaded, if there is a pre-existing error
+    // then clear it out and reset.
+    player.on('loadstart', function() {
+      if (this.error()) {
+        this.error(null);
+        player.children.errorOverlay.hide();
+      }
+    });
+
   });
 })();

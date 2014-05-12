@@ -1,5 +1,6 @@
 (function(){
   var defaults = {
+    timeout: 45 * 1000,
     errors: {
       0: {
         type: "MEDIA_ERR_CUSTOM",
@@ -29,6 +30,14 @@
         type: "MEDIA_ERR_UNKNOWN",
         headline: "An unanticipated problem was encountered, check back soon and try again"
       },
+      '-1': {
+        type: 'PLAYER_ERR_NO_SRC',
+        headline: 'No video has been loaded'
+      },
+      '-2': {
+        type: 'PLAYER_ERR_TIMEOUT',
+        headline: 'Could not download the video'
+      },
       custom: {
         timeout: {
           code: 0,
@@ -43,28 +52,36 @@
 
   // Setup Custom Error Conditions
   var initCustomErrorConditions = function(player, options) {
-    // Timeout Condition
-    player.on('loadstart', function() {
-      var timeoutListener = function() {
-        player.error(options.errors.custom.timeout);
-      };
-      player.one('progress', function() {
-        timeoutListener = null;
-      });
-      player.one('play', function() {
-        timeoutListener = null;
-      });
-      player.one('pause', function() {
-        timeoutListener = null;
-      });
-      player.one('timeupdate', function() {
-        timeoutListener = null;
-      });
-      setTimeout(function(){
-        if (timeoutListener) {
-          timeoutListener();
-        }
-      }, options.errors.custom.timeout.interval);
+    // PLAYER_ERR_TIMEOUT
+    player.on('stalled', function() {
+      var
+        cancelTimeout = function() {
+          window.clearTimeout(stalledTimeout);
+        },
+        stalledTimeout;
+
+        stalledTimeout = window.setTimeout(function() {
+          player.error({
+            code: -2,
+            type: 'PLAYER_ERR_TIMEOUT'
+          })
+        }, options.timeout);
+
+      // clear the stall timeout if progress has been made
+      player.on('timeupdate', cancelTimeout);
+      player.on('progress', cancelTimeout);
+    });
+
+    // PLAYER_ERR_NO_SRC
+    player.on('play', function() {
+      if (player.currentSrc() === null ||
+          player.currentSrc() === undefined ||
+          player.currentSrc() === '') {
+        player.error({
+          code: -1,
+          type: 'PLAYER_ERR_NO_SRC'
+        });
+      }
     });
   };
 

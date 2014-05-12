@@ -1,11 +1,12 @@
 /*! videojs-errors - v0.0.0 - 2014-4-30
- * Copyright (c) 2014 Tom Johnson
+ * Copyright (c) 2014 Brightcove
  * Licensed under the Apache-2.0 license. */
-(function(window, videojs, qunit) {
+(function(window, videojs, sinon, qunit) {
   'use strict';
 
   var realIsHtmlSupported,
       player,
+      clock,
 
       // local QUnit aliases
       // http://api.qunitjs.com/
@@ -36,22 +37,70 @@
         return true;
       };
 
+      // setup sinon fake timers
+      clock = sinon.useFakeTimers();
+
       // create a video element
       var video = document.createElement('video');
       document.querySelector('#qunit-fixture').appendChild(video);
 
       // create a video.js player
       player = videojs(video);
+      player.buffered = function() {
+        return videojs.createTimeRange(0, 0);
+      };
 
       // initialize the plugin with the default options
       player.errors();
     },
     teardown: function() {
       videojs.Html5.isSupported = realIsHtmlSupported;
+      clock.restore();
     }
   });
 
   test('registers itself', function() {
     ok(player.errors, 'registered the plugin');
   });
-})(window, window.videojs, window.QUnit);
+
+  test('play() without a src is an error', function() {
+    var errors = 0;
+    player.on('error', function() {
+      errors++;
+    });
+    player.trigger('play');
+
+    strictEqual(errors, 1, 'emitted an error');
+    strictEqual(player.error().code, -1, 'error code is -1');
+    strictEqual(player.error().type, 'PLAYER_ERR_NO_SRC', 'error type is no source');
+  });
+
+  test('no progress for 45 seconds is an error', function() {
+    var errors = 0;
+    player.on('error', function() {
+      errors++;
+    });
+    player.trigger('stalled');
+
+    clock.tick(45 * 1000);
+
+    strictEqual(errors, 1, 'emitted an error');
+    strictEqual(player.error().code, -2, 'error code is -2');
+    strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
+  });
+
+  test('playback after stalling clears the timeout', function() {
+    var errors = 0;
+    player.on('error', function() {
+      errors++;
+    });
+    player.trigger('stalled');
+    // stalled for awhile
+    clock.tick(44 * 1000);
+    // but playback resumes!
+    player.trigger('timeupdate');
+    clock.tick(45 * 1000);
+
+    strictEqual(errors, 0, 'no errors emitted');
+  });
+})(window, window.videojs, window.sinon, window.QUnit);

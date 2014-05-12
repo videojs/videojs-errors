@@ -29,6 +29,10 @@
         type: "MEDIA_ERR_UNKNOWN",
         headline: "An unanticipated problem was encountered, check back soon and try again"
       },
+      '-1': {
+        type: 'PLAYER_ERR_NO_SOURCE',
+        headline: 'No video has been loaded'
+      },
       custom: {
         timeout: {
           code: 0,
@@ -65,6 +69,18 @@
           timeoutListener();
         }
       }, options.errors.custom.timeout.interval);
+    });
+
+    // PLAYER_ERR_NO_SOURCE
+    player.on('play', function() {
+      if (player.currentSrc() === null ||
+          player.currentSrc() === undefined ||
+          player.currentSrc() === '') {
+        player.error({
+          code: -1,
+          type: 'PLAYER_ERR_NO_SOURCE'
+        });
+      }
     });
   };
 

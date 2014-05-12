@@ -54,4 +54,16 @@
   test('registers itself', function() {
     ok(player.errors, 'registered the plugin');
   });
+
+  test('play() without a src is an error', function() {
+    var errors = 0;
+    player.on('error', function() {
+      errors++;
+    });
+    player.trigger('play');
+
+    strictEqual(errors, 1, 'emitted an error');
+    strictEqual(player.error().code, -1, 'error code is -1');
+    strictEqual(player.error().type, 'PLAYER_ERR_NO_SOURCE', 'error type is no source');
+  });
 })(window, window.videojs, window.QUnit);

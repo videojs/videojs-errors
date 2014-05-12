@@ -84,10 +84,12 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default',
+  grunt.registerTask('test',
                      ['clean',
                       'jshint',
-                      'qunit',
+                      'qunit']);
+  grunt.registerTask('default',
+                     ['test',
                       'concat',
                       'uglify']);
 };

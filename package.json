@@ -11,6 +11,9 @@
     "video",
     "player"
   ],
+  "scripts": {
+    "test": "grunt test"
+  },
   "dependencies": {},
   "devDependencies": {
     "grunt-contrib-clean": "^0.4",
@@ -22,7 +25,7 @@
     "grunt-contrib-watch": "^0.4",
     "qunitjs": "^1.12",
     "sinon": "^1.9.1",
-    "video.js": "git+https://github.com/heff/video-js.git#feature/error-handling"
+    "video.js": "git+https://github.com/dmlap/video-js.git#4.5.2-errors"
   },
   "peerDependencies": {
     "video.js": "^4.5"

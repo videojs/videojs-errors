@@ -46,6 +46,9 @@
 
       // create a video.js player
       player = videojs(video);
+      player.buffered = function() {
+        return videojs.createTimeRange(0, 0);
+      };
 
       // initialize the plugin with the default options
       player.errors();

@@ -86,47 +86,30 @@
   };
 
   videojs.plugin('errors', function(options){
+    var settings, overlay;
 
-    var errors, settings, player;
-
+    // Merge the external and default settings
     settings = videojs.util.mergeOptions(defaults, options);
-    errors = settings.errors;
-    player = this;
 
     // Create the dialog element, register it with the player,
     // and add it to the DOM.
-    player.children.errorOverlay = new videojs.ErrorOverlay(player);
-    player.addChild(player.children.errorOverlay);
-
-    // Hide the default error display (if present)
-    if(player.el().querySelector('.vjs-error-display')) {
-      player.el().querySelector('.vjs-error-display').setAttribute('style',
-          'display: none; width: 0; height: 0');
-    }
+    overlay = new videojs.ErrorOverlay(this);
+    this.addChild(overlay);
 
     // Initialize Error Conditions
-    initCustomErrorConditions(player, settings);
+    initCustomErrorConditions(this, settings);
 
-    // Handle Error events dispatched from player.
-    player.on('error', function(){
-
+    this.on('error', function() {
       var error = this.error();
+      var errors = settings.errors;
 
-      player.children.errorOverlay.setCode(error.code + ' ' + errors[error.code].type);
-      player.children.errorOverlay.setHeader(errors[error.code].headline);
-      player.children.errorOverlay.setMessage(error.message);
-      player.children.errorOverlay.show();
+      overlay.setCode(error.code + ' ' + errors[error.code].type);
+      overlay.setHeader(errors[error.code].headline);
+      overlay.setMessage(error.message);
+      overlay.show();
 
-    });
+      (this.width() > 300) ? overlay.addClass('vjs-error-dialog') : overlay.addClass('vjs-error-dialog-mini');
 
-    // When a new video is loaded, if there is a pre-existing error
-    // then clear it out and reset.
-    player.on('loadstart', function() {
-      if (this.error()) {
-        this.error(null);
-        player.children.errorOverlay.hide();
-      }
-    });
-
+    })
   });
 })();

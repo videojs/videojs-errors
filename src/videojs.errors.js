@@ -1,5 +1,9 @@
 (function(){
   var defaults = {
+    header: '',
+    code: '',
+    message: '',
+    details: '',
     timeout: 45 * 1000,
     errors: {
       0: {
@@ -52,6 +56,7 @@
 
   // Setup Custom Error Conditions
   var initCustomErrorConditions = function(player, options) {
+
     // PLAYER_ERR_TIMEOUT
     player.on('stalled', function() {
       var
@@ -86,30 +91,15 @@
   };
 
   videojs.plugin('errors', function(options){
-    var settings, overlay;
 
     // Merge the external and default settings
-    settings = videojs.util.mergeOptions(defaults, options);
+    var settings = videojs.util.mergeOptions(defaults, options);
 
-    // Create the dialog element, register it with the player,
-    // and add it to the DOM.
-    overlay = new videojs.ErrorOverlay(this);
-    this.addChild(overlay);
+    // Create the dialog element, register it with the player
+    this.addChild(new videojs.ErrorOverlay(this, settings));
 
-    // Initialize Error Conditions
+    // Initialize custom error conditions
     initCustomErrorConditions(this, settings);
 
-    this.on('error', function() {
-      var error = this.error();
-      var errors = settings.errors;
-
-      overlay.setCode(error.code + ' ' + errors[error.code].type);
-      overlay.setHeader(errors[error.code].headline);
-      overlay.setMessage(error.message);
-      overlay.show();
-
-      (this.width() > 300) ? overlay.addClass('vjs-error-dialog') : overlay.addClass('vjs-error-dialog-mini');
-
-    })
   });
 })();

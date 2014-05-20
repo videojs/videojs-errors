@@ -4,20 +4,32 @@ videojs.ErrorOverlay = videojs.Component.extend({
   init: function(player, options) {
     videojs.Component.call(this, player, options);
 
-    this.code = options && options.code ? options.code : '';
-    this.header = options && options.header ? options.header : '';
-    this.message = options && options.message ? options.message : '';
-    this.details = options && options.details ? options.details : '';
+    var self = this;
 
-    this.createEl();
-    this.hide();
+    // Default state
+    self.hide();
+    self.code = options.code;
+    self.header = options.header;
+    self.message = options.message;
+    self.details = options.details;
 
+    // Setup elements and event handling
+    self.createEl();
+    self.okButtonElement.addEventListener('click', function() {self.hide()});
+    self.closeButtonElement.addEventListener('click', function() {self.hide()});
+
+    player.on('error', function (){
+      var error = this.error();
+      var errors = options.errors;
+
+      self.setCode(error.code + ' ' + errors[error.code].type);
+      self.setHeader(errors[error.code].headline);
+      self.setMessage(error.message);
+      self.updateLayout(this);
+      self.show();
+    });
   }
 });
-
-var populateOverlay = function(header, message, code, details) {
-  this.show();
-}
 
 var createErrorOverlay = function(header, message, code, details) {
   return '<div class=\"vjs-errors-container\">' +
@@ -33,10 +45,12 @@ var createErrorOverlay = function(header, message, code, details) {
 videojs.ErrorOverlay.prototype.createEl = function() {
   this.el().innerHTML = createErrorOverlay(this.header, this.copy, this.code, this.details);
 
-  this.headerElement = this.el().children[0].querySelector('.vjs-errors-heading');
-  this.messageElement = this.el().children[0].querySelector('.vjs-errors-message');
-  this.codeElement = this.el().children[0].querySelector('.vjs-error-code');
-
+  this.containerElement = this.el().children[0];
+  this.headerElement = this.containerElement.querySelector('.vjs-errors-heading');
+  this.messageElement = this.containerElement.querySelector('.vjs-errors-message');
+  this.codeElement = this.containerElement.querySelector('.vjs-error-code');
+  this.okButtonElement = this.containerElement.querySelector('.vjs-errors-ok-button');
+  this.closeButtonElement = this.containerElement.querySelector('.vjs-errors-close-button');
   return this.el();
 };
 
@@ -57,4 +71,14 @@ videojs.ErrorOverlay.prototype.setCode = function(code) {
 
 videojs.ErrorOverlay.prototype.setDetails = function(details) {
   this.details = details;
+};
+
+videojs.ErrorOverlay.prototype.updateLayout = function(player) {
+  if (player.width() > 300 && player.height() > 150){
+    this.addClass('vjs-error-dialog');
+    this.removeClass('vjs-error-dialog-mini');
+  } else {
+    this.addClass('vjs-error-dialog-mini');
+    this.removeClass('vjs-error-dialog');
+  }
 };

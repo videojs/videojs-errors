@@ -140,4 +140,52 @@
 .vjs-error-overlay-mini .vjs-errors-ok-button {
     width: 60px;
     height: 30px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/*
+    Media query work to identify embed scenarios of 300x150 or less.
+    NOTE: This is a copy of the mini styles above yet with the -mini removed.
+    Thus overriding the above equivalents and forcing the player into a
+    mini-like display regardless.
+-------------------------------------------------------------------------------
+*/
+
+@media (max-width: 300px), (max-height: 150px) {
+    .vjs-error-overlay .vjs-errors-close-button,
+    .vjs-error-overlay .vjs-errors-details,
+    .vjs-error-overlay .vjs-errors-message {
+        display: none;
+    }
+
+    .vjs-error-overlay .vjs-errors-mask {
+        background-color: #000;
+    }
+
+    .vjs-error-overlay .vjs-errors-content-container {
+        top: 15px;
+        line-height: 6px;
+    }
+
+    .vjs-error-overlay .vjs-errors-headline {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .vjs-error-overlay .vjs-errors-dialog {
+        border: 0;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        font-size: 12px;
+    }
+
+    .vjs-error-overlay .vjs-errors-ok-button {
+        width: 60px;
+        height: 30px;
+        font-size: 12px;
+        font-weight: bold;
+    }    
 }

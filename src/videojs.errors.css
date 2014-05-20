@@ -87,13 +87,28 @@
     font-weight: bold;
 }
 
+.vjs-errors-close-button {
+    font-weight: bold;
+    cursor: pointer;
+    float: right;
+    margin: 5px 10px;
+}
+
+.vjs-errors-close-button:before {
+    content: 'X';
+}
+
+.vjs-errors-close-button:hover {
+    color: #FFF;
+}
+
 
 /*
     Mini Styles
 -------------------------------------------------------------------------------
 */
 
-.vjs-error-overlay-mini .vjs-errors-close,
+.vjs-error-overlay-mini .vjs-errors-close-button,
 .vjs-error-overlay-mini .vjs-errors-details,
 .vjs-error-overlay-mini .vjs-errors-message {
     display: none;

@@ -34,7 +34,7 @@ videojs.ErrorOverlay = videojs.Component.extend({
 var createErrorOverlay = function(header, message, code, details) {
   return '<div class=\"vjs-errors-mask\">' +
    '<div class=\"vjs-errors-dialog\">' +
-   '<div class=\"vjs-errors-close\">X</div>' +
+   '<div class=\"vjs-errors-close-button\"></div>' +
    '<div class=\"vjs-errors-content-container\">' +
    '<p class=\"vjs-errors-headline\">' + header + '</p>' +
    '<p><b>Error Code: </b><span class=\"vjs-errors-code\">' + code + '</span></p>' +
@@ -58,7 +58,7 @@ videojs.ErrorOverlay.prototype.createEl = function() {
   this.codeElement = this.containerElement.querySelector('.vjs-errors-code');
   this.detailsElement = this.containerElement.querySelector('.vjs-errors-details');
   this.okButtonElement = this.containerElement.querySelector('.vjs-errors-ok-button');
-  this.closeButtonElement = this.containerElement.querySelector('.vjs-errors-close');
+  this.closeButtonElement = this.containerElement.querySelector('.vjs-errors-close-button');
 
   return this.el();
 };

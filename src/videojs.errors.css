@@ -11,80 +11,118 @@
     src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url(../fonts/sourcesanspro-semi-bold-v5.woff) format('woff');
 }
 
-.vjs-error-dialog, .vjs-error-dialog-mini {
-    background: rgba(0,0,0,.5);
-    color: white;
-    font-family: 'Source Sans Pro', arial, sans-serif;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-}
-
-.vjs-error-dialog .vjs-errors-container {
-    width: 90%;
-    height: 90%;
-    background: rgba(22,22,22,.8);
-    font-size: 16px;
-    border: 1px #CCCCCC solid;
-    position: relative;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
-    margin: auto;
-}
-
-.vjs-errors-content {
-    margin: auto 15px;
-}
-
-.vjs-error-dialog .vjs-errors-heading {
-    font-size: 22px;
-    font-weight: bold;
-}
-
 /*
- Mini
- */
+    Full Size Styles
+-------------------------------------------------------------------------------
+*/
 
-.vjs-error-dialog-mini .vjs-errors-container {
+.vjs-errors-mask {
+    display: block;
     position: absolute;
-    margin: 5px;
-    background: #000;
-    font-size: 14px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:rgba(0,0,0, .5);
 }
 
-.vjs-error-dialog-mini .vjs-errors-heading {
+.vjs-errors-dialog {
+    border: 1px #CCC solid;
+    font-family: 'Source Sans Pro', Arial;
     font-size: 16px;
-    font-weight: bold;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    top: 5%;
+    bottom: 5%;
+    left: 5%;
+    right: 5%;
+    background: rgba(0,0,0,.8);
 }
 
-
-.vjs-errors-close-button {
-    width: 20px;
-    height: 20px;
-    float: right;
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-.vjs-errors-close-button:before {
-    content: 'x'
+.vjs-errors-ok-button-container {
+    display: block;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    text-align: center;
 }
 
 .vjs-errors-ok-button {
+    display: inline-block;
     width: 80px;
     height: 36px;
-    background: #000;
+    background-color: #000;
     border: 1px #999 solid;
     border-radius: 5px;
     color: #999;
     font-size: 14px;
-    font-family: 'Source Sans Pro', arial, sans-serif;
-    font-weight: bold;
     cursor: pointer;
-    position: absolute;
-    bottom: 10px;
+}
+
+.vjs-errors-ok-button:hover {
+    border: 1px #FFF solid;
+    color: #CCC;
+}
+
+.vjs-errors-content-container {
+    line-height: 1;
     text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    top: 30%;
+    width: 100%;
+}
+
+.vjs-errors-content-container p {
+    text-align: left;
+    margin: 15px;
+    color: #FFF;
+}
+
+.vjs-errors-headline {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+
+/*
+    Mini Styles
+-------------------------------------------------------------------------------
+*/
+
+.vjs-error-overlay-mini .vjs-errors-close,
+.vjs-error-overlay-mini .vjs-errors-details,
+.vjs-error-overlay-mini .vjs-errors-message {
+    display: none;
+}
+
+.vjs-error-overlay-mini .vjs-errors-mask {
+    background-color: #000;
+}
+
+.vjs-error-overlay-mini .vjs-errors-content-container {
+    top: 15px;
+    line-height: 6px;
+}
+
+.vjs-error-overlay-mini .vjs-errors-headline {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.vjs-error-overlay-mini .vjs-errors-dialog {
+    border: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 12px;
+}
+
+.vjs-error-overlay-mini .vjs-errors-ok-button {
+    width: 60px;
+    height: 30px;
 }

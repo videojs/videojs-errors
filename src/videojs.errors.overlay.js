@@ -18,8 +18,10 @@ videojs.ErrorOverlay = videojs.Component.extend({
     self.closeButtonElement.addEventListener('click', function() {self.hide()});
 
     player.on('error', function (){
-      var error = this.error();
-      var errors = options.errors;
+      var error, errors;
+
+      error = this.error();
+      errors = options.errors;
 
       self.setCode(error.code + ' ' + errors[error.code].type);
       self.setHeader(errors[error.code].headline);

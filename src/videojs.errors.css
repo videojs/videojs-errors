@@ -1,16 +1,3 @@
-@font-face {
-    font-family: 'Source Sans Pro';
-    font-style: normal;
-    font-weight: 200;
-    src: local('Source Sans Pro ExtraLight'), local('SourceSansPro-ExtraLight'), url(../fonts/sourcesanspro-extra-light-v5.woff) format('woff');
-}
-@font-face {
-    font-family: 'Source Sans Pro';
-    font-style: normal;
-    font-weight: 600;
-    src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url(../fonts/sourcesanspro-semi-bold-v5.woff) format('woff');
-}
-
 /*
     Full Size Styles
 -------------------------------------------------------------------------------
@@ -28,7 +15,7 @@
 
 .vjs-errors-dialog {
     border: 1px #CCC solid;
-    font-family: 'Source Sans Pro', Arial;
+    font-family: Arial;
     font-size: 16px;
     line-height: 1;
     text-align: center;

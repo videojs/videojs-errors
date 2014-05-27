@@ -75,10 +75,14 @@
 }
 
 .vjs-errors-close-button {
+    font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     float: right;
-    margin: 5px 10px;
+    margin: 5px;
+    background: #000;
+    border: 0;
+    color: #999;
 }
 
 .vjs-errors-close-button:before {

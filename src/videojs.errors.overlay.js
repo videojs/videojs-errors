@@ -31,17 +31,17 @@ videojs.ErrorOverlay = videojs.Component.extend({
 });
 
 var createErrorOverlay = function(header, message, code, details) {
-  return '<div class=\"vjs-errors-mask\">' +
-   '<div class=\"vjs-errors-dialog\">' +
-   '<div class=\"vjs-errors-close-button\"></div>' +
-   '<div class=\"vjs-errors-content-container\">' +
-   '<p class=\"vjs-errors-headline\">' + header + '</p>' +
-   '<p><b>Error Code: </b><span class=\"vjs-errors-code\">' + code + '</span></p>' +
-   '<p class=\"vjs-errors-message\">' + message + '</p>' +
-   '<p class=\"vjs-errors-details\">' + details + '</p>' +
+  return '<div class="vjs-errors-mask">' +
+   '<div class="vjs-errors-dialog">' +
+   '<div class="vjs-errors-close-button"></div>' +
+   '<div class="vjs-errors-content-container">' +
+   '<p class="vjs-errors-headline">' + header + '</p>' +
+   '<p><b>Error Code: </b><span class="vjs-errors-code">' + code + '</span></p>' +
+   '<p class="vjs-errors-message">' + message + '</p>' +
+   '<p class="vjs-errors-details">' + details + '</p>' +
    '</div>' +
-   '<div class=\"vjs-errors-ok-button-container\">' +
-   '<button class=\"vjs-errors-ok-button\">OK</button>' +
+   '<div class="vjs-errors-ok-button-container">' +
+   '<button class="vjs-errors-ok-button">OK</button>' +
    '</div>' +
    '</div>' +
    '</div>';

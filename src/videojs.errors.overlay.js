@@ -16,6 +16,7 @@ videojs.ErrorOverlay = videojs.Component.extend({
     self.createEl();
     self.okButtonElement.addEventListener('click', function() {self.hide()});
     self.closeButtonElement.addEventListener('click', function() {self.hide()});
+    self.updateLayout(player);
 
     player.on('error', function (){
       var error, errors;

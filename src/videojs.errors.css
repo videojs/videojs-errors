@@ -1,42 +1,184 @@
-@font-face {
-    font-family: 'Source Sans Pro';
-    font-style: normal;
-    font-weight: 200;
-    src: local('Source Sans Pro ExtraLight'), local('SourceSansPro-ExtraLight'), url(../fonts/sourcesanspro-extra-light-v5.woff) format('woff');
-}
-@font-face {
-    font-family: 'Source Sans Pro';
-    font-style: normal;
-    font-weight: 600;
-    src: local('Source Sans Pro Semibold'), local('SourceSansPro-Semibold'), url(../fonts/sourcesanspro-semi-bold-v5.woff) format('woff');
-}
+/*
+    Full Size Styles
+-------------------------------------------------------------------------------
+*/
 
-.vjs-error-dialog {
-    background: rgba(0,0,0,.5);
-    color: white;
-    font-family: 'Source Sans Pro', arial, sans-serif;
-    font-size: 16px;
-    left: 0;
-    margin: 0 auto;
-    cursor: pointer;
+.vjs-errors-mask {
+    display: block;
     position: absolute;
-    right: 0;
-    bottom: 0;
     top: 0;
     left: 0;
-    z-index: 2;
+    right: 0;
+    bottom: 0;
+    background:rgba(0,0,0, .5);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
 }
 
-.vjs-error-container {
+.vjs-errors-dialog {
+    border: 1px #CCC solid;
+    font-family: Arial;
+    font-size: 16px;
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
     position: absolute;
-    top: 15px;
+    top: 5%;
+    bottom: 5%;
+    left: 5%;
+    right: 5%;
+    background: rgba(0,0,0,.8);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)"; /* IE8 */
+}
+
+.vjs-errors-ok-button-container {
+    display: block;
+    position: absolute;
     bottom: 15px;
     left: 15px;
     right: 15px;
-    background: #000;
+    text-align: center;
 }
 
-.vjs-errors-heading {
+.vjs-errors-ok-button {
+    display: inline-block;
+    width: 80px;
+    height: 36px;
+    background-color: #000;
+    border: 1px #999 solid;
+    border-radius: 5px;
+    color: #999;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.vjs-errors-ok-button:hover {
+    border: 1px #FFF solid;
+    color: #CCC;
+}
+
+.vjs-errors-content-container {
+    line-height: 1;
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    top: 30%;
+    width: 100%;
+}
+
+.vjs-errors-content-container p {
+    text-align: left;
+    margin: 15px;
+    color: #FFF;
+}
+
+.vjs-errors-headline {
     font-size: 22px;
     font-weight: bold;
+}
+
+.vjs-errors-close-button {
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    float: right;
+    margin: 5px;
+    background: #000;
+    border: 0;
+    color: #999;
+}
+
+.vjs-errors-close-button:before {
+    content: 'X';
+}
+
+.vjs-errors-close-button:hover {
+    color: #FFF;
+}
+
+
+/*
+    Mini Styles
+-------------------------------------------------------------------------------
+*/
+
+.vjs-error-overlay-mini .vjs-errors-close-button,
+.vjs-error-overlay-mini .vjs-errors-details,
+.vjs-error-overlay-mini .vjs-errors-message {
+    display: none;
+}
+
+.vjs-error-overlay-mini .vjs-errors-mask {
+    background-color: #000;
+}
+
+.vjs-error-overlay-mini .vjs-errors-content-container {
+    top: 15px;
+    line-height: 6px;
+}
+
+.vjs-error-overlay-mini .vjs-errors-headline {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.vjs-error-overlay-mini .vjs-errors-dialog {
+    border: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 12px;
+}
+
+.vjs-error-overlay-mini .vjs-errors-ok-button {
+    width: 60px;
+    height: 30px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/*
+    Media query work to identify embed scenarios of 300x150 or less.
+    NOTE: This is a copy of the mini styles above yet with the -mini removed.
+    Thus overriding the above equivalents and forcing the player into a
+    mini-like display regardless.
+-------------------------------------------------------------------------------
+*/
+
+@media (max-width: 300px), (max-height: 150px) {
+    .vjs-error-overlay .vjs-errors-close-button,
+    .vjs-error-overlay .vjs-errors-details,
+    .vjs-error-overlay .vjs-errors-message {
+        display: none;
+    }
+
+    .vjs-error-overlay .vjs-errors-mask {
+        background-color: #000;
+    }
+
+    .vjs-error-overlay .vjs-errors-content-container {
+        top: 15px;
+        line-height: 6px;
+    }
+
+    .vjs-error-overlay .vjs-errors-headline {
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .vjs-error-overlay .vjs-errors-dialog {
+        border: 0;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        font-size: 12px;
+    }
+
+    .vjs-error-overlay .vjs-errors-ok-button {
+        width: 60px;
+        height: 30px;
+        font-size: 12px;
+        font-weight: bold;
+    }    
 }

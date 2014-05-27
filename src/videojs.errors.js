@@ -1,5 +1,9 @@
 (function(){
   var defaults = {
+    header: '',
+    code: '',
+    message: '',
+    details: '',
     timeout: 45 * 1000,
     errors: {
       0: {
@@ -52,6 +56,7 @@
 
   // Setup Custom Error Conditions
   var initCustomErrorConditions = function(player, options) {
+
     // PLAYER_ERR_TIMEOUT
     player.on('stalled', function() {
       var
@@ -87,46 +92,14 @@
 
   videojs.plugin('errors', function(options){
 
-    var errors, settings, player;
+    // Merge the external and default settings
+    var settings = videojs.util.mergeOptions(defaults, options);
 
-    settings = videojs.util.mergeOptions(defaults, options);
-    errors = settings.errors;
-    player = this;
+    // Create the dialog element, register it with the player
+    this.addChild(new videojs.ErrorOverlay(this, settings));
 
-    // Create the dialog element, register it with the player,
-    // and add it to the DOM.
-    player.children.errorOverlay = new videojs.ErrorOverlay(player);
-    player.addChild(player.children.errorOverlay);
-
-    // Hide the default error display (if present)
-    if(player.el().querySelector('.vjs-error-display')) {
-      player.el().querySelector('.vjs-error-display').setAttribute('style',
-          'display: none; width: 0; height: 0');
-    }
-
-    // Initialize Error Conditions
-    initCustomErrorConditions(player, settings);
-
-    // Handle Error events dispatched from player.
-    player.on('error', function(){
-
-      var error = this.error();
-
-      player.children.errorOverlay.setCode(error.code + ' ' + errors[error.code].type);
-      player.children.errorOverlay.setHeader(errors[error.code].headline);
-      player.children.errorOverlay.setMessage(error.message);
-      player.children.errorOverlay.show();
-
-    });
-
-    // When a new video is loaded, if there is a pre-existing error
-    // then clear it out and reset.
-    player.on('loadstart', function() {
-      if (this.error()) {
-        this.error(null);
-        player.children.errorOverlay.hide();
-      }
-    });
+    // Initialize custom error conditions
+    initCustomErrorConditions(this, settings);
 
   });
 })();

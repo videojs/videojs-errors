@@ -11,6 +11,7 @@
     right: 0;
     bottom: 0;
     background:rgba(0,0,0, .5);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
 }
 
 .vjs-errors-dialog {
@@ -26,6 +27,7 @@
     left: 5%;
     right: 5%;
     background: rgba(0,0,0,.8);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)"; /* IE8 */
 }
 
 .vjs-errors-ok-button-container {

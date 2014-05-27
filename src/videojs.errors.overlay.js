@@ -7,7 +7,6 @@ videojs.ErrorOverlay = videojs.Component.extend({
     var self = this;
 
     // Default state
-    self.hide();
     self.code = options.code;
     self.header = options.header;
     self.message = options.message;

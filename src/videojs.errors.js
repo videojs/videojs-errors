@@ -71,10 +71,14 @@
         stalledTimeout;
 
       stalledTimeout = window.setTimeout(function() {
-        player.error({
-          code: -2,
-          type: 'PLAYER_ERR_TIMEOUT'
-        })
+        // We only want to fire this if no other error is already
+        // existing on the player.
+        if(!player.error()) {
+          player.error({
+            code: -2,
+            type: 'PLAYER_ERR_TIMEOUT'
+          })
+        }
       }, options.timeout);
 
       // clear the stall timeout if progress has been made

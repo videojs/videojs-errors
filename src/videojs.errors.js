@@ -58,24 +58,30 @@
   var initCustomErrorConditions = function(player, options) {
 
     // PLAYER_ERR_TIMEOUT
-    player.on('stalled', function() {
+    player.one('stalled', function() {
       var
-        cancelTimeout = function() {
+        playerRecover = function() {
+          // Clear the timeout because the player has recovered.
           window.clearTimeout(stalledTimeout);
+          // Notify the Error Overlay UI component
+          if(player.error() && player.error().code === -2) {
+            player.trigger('errorrecover');
+          }
         },
         stalledTimeout;
 
-        stalledTimeout = window.setTimeout(function() {
-          player.error({
-            code: -2,
-            type: 'PLAYER_ERR_TIMEOUT'
-          })
-        }, options.timeout);
+      stalledTimeout = window.setTimeout(function() {
+        player.error({
+          code: -2,
+          type: 'PLAYER_ERR_TIMEOUT'
+        })
+      }, options.timeout);
 
       // clear the stall timeout if progress has been made
-      player.on('timeupdate', cancelTimeout);
-      player.on('progress', cancelTimeout);
+      player.one('timeupdate', playerRecover);
+      player.one('progress', playerRecover);
     });
+
 
     // PLAYER_ERR_NO_SRC
     player.on('play', function() {
@@ -101,5 +107,9 @@
     // Initialize custom error conditions
     initCustomErrorConditions(this, settings);
 
+    // On Loadstart, always clear the error UI
+    this.on('loadstart', function() {
+      this.trigger('errorrecover');
+    })
   });
 })();

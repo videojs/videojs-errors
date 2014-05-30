@@ -83,7 +83,6 @@
       }, options.timeout);
 
       // clear the stall timeout if progress has been made
-      player.one('timeupdate', playerRecover);
       player.one('progress', playerRecover);
     });
 

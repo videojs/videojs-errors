@@ -63,8 +63,9 @@
         playerRecover = function() {
           // Clear the timeout because the player has recovered.
           window.clearTimeout(stalledTimeout);
-          // Notify the Error Overlay UI component
+          // Clear the error and notify the Error Overlay UI component
           if(player.error() && player.error().code === -2) {
+            player.error(null);
             player.trigger('errorrecover');
           }
         },

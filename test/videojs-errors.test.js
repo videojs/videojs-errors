@@ -89,7 +89,7 @@
     strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
   });
 
-  test('error recovery', function() {
+  test('progress clears player timeout errors', function() {
     var errors = 0;
     player.on('error', function() {
       errors++;

@@ -29,7 +29,7 @@ Once you've initialized video.js, you can activate the errors plugin. The plugin
 
 Additionally, 2 custom error scenarios have been added as reference for future extension. 
 
-- PLAYER_ERR_NO_SRC (numeric value `1`)
+- PLAYER_ERR_NO_SRC (numeric value `-1`)
 - PLAYER_ERR_TIMEOUT (numeric value `-2`)
 
 NOTES: 

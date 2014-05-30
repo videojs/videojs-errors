@@ -120,7 +120,7 @@
     // stalled for awhile
     clock.tick(44 * 1000);
     // but playback resumes!
-    player.trigger('timeupdate');
+    player.trigger('progress');
     clock.tick(45 * 1000);
 
     strictEqual(errors, 0, 'no errors emitted');

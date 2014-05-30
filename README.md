@@ -60,5 +60,3 @@ If an error is emitted that doesn't have an associated key, a generic, catch-all
 Known Issues
 ------------
 - On iPhones, the video element intercepts all user interaction so error message dialogs miss the tap events and don't dismiss themselves. If your video is busted anyways, you may not be that upset about this.
-
-- As of now, the HLS tech requires further extension to support all MEDIA_ERR conditions.

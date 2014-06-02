@@ -56,31 +56,36 @@
 
   // Setup Custom Error Conditions
   var initCustomErrorConditions = function(player, options) {
+    var stalledTimeout;
 
     // PLAYER_ERR_TIMEOUT
-    player.one('stalled', function() {
+    player.on('stalled', function() {
       var
         playerRecover = function() {
-          // Clear the timeout because the player has recovered.
+          // Clear the timeout because the player has recovered
+          // Remove stalledTimeout to insure singleton reference
           window.clearTimeout(stalledTimeout);
+          stalledTimeout = null;
           // Clear the error and notify the Error Overlay UI component
           if(player.error() && player.error().code === -2) {
             player.error(null);
             player.trigger('errorrecover');
           }
-        },
-        stalledTimeout;
+        };
 
-      stalledTimeout = window.setTimeout(function() {
-        // We only want to fire this if no other error is already
-        // existing on the player.
-        if(!player.error()) {
-          player.error({
-            code: -2,
-            type: 'PLAYER_ERR_TIMEOUT'
-          })
-        }
-      }, options.timeout);
+      // Insure a singular reference across multiple possible event triggers
+      if(!stalledTimeout) {
+        stalledTimeout = window.setTimeout(function() {
+          // We only want to fire this if no other error is already
+          // existing on the player.
+          if(!player.error()) {
+            player.error({
+              code: -2,
+              type: 'PLAYER_ERR_TIMEOUT'
+            })
+          }
+        }, options.timeout);
+      }
 
       // clear the stall timeout if progress has been made
       player.one('progress', playerRecover);

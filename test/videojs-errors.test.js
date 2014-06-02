@@ -141,4 +141,77 @@
 
     strictEqual(errors, 0, 'no errors emitted');
   });
+
+  test('no timeupdates while playing triggers a player timeout', function() {
+    var errors = 0;
+    player.src({
+      src: 'http://example.com/movie.mp4',
+      type: 'video/mp4'
+    });
+    player.on('error', function() {
+      errors++;
+    });
+    // swallow any timeupdate events
+    player.on('timeupdate', function(event) {
+      event.stopImmediatePropagation();
+    });
+    player.trigger('play');
+    clock.tick(45 * 1000);
+
+    strictEqual(errors, 1, 'emitted a single error');
+    strictEqual(player.error().code, -2, 'error code is -2');
+    strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
+  });
+
+  test('timeupdate events while playing clears the player timeout', function() {
+    var errors = 0;
+    player.src({
+      src: 'http://example.com/movie.mp4',
+      type: 'video/mp4'
+    });
+    player.on('error', function() {
+      errors++;
+    });
+    player.trigger('play');
+    clock.tick(44 * 1000);
+    player.trigger('timeupdate')
+    clock.tick(10 * 1000);
+
+    strictEqual(errors, 0, 'no error emitted');
+  });
+
+  test('timeupdates after a player timeout clears the error', function() {
+    player.src({
+      src: 'http://example.com/movie.mp4',
+      type: 'video/mp4'
+    });
+    player.trigger('play');
+    clock.tick(45 * 1000);
+    player.trigger('timeupdate');
+
+    ok(!player.error(), 'cleared the timeout');
+  });
+
+  test('unrecognized error codes do not cause exceptions', function() {
+    var errors = 0;
+    player.on('error', function() {
+      errors++;
+    });
+    try {
+      player.error({
+        code: 'something-custom-that-no-one-could-have-predicted',
+        type: 'NOT_AN_ERROR_CONSTANT'
+      });
+    } catch (e) {
+      equal(e, undefined, 'does not throw an exception');
+    }
+    strictEqual(errors, 1, 'emitted an error');
+
+    try {
+      player.error({ /* intentionally missing properties */ });
+    } catch (e) {
+      equal(e, undefined, 'does not throw an exception');
+    }
+    strictEqual(errors, 2, 'emitted an error');
+  });
 })(window, window.videojs, window.sinon, window.QUnit);

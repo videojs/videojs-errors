@@ -4,7 +4,18 @@ videojs.ErrorOverlay = videojs.Component.extend({
   init: function(player, options) {
     videojs.Component.call(this, player, options);
 
-    var self = this;
+    var
+      self = this,
+      settings = videojs.util.mergeOptions({
+        errors: {
+          0: {
+            code: 0,
+            type: 'UNKNOWN',
+            headline: 'An error has occurred',
+            message: 'Something really unexpected happened'
+          }
+        }
+      }, options);
 
     // Default state
     self.code = options.code;
@@ -23,13 +34,12 @@ videojs.ErrorOverlay = videojs.Component.extend({
     self.updateLayout(player);
 
     player.on('error', function (){
-      var error, errors;
+      var code, error;
 
-      error = this.error();
-      errors = options.errors;
+      error = videojs.util.mergeOptions(settings.errors[this.error().code || 0], this.error());
 
-      self.setCode(error.code + ' ' + errors[error.code].type);
-      self.setHeader(errors[error.code].headline);
+      self.setCode(error.code + ' ' + error.type);
+      self.setHeader(error.headline);
       self.setMessage(error.message);
       self.updateLayout(this);
       self.show();

@@ -46,6 +46,7 @@
     var stalledTimeout;
 
     // PLAYER_ERR_TIMEOUT
+    // if the player is stalled for long enough, it's an error
     player.on('stalled', function() {
       var
         playerRecover = function() {
@@ -54,18 +55,18 @@
           window.clearTimeout(stalledTimeout);
           stalledTimeout = null;
           // Clear the error and notify the Error Overlay UI component
-          if(player.error() && player.error().code === -2) {
+          if (player.error() && player.error().code === -2) {
             player.error(null);
             player.trigger('errorrecover');
           }
         };
 
       // Insure a singular reference across multiple possible event triggers
-      if(!stalledTimeout) {
+      if (!stalledTimeout) {
         stalledTimeout = window.setTimeout(function() {
           // We only want to fire this if no other error is already
           // existing on the player.
-          if(!player.error()) {
+          if (!player.error()) {
             player.error({
               code: -2,
               type: 'PLAYER_ERR_TIMEOUT'
@@ -78,6 +79,28 @@
       player.one('progress', playerRecover);
     });
 
+    // if play has been requested but no timeupdates are firing, it's an error
+    player.on('play', function() {
+      var clear;
+      if (!stalledTimeout) {
+        stalledTimeout = window.setTimeout(function() {
+          if (!player.error()) {
+            player.error({
+              code: -2,
+              type: 'PLAYER_ERR_TIMEOUT'
+            });
+          }
+        }, options.timeout);
+        clear = player.one('timeupdate', function() {
+          window.clearTimeout(stalledTimeout);
+          stalledTimeout = null;
+          if (player.error() && player.error().code === -2) {
+            player.error(null);
+            player.trigger('errorrecover');
+          }
+        });
+      }
+    });
 
     // PLAYER_ERR_NO_SRC
     player.on('play', function() {

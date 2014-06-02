@@ -6,10 +6,6 @@
     details: '',
     timeout: 45 * 1000,
     errors: {
-      0: {
-        type: 'MEDIA_ERR_CUSTOM',
-        headline: 'Custom Error Headline'
-      },
       1: {
         type: 'MEDIA_ERR_ABORTED',
         headline: 'The video download was cancelled'
@@ -41,15 +37,6 @@
       '-2': {
         type: 'PLAYER_ERR_TIMEOUT',
         headline: 'Could not download the video'
-      },
-      custom: {
-        timeout: {
-          code: 0,
-          type: 'MEDIA_ERR_TIMEOUT',
-          headline: 'Media Time Out',
-          message: 'Your media timed out.',
-          interval: 45000
-        }
       }
     }
   };

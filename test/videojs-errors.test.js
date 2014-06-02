@@ -111,6 +111,22 @@
 
   });
 
+  test('stalling multiple times only throws a single error', function() {
+    var errors = 0;
+    player.on('error', function() {
+      errors++;
+    });
+    player.on('errorrecover', function() {
+      errors--;
+    });
+    player.trigger('stalled');
+    player.trigger('stalled');
+    clock.tick(45 * 1000);
+    strictEqual(errors, 1, 'emitted a single error');
+    strictEqual(player.error().code, -2, 'error code is -2');
+    strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
+  });
+
   test('playback after stalling clears the timeout', function() {
     var errors = 0;
     player.on('error', function() {

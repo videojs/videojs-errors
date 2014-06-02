@@ -30,6 +30,14 @@ videojs.ErrorOverlay = videojs.Component.extend({
       self.updateLayout(this);
       self.show();
     });
+
+    player.on('loadstart', function() {
+      self.hide();
+    });
+
+    player.on('errorrecover', function() {
+      self.hide();
+    });
   }
 });
 

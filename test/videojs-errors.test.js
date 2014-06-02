@@ -89,6 +89,28 @@
     strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
   });
 
+  test('progress clears player timeout errors', function() {
+    var errors = 0;
+    player.on('error', function() {
+      errors++;
+    });
+    player.on('errorrecover', function() {
+      errors--;
+    });
+    player.trigger('stalled');
+
+    clock.tick(45 * 1000);
+
+    strictEqual(errors, 1, 'emitted an error');
+    strictEqual(player.error().code, -2, 'error code is -2');
+    strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
+
+    player.trigger('progress');
+    strictEqual(errors, 0, 'player recovered from error');
+    strictEqual(player.error(), null, 'error removed');
+
+  });
+
   test('playback after stalling clears the timeout', function() {
     var errors = 0;
     player.on('error', function() {
@@ -98,7 +120,7 @@
     // stalled for awhile
     clock.tick(44 * 1000);
     // but playback resumes!
-    player.trigger('timeupdate');
+    player.trigger('progress');
     clock.tick(45 * 1000);
 
     strictEqual(errors, 0, 'no errors emitted');

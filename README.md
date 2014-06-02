@@ -1,5 +1,7 @@
 Video.js Error Messages
 =======================
+[![Build Status](https://travis-ci.org/brightcove/videojs-errors.svg?branch=master)](https://travis-ci.org/brightcove/videojs-errors)
+
 A plugin that displays user-friendly messages when video.js encounters an error.
 
 Using the Plugin

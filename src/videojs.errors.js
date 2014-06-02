@@ -7,32 +7,32 @@
     timeout: 45 * 1000,
     errors: {
       0: {
-        type: "MEDIA_ERR_CUSTOM",
-        headline: "Custom Error Headline" 
+        type: 'MEDIA_ERR_CUSTOM',
+        headline: 'Custom Error Headline'
       },
       1: {
-        type: "MEDIA_ERR_ABORTED",
-        headline: "The video download was cancelled"
+        type: 'MEDIA_ERR_ABORTED',
+        headline: 'The video download was cancelled'
       },
       2: {
-        type: "MEDIA_ERR_NETWORK",
-        headline: "The video connection was lost, please confirm you're connected to the internet"
+        type: 'MEDIA_ERR_NETWORK',
+        headline: 'The video connection was lost, please confirm you\'re connected to the internet'
       },
       3: {
-        type: "MEDIA_ERR_DECODE",
-        headline: "The video is bad or in a format that can't be played on your browser"
+        type: 'MEDIA_ERR_DECODE',
+        headline: 'The video is bad or in a format that can\'t be played on your browser'
       },
       4: {
-        type: "MEDIA_ERR_SRC_NOT_SUPPORTED",
-        headline: "This video is either unavailable or not supported in this browser"
+        type: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
+        headline: 'This video is either unavailable or not supported in this browser'
       },
       5: {
-        type: "MEDIA_ERR_ENCRYPTED",
-        headline: "The video you're trying to watch is encrypted and we don't know how to decrypt it"
+        type: 'MEDIA_ERR_ENCRYPTED',
+        headline: 'The video you\'re trying to watch is encrypted and we don\'t know how to decrypt it'
       },
       unknown: {
-        type: "MEDIA_ERR_UNKNOWN",
-        headline: "An unanticipated problem was encountered, check back soon and try again"
+        type: 'MEDIA_ERR_UNKNOWN',
+        headline: 'An unanticipated problem was encountered, check back soon and try again'
       },
       '-1': {
         type: 'PLAYER_ERR_NO_SRC',
@@ -45,9 +45,9 @@
       custom: {
         timeout: {
           code: 0,
-          type: "MEDIA_ERR_TIMEOUT",
-          headline: "Media Time Out",
-          message: "Your media timed out.",
+          type: 'MEDIA_ERR_TIMEOUT',
+          headline: 'Media Time Out',
+          message: 'Your media timed out.',
           interval: 45000
         }
       }
@@ -82,7 +82,7 @@
             player.error({
               code: -2,
               type: 'PLAYER_ERR_TIMEOUT'
-            })
+            });
           }
         }, options.timeout);
       }

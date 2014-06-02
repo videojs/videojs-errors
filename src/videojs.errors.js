@@ -116,9 +116,5 @@
     // Initialize custom error conditions
     initCustomErrorConditions(this, settings);
 
-    // On Loadstart, always clear the error UI
-    this.on('loadstart', function() {
-      this.trigger('errorrecover');
-    })
   });
 })();

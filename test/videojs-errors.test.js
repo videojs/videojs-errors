@@ -5,6 +5,7 @@
   'use strict';
 
   var realIsHtmlSupported,
+      realCanPlaySource,
       player,
       clock,
 
@@ -36,6 +37,10 @@
       videojs.Html5.isSupported = function() {
         return true;
       };
+      realCanPlaySource = videojs.Html5.canPlaySource;
+      videojs.Html5.canPlaySource = function() {
+        return true;
+      };
 
       // setup sinon fake timers
       clock = sinon.useFakeTimers();
@@ -55,6 +60,7 @@
     },
     teardown: function() {
       videojs.Html5.isSupported = realIsHtmlSupported;
+      videojs.Html5.canPlaySource = realCanPlaySource;
       clock.restore();
     }
   });
@@ -160,7 +166,7 @@
 
     strictEqual(errors, 1, 'emitted a single error');
     strictEqual(player.error().code, -2, 'error code is -2');
-    strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
+    strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT', 'type is player timeout');
   });
 
   test('timeupdate events while playing clears the player timeout', function() {
@@ -174,7 +180,7 @@
     });
     player.trigger('play');
     clock.tick(44 * 1000);
-    player.trigger('timeupdate')
+    player.trigger('timeupdate');
     clock.tick(10 * 1000);
 
     strictEqual(errors, 0, 'no error emitted');
@@ -190,6 +196,21 @@
     player.trigger('timeupdate');
 
     ok(!player.error(), 'cleared the timeout');
+  });
+
+  test('player timeouts do not occur if the player is paused', function() {
+    player.src({
+      src: 'http://example.com/movie.mp4',
+      type: 'video/mp4'
+    });
+    player.trigger('play');
+    // simulate a misbehaving player that doesn't fire `paused`
+    player.paused = function() {
+      return true;
+    };
+    clock.tick(45 * 1000);
+
+    ok(!player.error(), 'no error fired');
   });
 
   test('unrecognized error codes do not cause exceptions', function() {

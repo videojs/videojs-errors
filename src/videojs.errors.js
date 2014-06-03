@@ -60,18 +60,27 @@
               type: 'PLAYER_ERR_TIMEOUT'
             });
           }, settings.timeout);
+
+          // clear out any existing player timeout
+          if (player.error() && player.error().code === -2) {
+            player.error(null);
+            player.trigger('errorrecover');
+          }
         },
 
         listeners = [],
         // creates and tracks a player listener if the player looks alive
         healthcheck = function(type, fn) {
-          // playback isn't expected if the player is paused, shut
-          // down monitoring
-          if (player.paused()) {
-            return cleanup();
-          }
-          player.on(type, fn);
-          listeners.push([type, fn]);
+          var check = function() {
+            // playback isn't expected if the player is paused, shut
+            // down monitoring
+            if (player.paused()) {
+              return cleanup();
+            }
+            fn.call(this);
+          };
+          player.on(type, check);
+          listeners.push([type, check]);
         },
         // clear any previously registered listeners
         cleanup = function() {
@@ -80,6 +89,7 @@
             listener = listeners.shift();
             player.off(listener[0], listener[1]);
           }
+          window.clearTimeout(monitor);
         };
 
       player.on('play', function() {
@@ -105,61 +115,7 @@
     var stalledTimeout, playbackMonitor;
 
     // PLAYER_ERR_TIMEOUT
-    // if the player is stalled for long enough, it's an error
-    player.on('stalled', function() {
-      var
-        playerRecover = function() {
-          // Clear the timeout because the player has recovered
-          // Remove stalledTimeout to insure singleton reference
-          window.clearTimeout(stalledTimeout);
-          stalledTimeout = null;
-          // Clear the error and notify the Error Overlay UI component
-          if (player.error() && player.error().code === -2) {
-            player.error(null);
-            player.trigger('errorrecover');
-          }
-        };
-
-      // Insure a singular reference across multiple possible event triggers
-      if (!stalledTimeout) {
-        stalledTimeout = window.setTimeout(function() {
-          // We only want to fire this if no other error is already
-          // existing on the player.
-          if (!player.error()) {
-            player.error({
-              code: -2,
-              type: 'PLAYER_ERR_TIMEOUT'
-            });
-          }
-        }, options.timeout);
-      }
-
-      // clear the stall timeout if progress has been made
-      player.one('progress', playerRecover);
-    });
-
-    // if play has been requested but no timeupdates are firing, it's an error
-    player.on('play', function() {
-      var clear;
-      if (!stalledTimeout) {
-        stalledTimeout = window.setTimeout(function() {
-          if (!player.error()) {
-            player.error({
-              code: -2,
-              type: 'PLAYER_ERR_TIMEOUT'
-            });
-          }
-        }, options.timeout);
-        clear = player.one('timeupdate', function() {
-          window.clearTimeout(stalledTimeout);
-          stalledTimeout = null;
-          if (player.error() && player.error().code === -2) {
-            player.error(null);
-            player.trigger('errorrecover');
-          }
-        });
-      }
-    });
+    monitorPlayback(player, options);
 
     // PLAYER_ERR_NO_SRC
     player.on('play', function() {

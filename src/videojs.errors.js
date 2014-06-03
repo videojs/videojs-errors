@@ -1,49 +1,108 @@
 (function(){
-  var defaults = {
-    header: '',
-    code: '',
-    message: '',
-    details: '',
-    timeout: 45 * 1000,
-    errors: {
-      1: {
-        type: 'MEDIA_ERR_ABORTED',
-        headline: 'The video download was cancelled'
-      },
-      2: {
-        type: 'MEDIA_ERR_NETWORK',
-        headline: 'The video connection was lost, please confirm you\'re connected to the internet'
-      },
-      3: {
-        type: 'MEDIA_ERR_DECODE',
-        headline: 'The video is bad or in a format that can\'t be played on your browser'
-      },
-      4: {
-        type: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
-        headline: 'This video is either unavailable or not supported in this browser'
-      },
-      5: {
-        type: 'MEDIA_ERR_ENCRYPTED',
-        headline: 'The video you\'re trying to watch is encrypted and we don\'t know how to decrypt it'
-      },
-      unknown: {
-        type: 'MEDIA_ERR_UNKNOWN',
-        headline: 'An unanticipated problem was encountered, check back soon and try again'
-      },
-      '-1': {
-        type: 'PLAYER_ERR_NO_SRC',
-        headline: 'No video has been loaded'
-      },
-      '-2': {
-        type: 'PLAYER_ERR_TIMEOUT',
-        headline: 'Could not download the video'
+  var
+    defaults = {
+      header: '',
+      code: '',
+      message: '',
+      details: '',
+      timeout: 45 * 1000,
+      errors: {
+        1: {
+          type: 'MEDIA_ERR_ABORTED',
+          headline: 'The video download was cancelled'
+        },
+        2: {
+          type: 'MEDIA_ERR_NETWORK',
+          headline: 'The video connection was lost, please confirm you\'re connected to the internet'
+        },
+        3: {
+          type: 'MEDIA_ERR_DECODE',
+          headline: 'The video is bad or in a format that can\'t be played on your browser'
+        },
+        4: {
+          type: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
+          headline: 'This video is either unavailable or not supported in this browser'
+        },
+        5: {
+          type: 'MEDIA_ERR_ENCRYPTED',
+          headline: 'The video you\'re trying to watch is encrypted and we don\'t know how to decrypt it'
+        },
+        unknown: {
+          type: 'MEDIA_ERR_UNKNOWN',
+          headline: 'An unanticipated problem was encountered, check back soon and try again'
+        },
+        '-1': {
+          type: 'PLAYER_ERR_NO_SRC',
+          headline: 'No video has been loaded'
+        },
+        '-2': {
+          type: 'PLAYER_ERR_TIMEOUT',
+          headline: 'Could not download the video'
+        }
       }
-    }
-  };
+    },
+    /**
+     * Monitors a player for signs of life during playback and
+     * triggers PLAYER_ERR_TIMEOUT if none occur within a reasonable
+     * timeframe.
+     */
+    monitorPlayback = function(player, options) {
+      var
+        settings = videojs.util.mergeOptions(defaults, options),
+
+        monitor,
+        // clears the previous monitor timeout and sets up a new one
+        resetMonitor = function() {
+          window.clearTimeout(monitor);
+          monitor = window.setTimeout(function() {
+            player.error({
+              code: -2,
+              type: 'PLAYER_ERR_TIMEOUT'
+            });
+          }, settings.timeout);
+        },
+
+        listeners = [],
+        // creates and tracks a player listener if the player looks alive
+        healthcheck = function(type, fn) {
+          // playback isn't expected if the player is paused, shut
+          // down monitoring
+          if (player.paused()) {
+            return cleanup();
+          }
+          player.on(type, fn);
+          listeners.push([type, fn]);
+        },
+        // clear any previously registered listeners
+        cleanup = function() {
+          var listener;
+          while (listeners.length) {
+            listener = listeners.shift();
+            player.off(listener[0], listener[1]);
+          }
+        };
+
+      player.on('play', function() {
+        var lastTime = 0;
+
+        cleanup();
+
+        // if no playback is detected for long enough, trigger a timeout error
+        resetMonitor();
+        healthcheck('timeupdate', function() {
+          var currentTime = player.currentTime();
+          if (currentTime !== lastTime) {
+            lastTime = currentTime;
+            resetMonitor();
+          }
+        });
+        healthcheck('progress', resetMonitor);
+      });
+    };
 
   // Setup Custom Error Conditions
   var initCustomErrorConditions = function(player, options) {
-    var stalledTimeout;
+    var stalledTimeout, playbackMonitor;
 
     // PLAYER_ERR_TIMEOUT
     // if the player is stalled for long enough, it's an error

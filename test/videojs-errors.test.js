@@ -54,6 +54,9 @@
       player.buffered = function() {
         return videojs.createTimeRange(0, 0);
       };
+      player.paused = function() {
+        return false;
+      };
 
       // initialize the plugin with the default options
       player.errors();
@@ -86,8 +89,11 @@
     player.on('error', function() {
       errors++;
     });
-    player.trigger('stalled');
-
+    player.src({
+      src: 'movie.mp4',
+      type: 'video/mp4'
+    });
+    player.trigger('play');
     clock.tick(45 * 1000);
 
     strictEqual(errors, 1, 'emitted an error');
@@ -103,7 +109,11 @@
     player.on('errorrecover', function() {
       errors--;
     });
-    player.trigger('stalled');
+    player.src({
+      src: 'movie.mp4',
+      type: 'video/mp4'
+    });
+    player.trigger('play');
 
     clock.tick(45 * 1000);
 
@@ -117,38 +127,57 @@
 
   });
 
-  test('stalling multiple times only throws a single error', function() {
-    var errors = 0;
-    player.on('error', function() {
-      errors++;
+  // safari 7 on OSX can emit stalls when playback is just fine
+  test('stalling by itself is not an error', function() {
+    player.src({
+      src: 'movie.mp4',
+      type: 'video/mp4'
     });
-    player.on('errorrecover', function() {
-      errors--;
-    });
+    player.trigger('play');
     player.trigger('stalled');
-    player.trigger('stalled');
-    clock.tick(45 * 1000);
-    strictEqual(errors, 1, 'emitted a single error');
-    strictEqual(player.error().code, -2, 'error code is -2');
-    strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
+
+    ok(!player.error(), 'no error fired');
   });
 
-  test('playback after stalling clears the timeout', function() {
+  test('timing out multiple times only throws a single error', function() {
     var errors = 0;
     player.on('error', function() {
       errors++;
     });
-    player.trigger('stalled');
+    player.src({
+      src: 'movie.mp4',
+      type: 'video/mp4'
+    });
+    player.trigger('play');
+    // trigger a player timeout
+    clock.tick(45 * 1000);
+    strictEqual(errors, 1, 'one error fired');
+
+    // wait long enough for another timeout
+    clock.tick(50 * 1000);
+    strictEqual(errors, 1, 'only one error fired');
+  });
+
+  test('progress events while playing reset the player timeout', function() {
+    var errors = 0;
+    player.on('error', function() {
+      errors++;
+    });
+    player.src({
+      src: 'movie.mp4',
+      type: 'video/mp4'
+    });
+    player.trigger('play');
     // stalled for awhile
     clock.tick(44 * 1000);
     // but playback resumes!
     player.trigger('progress');
-    clock.tick(45 * 1000);
+    clock.tick(44 * 1000);
 
     strictEqual(errors, 0, 'no errors emitted');
   });
 
-  test('no timeupdates while playing triggers a player timeout', function() {
+  test('no signs of playback triggers a player timeout', function() {
     var errors = 0;
     player.src({
       src: 'http://example.com/movie.mp4',
@@ -169,7 +198,7 @@
     strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT', 'type is player timeout');
   });
 
-  test('timeupdate events while playing clears the player timeout', function() {
+  test('time changes while playing reset the player timeout', function() {
     var errors = 0;
     player.src({
       src: 'http://example.com/movie.mp4',
@@ -180,19 +209,25 @@
     });
     player.trigger('play');
     clock.tick(44 * 1000);
+    player.currentTime = function() {
+      return 1;
+    };
     player.trigger('timeupdate');
     clock.tick(10 * 1000);
 
     strictEqual(errors, 0, 'no error emitted');
   });
 
-  test('timeupdates after a player timeout clears the error', function() {
+  test('time changes after a player timeout clears the error', function() {
     player.src({
       src: 'http://example.com/movie.mp4',
       type: 'video/mp4'
     });
     player.trigger('play');
     clock.tick(45 * 1000);
+    player.currentTime = function() {
+      return 1;
+    };
     player.trigger('timeupdate');
 
     ok(!player.error(), 'cleared the timeout');

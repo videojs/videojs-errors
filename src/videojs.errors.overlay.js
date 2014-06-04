@@ -57,10 +57,12 @@ videojs.ErrorOverlay = videojs.Component.extend({
 });
 
 videojs.ErrorOverlay.prototype.buildEl = function() {
-  this.addClass('vjs-errors-mask');
+  var maskElement = document.createElement('div');
+  maskElement.className = 'vjs-errors-mask';
   // Dialog Element
   var dialogElement = document.createElement('div');
   dialogElement.className = 'vjs-errors-dialog';
+  maskElement.appendChild(dialogElement);
   // Close Element
   this.closeButton = document.createElement('button');
   this.closeButton.className = 'vjs-errors-close-button';
@@ -91,7 +93,7 @@ videojs.ErrorOverlay.prototype.buildEl = function() {
   //this.okButtonElement.on('click', this.hide);
   okButtonContainer.appendChild(this.okButtonElement);
   // Add it to primary component
-  this.el().appendChild(dialogElement);
+  this.el().appendChild(maskElement);
 };
 
 videojs.ErrorOverlay.prototype.setHeadline = function(headline) {

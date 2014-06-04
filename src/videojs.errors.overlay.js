@@ -19,6 +19,7 @@ videojs.ErrorOverlay = videojs.Component.extend({
 
     // Default state
     self.code = options.code;
+    self.type = options.type;
     self.headline = options.headline;
     self.message = options.message;
     self.details = options.details;
@@ -38,7 +39,7 @@ videojs.ErrorOverlay = videojs.Component.extend({
 
       error = videojs.util.mergeOptions(settings.errors[this.error().code || 0], this.error());
 
-      self.setCode(error.code + ' ' + error.type);
+      self.setCode(error.code, error.type);
       self.setHeadline(error.headline);
       self.setMessage(error.message);
       self.updateLayout(this);
@@ -103,9 +104,10 @@ videojs.ErrorOverlay.prototype.setMessage = function(message) {
   this.messageElement.innerHTML = this.message;
 };
 
-videojs.ErrorOverlay.prototype.setCode = function(code) {
+videojs.ErrorOverlay.prototype.setCode = function(code, type) {
   this.code = code;
-  this.codeElement.innerHTML = this.code;
+  this.type = type;
+  this.codeElement.innerHTML = '<b>Error Code:</b> ' + this.code + ' ' + this.type;
 };
 
 videojs.ErrorOverlay.prototype.setDetails = function(details) {

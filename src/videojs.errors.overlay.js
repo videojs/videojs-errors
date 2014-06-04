@@ -24,7 +24,6 @@ videojs.ErrorOverlay = videojs.Component.extend({
     self.details = options.details;
 
     // Setup elements and event handling
-    console.log('here', this.el());
     self.buildEl();
     self.updateLayout(player);
 
@@ -84,7 +83,7 @@ videojs.ErrorOverlay.prototype.buildEl = function() {
   this.dialogElement.appendChild(this.okButtonContainer);
   // Ok Button
   this.okButtonElement = document.createElement('button');
-  this.okButtonElement.className = "vjs-errors-ok-button";
+  this.okButtonElement.className = 'vjs-errors-ok-button';
   this.okButtonContainer.appendChild(this.okButtonElement);
   // Add it to primary component
   this.el().appendChild(this.maskElement);

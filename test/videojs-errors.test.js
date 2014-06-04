@@ -106,9 +106,6 @@
     player.on('error', function() {
       errors++;
     });
-    player.on('errorrecover', function() {
-      errors--;
-    });
     player.src({
       src: 'movie.mp4',
       type: 'video/mp4'
@@ -122,7 +119,6 @@
     strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
 
     player.trigger('progress');
-    strictEqual(errors, 0, 'player recovered from error');
     strictEqual(player.error(), null, 'error removed');
 
   });

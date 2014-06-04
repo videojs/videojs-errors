@@ -63,7 +63,6 @@
           // clear out any existing player timeout
           if (player.error() && player.error().code === -2) {
             player.error(null);
-            player.trigger('errorrecover');
           }
         },
 

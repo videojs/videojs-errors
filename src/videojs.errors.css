@@ -29,15 +29,20 @@
     font-family: Arial;
     font-size: 16px;
     line-height: 1;
-    text-align: center;
+    text-align: left;
     vertical-align: middle;
     position: absolute;
+    color: #FFF;
     top: 5%;
     bottom: 5%;
     left: 5%;
     right: 5%;
     background: rgba(0,0,0,.8);
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)"; /* IE8 */
+}
+
+.vjs-errors-dialog p {
+    margin: 15px;
 }
 
 .vjs-errors-ok-button-container {
@@ -68,21 +73,6 @@
 .vjs-errors-ok-button:hover {
     border: 1px #FFF solid;
     color: #CCC;
-}
-
-.vjs-errors-content-container {
-    line-height: 1;
-    text-align: center;
-    vertical-align: middle;
-    position: absolute;
-    top: 30%;
-    width: 100%;
-}
-
-.vjs-errors-content-container p {
-    text-align: left;
-    margin: 15px;
-    color: #FFF;
 }
 
 .vjs-errors-headline {
@@ -125,11 +115,6 @@
     background-color: #000;
 }
 
-.vjs-errors-overlay-mini .vjs-errors-content-container {
-    top: 15px;
-    line-height: 6px;
-}
-
 .vjs-errors-overlay-mini .vjs-errors-headline {
     font-size: 14px;
     font-weight: bold;
@@ -152,14 +137,14 @@
 }
 
 /*
-    Media query work to identify embed scenarios of 300x150 or less.
+    Media query work to identify embed scenarios of 600x250 or less.
     NOTE: This is a copy of the mini styles above yet with the -mini removed.
     Thus overriding the above equivalents and forcing the player into a
     mini-like display regardless.
 -------------------------------------------------------------------------------
 */
 
-@media (max-width: 300px), (max-height: 150px) {
+@media (max-width: 600px), (max-height: 250px) {
     .vjs-errors-overlay .vjs-errors-close-button,
     .vjs-errors-overlay .vjs-errors-details,
     .vjs-errors-overlay .vjs-errors-message {
@@ -168,11 +153,6 @@
 
     .vjs-errors-overlay .vjs-errors-mask {
         background-color: #000;
-    }
-
-    .vjs-errors-overlay .vjs-errors-content-container {
-        top: 15px;
-        line-height: 6px;
     }
 
     .vjs-errors-overlay .vjs-errors-headline {
@@ -196,3 +176,4 @@
         font-weight: bold;
     }    
 }
+

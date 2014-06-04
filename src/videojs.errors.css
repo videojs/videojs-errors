@@ -3,9 +3,22 @@
 -------------------------------------------------------------------------------
 */
 
-.vjs-error-overlay,
-.vjs-error-overlay-mini {
+.vjs-error-display {
+    color: #fff;
     display: none;
+    font-family: Helvetica, Arial, sans serif;
+    font-size: 16px;
+    line-height: 1.428;
+}
+.vjs-error .vjs-error-display {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:rgba(0, 0, 0, .5);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
 }
 
 /*
@@ -13,31 +26,28 @@
 -------------------------------------------------------------------------------
 */
 
-.vjs-errors-mask {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:rgba(0,0,0, .5);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
-}
-
 .vjs-errors-dialog {
-    border: 1px #CCC solid;
-    font-family: Arial;
-    font-size: 16px;
-    line-height: 1;
-    text-align: center;
-    vertical-align: middle;
+    border: 1px #999 solid;
+    overflow: hidden;
     position: absolute;
     top: 5%;
     bottom: 5%;
     left: 5%;
     right: 5%;
-    background: rgba(0,0,0,.8);
+    background: rgba(24, 24, 24, 0.8);
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)"; /* IE8 */
+}
+
+.vjs-errors-details {
+  margin-top: 15px;
+}
+
+.vjs-errors-message {
+  border: 1px #999 solid;
+  background-color: #2c2c2c;
+  overflow: auto;
+  margin-top: 15px;
+  padding: 15px;
 }
 
 .vjs-errors-ok-button-container {
@@ -50,7 +60,8 @@
 }
 
 .vjs-errors-ok-button {
-    display: inline-block;
+    display: block;
+    margin: 0 auto;
     width: 80px;
     height: 36px;
     background-color: #000;
@@ -67,32 +78,28 @@
 }
 
 .vjs-errors-content-container {
-    line-height: 1;
-    text-align: center;
-    vertical-align: middle;
+    overflow: auto;
     position: absolute;
-    top: 30%;
-    width: 100%;
-}
-
-.vjs-errors-content-container p {
-    text-align: left;
-    margin: 15px;
-    color: #FFF;
+    padding-bottom: 15px;
+    top: 75px;
+    left: 15px;
+    right: 15px;
+    bottom: 61px; /* dialog padding + ok button + 10 */
 }
 
 .vjs-errors-headline {
     font-size: 22px;
     font-weight: bold;
+    margin-top: 0;
 }
 
 .vjs-errors-close-button {
+    background-color: transparent;
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     float: right;
     margin: 5px;
-    background: #000;
     border: 0;
     color: #999;
 }
@@ -107,88 +114,71 @@
 
 
 /*
-    Mini Styles
+    "Extra small" Styles
 -------------------------------------------------------------------------------
 */
 
-.vjs-error-overlay-mini .vjs-errors-close-button,
-.vjs-error-overlay-mini .vjs-errors-details,
-.vjs-error-overlay-mini .vjs-errors-message {
-    display: none;
+.vjs-xs.vjs-error-display {
+  font-size: 14px;
+  background-color: #000;
 }
 
-.vjs-error-overlay-mini .vjs-errors-mask {
-    background-color: #000;
+.vjs-xs.vjs-error-display .vjs-errors-close-button,
+.vjs-xs.vjs-error-display .vjs-errors-details,
+.vjs-xs.vjs-error-display .vjs-errors-message {
+  display: none;
 }
 
-.vjs-error-overlay-mini .vjs-errors-content-container {
-    top: 15px;
-    line-height: 6px;
+.vjs-xs .vjs-errors-content-container {
+  top: 15px;
 }
 
-.vjs-error-overlay-mini .vjs-errors-headline {
-    font-size: 14px;
-    font-weight: bold;
+.vjs-xs .vjs-errors-headline {
+  font-size: 16px;
+  font-weight: bold;
 }
 
-.vjs-error-overlay-mini .vjs-errors-dialog {
-    border: 0;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    font-size: 12px;
-}
-
-.vjs-error-overlay-mini .vjs-errors-ok-button {
-    width: 60px;
-    height: 30px;
-    font-size: 12px;
-    font-weight: bold;
+.vjs-xs .vjs-errors-dialog {
+  border: none;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
 /*
-    Media query work to identify embed scenarios of 300x150 or less.
-    NOTE: This is a copy of the mini styles above yet with the -mini removed.
-    Thus overriding the above equivalents and forcing the player into a
-    mini-like display regardless.
+    Media query for player sizes of 600x250 or less.  NOTE: This is a
+    copy of the extra small styles above yet without ".vjs-xs".
 -------------------------------------------------------------------------------
 */
 
-@media (max-width: 300px), (max-height: 150px) {
-    .vjs-error-overlay .vjs-errors-close-button,
-    .vjs-error-overlay .vjs-errors-details,
-    .vjs-error-overlay .vjs-errors-message {
-        display: none;
-    }
+@media (max-width: 600px), (max-height: 250px) {
 
-    .vjs-error-overlay .vjs-errors-mask {
+    .vjs-error-display {
+        font-size: 14px;
         background-color: #000;
     }
 
-    .vjs-error-overlay .vjs-errors-content-container {
-        top: 15px;
-        line-height: 6px;
+    .vjs-error-display .vjs-errors-close-button,
+    .vjs-error-display .vjs-errors-details,
+    .vjs-error-display .vjs-errors-message {
+        display: none;
     }
 
-    .vjs-error-overlay .vjs-errors-headline {
-        font-size: 14px;
+    .vjs-error-display .vjs-errors-content-container {
+        top: 15px;
+    }
+
+    .vjs-error-display .vjs-errors-headline {
+        font-size: 16px;
         font-weight: bold;
     }
 
-    .vjs-error-overlay .vjs-errors-dialog {
-        border: 0;
+    .vjs-error-display .vjs-errors-dialog {
+        border: none;
         top: 0;
         bottom: 0;
         left: 0;
         right: 0;
-        font-size: 12px;
     }
-
-    .vjs-error-overlay .vjs-errors-ok-button {
-        width: 60px;
-        height: 30px;
-        font-size: 12px;
-        font-weight: bold;
-    }    
 }

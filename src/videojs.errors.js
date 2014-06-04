@@ -4,7 +4,6 @@
       header: '',
       code: '',
       message: '',
-      details: '',
       timeout: 45 * 1000,
       errors: {
         1: {
@@ -108,6 +107,14 @@
         });
         healthcheck('progress', resetMonitor);
       });
+    },
+    // shim in IE8 event listener support
+    on = function(elem, type, fn) {
+      if (elem.addEventListener) {
+        elem.addEventListener(type, fn, false);
+      } else {
+        elem.attachEvent('on' + type, fn);
+      }
     };
 
   // Setup Custom Error Conditions
@@ -132,14 +139,50 @@
 
   videojs.plugin('errors', function(options){
 
-    // Merge the external and default settings
-    var settings = videojs.util.mergeOptions(defaults, options);
+    var
+      player = this,
+      // Merge the external and default settings
+      settings = videojs.util.mergeOptions(defaults, options);
 
-    // Create the dialog element, register it with the player
-    this.addChild(new videojs.ErrorOverlay(this, settings));
+    // Add to the error dialog when an error occurs
+    this.on('error', function() {
+      var code, error, display, details = '';
+
+      error = videojs.util.mergeOptions(settings.errors[this.error().code || 0], this.error());
+
+      if (error.message) {
+        details = '<div class="vjs-errors-details">Technical details:' +
+          '<div class="vjs-errors-message">' + error.message + '</div>' +
+          '</div>';
+      }
+
+      display = this.errorDisplay;
+      display.el().innerHTML =
+        '<div class="vjs-errors-dialog">' +
+          '<button class="vjs-errors-close-button"></button>' +
+          '<div class="vjs-errors-content-container">' +
+            '<h2 class="vjs-errors-headline">' + error.headline + '</h2>' +
+            '<div><b>Error Code: </b>' + (error.type || error.code) + '</div>' +
+            details +
+          '</div>' +
+          '<div class="vjs-errors-ok-button-container">' +
+            '<button class="vjs-errors-ok-button">OK</button>' +
+          '</div>' +
+        '</div>';
+
+      if (player.width() <= 600 || player.height() <= 250) {
+        display.addClass('vjs-xs');
+      }
+
+      on(display.el().querySelector('.vjs-errors-close-button'), 'click', function() {
+        display.hide();
+      });
+      on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
+        display.hide();
+      });
+    });
 
     // Initialize custom error conditions
     initCustomErrorConditions(this, settings);
-
   });
 })();

@@ -25,6 +25,12 @@ videojs.ErrorOverlay = videojs.Component.extend({
 
     // Setup elements and event handling
     self.buildEl();
+    self.closeButton.addEventListener('click', function (){
+      self.hide();
+    });
+    self.okButtonElement.addEventListener('click', function (){
+      self.hide();
+    });
     self.updateLayout(player);
 
     player.on('error', function (){
@@ -50,13 +56,10 @@ videojs.ErrorOverlay = videojs.Component.extend({
 });
 
 videojs.ErrorOverlay.prototype.buildEl = function() {
-  // Mask Element
-  this.maskElement = document.createElement('div');
-  this.maskElement.className = 'vjs-errors-mask';
+  this.addClass('vjs-errors-mask');
   // Dialog Element
   this.dialogElement = document.createElement('div');
   this.dialogElement.className = 'vjs-errors-dialog';
-  this.maskElement.appendChild(this.dialogElement);
   // Close Element
   this.closeButton = document.createElement('button');
   this.closeButton.className = 'vjs-errors-close-button';
@@ -78,15 +81,16 @@ videojs.ErrorOverlay.prototype.buildEl = function() {
   this.detailsElement.className = 'vjs-errors-details';
   this.dialogElement.appendChild(this.detailsElement);
   // Ok Button Container
-  this.okButtonContainer = document.createElement('div');
-  this.okButtonContainer.className = 'vjs-errors-ok-button-container';
-  this.dialogElement.appendChild(this.okButtonContainer);
+  var okButtonContainer = document.createElement('div');
+  okButtonContainer.className = 'vjs-errors-ok-button-container';
+  this.dialogElement.appendChild(okButtonContainer);
   // Ok Button
   this.okButtonElement = document.createElement('button');
   this.okButtonElement.className = 'vjs-errors-ok-button';
-  this.okButtonContainer.appendChild(this.okButtonElement);
+  //this.okButtonElement.on('click', this.hide);
+  okButtonContainer.appendChild(this.okButtonElement);
   // Add it to primary component
-  this.el().appendChild(this.maskElement);
+  this.el().appendChild(this.dialogElement);
 };
 
 videojs.ErrorOverlay.prototype.setHeadline = function(headline) {

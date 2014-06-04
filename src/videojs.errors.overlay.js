@@ -59,39 +59,39 @@ videojs.ErrorOverlay = videojs.Component.extend({
 videojs.ErrorOverlay.prototype.buildEl = function() {
   this.addClass('vjs-errors-mask');
   // Dialog Element
-  this.dialogElement = document.createElement('div');
-  this.dialogElement.className = 'vjs-errors-dialog';
+  var dialogElement = document.createElement('div');
+  dialogElement.className = 'vjs-errors-dialog';
   // Close Element
   this.closeButton = document.createElement('button');
   this.closeButton.className = 'vjs-errors-close-button';
-  this.dialogElement.appendChild(this.closeButton);
+  dialogElement.appendChild(this.closeButton);
   // Headline Element
   this.headlineElement = document.createElement('p');
   this.headlineElement.className = 'vjs-errors-headline';
-  this.dialogElement.appendChild(this.headlineElement);
+  dialogElement.appendChild(this.headlineElement);
   // Code Element
   this.codeElement = document.createElement('p');
   this.codeElement.className = 'vjs-errors-code';
-  this.dialogElement.appendChild(this.codeElement);
+  dialogElement.appendChild(this.codeElement);
   // Message Element
   this.messageElement = document.createElement('p');
   this.messageElement.className = 'vjs-errors-message';
-  this.dialogElement.appendChild(this.messageElement);
+  dialogElement.appendChild(this.messageElement);
   // Details Element
   this.detailsElement = document.createElement('p');
   this.detailsElement.className = 'vjs-errors-details';
-  this.dialogElement.appendChild(this.detailsElement);
+  dialogElement.appendChild(this.detailsElement);
   // Ok Button Container
   var okButtonContainer = document.createElement('div');
   okButtonContainer.className = 'vjs-errors-ok-button-container';
-  this.dialogElement.appendChild(okButtonContainer);
+  dialogElement.appendChild(okButtonContainer);
   // Ok Button
   this.okButtonElement = document.createElement('button');
   this.okButtonElement.className = 'vjs-errors-ok-button';
   //this.okButtonElement.on('click', this.hide);
   okButtonContainer.appendChild(this.okButtonElement);
   // Add it to primary component
-  this.el().appendChild(this.dialogElement);
+  this.el().appendChild(dialogElement);
 };
 
 videojs.ErrorOverlay.prototype.setHeadline = function(headline) {

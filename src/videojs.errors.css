@@ -3,8 +3,8 @@
 -------------------------------------------------------------------------------
 */
 
-.vjs-error-overlay,
-.vjs-error-overlay-mini {
+.vjs-errors-overlay,
+.vjs-errors-overlay-mini {
     display: none;
 }
 
@@ -61,6 +61,10 @@
     cursor: pointer;
 }
 
+.vjs-errors-ok-button:before {
+    content: 'OK';
+}
+
 .vjs-errors-ok-button:hover {
     border: 1px #FFF solid;
     color: #CCC;
@@ -111,27 +115,27 @@
 -------------------------------------------------------------------------------
 */
 
-.vjs-error-overlay-mini .vjs-errors-close-button,
-.vjs-error-overlay-mini .vjs-errors-details,
-.vjs-error-overlay-mini .vjs-errors-message {
+.vjs-errors-overlay-mini .vjs-errors-close-button,
+.vjs-errors-overlay-mini .vjs-errors-details,
+.vjs-errors-overlay-mini .vjs-errors-message {
     display: none;
 }
 
-.vjs-error-overlay-mini .vjs-errors-mask {
+.vjs-errors-overlay-mini .vjs-errors-mask {
     background-color: #000;
 }
 
-.vjs-error-overlay-mini .vjs-errors-content-container {
+.vjs-errors-overlay-mini .vjs-errors-content-container {
     top: 15px;
     line-height: 6px;
 }
 
-.vjs-error-overlay-mini .vjs-errors-headline {
+.vjs-errors-overlay-mini .vjs-errors-headline {
     font-size: 14px;
     font-weight: bold;
 }
 
-.vjs-error-overlay-mini .vjs-errors-dialog {
+.vjs-errors-overlay-mini .vjs-errors-dialog {
     border: 0;
     top: 0;
     bottom: 0;
@@ -140,7 +144,7 @@
     font-size: 12px;
 }
 
-.vjs-error-overlay-mini .vjs-errors-ok-button {
+.vjs-errors-overlay-mini .vjs-errors-ok-button {
     width: 60px;
     height: 30px;
     font-size: 12px;
@@ -156,27 +160,27 @@
 */
 
 @media (max-width: 300px), (max-height: 150px) {
-    .vjs-error-overlay .vjs-errors-close-button,
-    .vjs-error-overlay .vjs-errors-details,
-    .vjs-error-overlay .vjs-errors-message {
+    .vjs-errors-overlay .vjs-errors-close-button,
+    .vjs-errors-overlay .vjs-errors-details,
+    .vjs-errors-overlay .vjs-errors-message {
         display: none;
     }
 
-    .vjs-error-overlay .vjs-errors-mask {
+    .vjs-errors-overlay .vjs-errors-mask {
         background-color: #000;
     }
 
-    .vjs-error-overlay .vjs-errors-content-container {
+    .vjs-errors-overlay .vjs-errors-content-container {
         top: 15px;
         line-height: 6px;
     }
 
-    .vjs-error-overlay .vjs-errors-headline {
+    .vjs-errors-overlay .vjs-errors-headline {
         font-size: 14px;
         font-weight: bold;
     }
 
-    .vjs-error-overlay .vjs-errors-dialog {
+    .vjs-errors-overlay .vjs-errors-dialog {
         border: 0;
         top: 0;
         bottom: 0;
@@ -185,7 +189,7 @@
         font-size: 12px;
     }
 
-    .vjs-error-overlay .vjs-errors-ok-button {
+    .vjs-errors-overlay .vjs-errors-ok-button {
         width: 60px;
         height: 30px;
         font-size: 12px;

@@ -24,11 +24,10 @@ videojs.ErrorOverlay = videojs.Component.extend({
     self.details = options.details;
 
     // Setup elements and event handling
-    self.createEl();
     self.updateLayout(player);
 
     player.on('error', function (){
-      var code, error;
+      var error;
 
       error = videojs.util.mergeOptions(settings.errors[this.error().code || 0], this.error());
 
@@ -50,8 +49,7 @@ videojs.ErrorOverlay = videojs.Component.extend({
 });
 
 var createErrorOverlay = function(header, message, code, details) {
-  return '<div class="vjs-errors-mask">' +
-   '<div class="vjs-errors-dialog">' +
+  return '<div class="vjs-errors-dialog">' +
    '<button class="vjs-errors-close-button"></button>' +
    '<div class="vjs-errors-content-container">' +
    '<p class="vjs-errors-headline">' + header + '</p>' +
@@ -62,17 +60,26 @@ var createErrorOverlay = function(header, message, code, details) {
    '<div class="vjs-errors-ok-button-container">' +
    '<button class="vjs-errors-ok-button">OK</button>' +
    '</div>' +
-   '</div>' +
    '</div>';
 };
 
 videojs.ErrorOverlay.prototype.createEl = function() {
-  var el_ = document.createElement('div');
+  // Create primary element
+  var el = videojs.Component.prototype.createEl.call(this, 'div', {
+    className: 'vjs-error-overlay'
+  });
 
-  el_.innerHTML = createErrorOverlay(this.header, this.copy, this.code, this.details);
+  // Create content element
+  this.contentEl_ = videojs.createEl('div', {
+    className: 'vjs-errors-mask',
+    innerHTML: createErrorOverlay(self.header, self.message, self.code, self.details)
+  });
 
-  this.containerElement = el_.children[0];
+  // Add content element to primary element
+  el.appendChild(this.contentEl_);
 
+  // Register components
+  this.containerElement = el.children[0];
   this.headerElement = this.containerElement.querySelector('.vjs-errors-headline');
   this.messageElement = this.containerElement.querySelector('.vjs-errors-message');
   this.codeElement = this.containerElement.querySelector('.vjs-errors-code');
@@ -80,7 +87,12 @@ videojs.ErrorOverlay.prototype.createEl = function() {
   this.okButtonElement = this.containerElement.querySelector('.vjs-errors-ok-button');
   this.closeButtonElement = this.containerElement.querySelector('.vjs-errors-close-button');
 
-  return el_;
+  // Add event handling for buttons
+  this.okButtonElement.addEventListener('click', function() {console.log('hide')});
+  this.closeButtonElement.addEventListener('click', function() {console.log('hide')});
+
+  // Return primary element
+  return el;
 };
 
 videojs.ErrorOverlay.prototype.setHeader = function(header) {

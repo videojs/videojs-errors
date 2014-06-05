@@ -9,7 +9,6 @@ Using the Plugin
 The plugin automatically registers itself when you include videojs.errors.js in your page:
 
     <script src='videojs.errors.js'></script>
-    <script src='videojs.errors.overlay.js'></script>
 
 You probably want to include the default stylesheet, too. It displays error messages as a semi-transparent overlay on top of the video element itself. It's designed to match up fairly well with the default video.js styles:
 

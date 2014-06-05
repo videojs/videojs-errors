@@ -1,6 +1,6 @@
 {
   "name": "videojs-errors",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Tom Johnson",
   "description": "A VideoJS plugin for custom error reporting",
   "license": "Apache-2.0",

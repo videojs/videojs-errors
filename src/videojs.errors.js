@@ -54,6 +54,11 @@
         resetMonitor = function() {
           window.clearTimeout(monitor);
           monitor = window.setTimeout(function() {
+            if (player.error()) {
+              // never overwrite existing errors
+              return;
+            }
+
             player.error({
               code: -2,
               type: 'PLAYER_ERR_TIMEOUT'
@@ -73,6 +78,10 @@
             // playback isn't expected if the player is paused, shut
             // down monitoring
             if (player.paused()) {
+              return cleanup();
+            }
+            // playback isn't expected once the video has ended
+            if (player.ended()) {
               return cleanup();
             }
             fn.call(this);

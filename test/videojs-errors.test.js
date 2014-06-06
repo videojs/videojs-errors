@@ -244,6 +244,37 @@
     ok(!player.error(), 'no error fired');
   });
 
+  // video.paused is false at the end of a video on IE11, Win8 RT
+  test('player timeouts do not occur if the video is ended', function() {
+    player.src({
+      src: 'http://example.com/movie.mp4',
+      type: 'video/mp4'
+    });
+    player.trigger('play');
+    // simulate a misbehaving player that doesn't fire `ended`
+    player.ended = function() {
+      return true;
+    };
+    clock.tick(45 * 1000);
+
+    ok(!player.error(), 'no error fired');
+  });
+
+  test('player timeouts do not overwrite existing errors', function() {
+    player.src({
+      src: 'http://example.com/movie.mp4',
+      type: 'video/mp4'
+    });
+    player.trigger('play');
+    player.error({
+      type: 'custom',
+      code: -7
+    });
+    clock.tick(45 * 1000);
+
+    strictEqual(-7, player.error().code, 'error was not overwritten');
+  });
+
   test('unrecognized error codes do not cause exceptions', function() {
     var errors = 0;
     player.on('error', function() {

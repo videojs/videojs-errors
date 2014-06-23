@@ -27,7 +27,7 @@
     "qunitjs": "^1.12",
     "sinon": "^1.9.1",
     "l20n": "1.0.0-rc",
-    "video.js": "git+https://github.com/dmlap/video-js.git#4.5.2-errors"
+    "video.js": "4.5.2"
   },
   "peerDependencies": {
     "video.js": "^4.5",

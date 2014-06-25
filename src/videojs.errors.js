@@ -148,7 +148,7 @@
   };
 
   var isLocaleSupported = function(locale, locales) {
-    var returnValue = false;
+    var returnValue = false, i;
     for (i in locales) {
       if(locales[i] === locale) {
        returnValue = true;
@@ -165,7 +165,7 @@
     if(settings.locale && settings.locale !== 'en-US' &&
     isLocaleSupported(settings.locale, settings.supportedLocales)) {
 
-      var ctx = L20n.getContext();
+      var ctx = window.L20n.getContext();
 
       ctx.addEventListener('ready', function() {
         //console.log('context ready with localizations');

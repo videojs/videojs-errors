@@ -26,11 +26,9 @@
     "grunt-contrib-watch": "^0.4",
     "qunitjs": "^1.12",
     "sinon": "^1.9.1",
-    "l20n": "1.0.0-rc",
     "video.js": "4.5.2"
   },
   "peerDependencies": {
-    "video.js": "^4.5",
-    "l20n": "1.0.0-rc"
+    "video.js": "^4.5"
   }
 }

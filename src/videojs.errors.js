@@ -163,8 +163,6 @@
       player = this,
       settings = videojs.util.mergeOptions(defaults, options);
 
-    console.log('locale', settings.locale, options);
-
     if(settings.locale && settings.locale !== 'en-US' &&
     isLocaleSupported(settings.locale, settings.supportedLocales)) {
 
@@ -224,9 +222,10 @@
 
       if(ctx) {
         ctx.localize([error.type, 'error_code'], function(l10n) {
+          // Headline
           var headline_node = player.el().querySelector('[data-l10n-id=headline]');
-          console.log(l10n);
           headline_node.textContent = l10n.entities[error.type].value;
+          // Error Code Label
           var error_code_node = player.el().querySelector('[data-l10n-id=error_code]');
           error_code_node.textContent = l10n.entities.error_code.value + ': ';
         });

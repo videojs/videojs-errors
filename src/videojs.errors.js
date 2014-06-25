@@ -2,6 +2,7 @@
   var
     defaults = {
       locale: document.getElementsByTagName('html')[0].getAttribute('lang') || navigator.languages && navigator.languages[0] || navigator.userLanguage || navigator.language || 'en-US',
+      supportedLocales: ['en-US', 'es'],
       header: '',
       code: '',
       message: '',
@@ -146,14 +147,24 @@
     });
   };
 
+  var isLocaleSupported = function(locale, locales) {
+    var returnValue = false;
+    for (i in locales) {
+      if(locales[i] === locale) {
+       returnValue = true;
+      }
+    }
+    return returnValue;
+  };
+
   videojs.plugin('errors', function(options){
     var
       player = this,
       settings = videojs.util.mergeOptions(defaults, options);
 
-    console.log('locale', settings.locale);
+    if(settings.locale && settings.locale !== 'en-US' &&
+    isLocaleSupported(settings.locale, settings.supportedLocales)) {
 
-    if(settings.locale && settings.locale !== 'en-US') {
       var ctx = L20n.getContext();
 
       ctx.addEventListener('ready', function() {

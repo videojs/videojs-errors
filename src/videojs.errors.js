@@ -1,6 +1,7 @@
 (function(){
   var
     defaults = {
+      locale: document.getElementsByTagName('html')[0].getAttribute('lang') || navigator.languages && navigator.languages[0] || navigator.userLanguage || navigator.language || 'en-US',
       header: '',
       code: '',
       message: '',
@@ -146,11 +147,29 @@
   };
 
   videojs.plugin('errors', function(options){
-
     var
       player = this,
-      // Merge the external and default settings
       settings = videojs.util.mergeOptions(defaults, options);
+
+    console.log('locale', settings.locale);
+
+    if(settings.locale && settings.locale !== 'en-US') {
+      var ctx = L20n.getContext();
+
+      ctx.addEventListener('ready', function() {
+        //console.log('context ready with localizations');
+      });
+      ctx.addEventListener('error', function(err) {
+        ctx.requestLocales('en-US');
+      });
+      ctx.addEventListener('warning', function(err) {
+        //console.log('context warning', err);
+      });
+
+      ctx.linkResource('locales/'+ settings.locale+'/strings.l20n');
+      ctx.registerLocales('en-US', [settings.locale]);
+      ctx.requestLocales();
+    }
 
     // Add to the error dialog when an error occurs
     this.on('error', function() {
@@ -169,8 +188,8 @@
         '<div class="vjs-errors-dialog">' +
           '<button class="vjs-errors-close-button"></button>' +
           '<div class="vjs-errors-content-container">' +
-            '<h2 class="vjs-errors-headline">' + error.headline + '</h2>' +
-            '<div><b>Error Code: </b>' + (error.type || error.code) + '</div>' +
+            '<h2 data-l10n-id="headline" class="vjs-errors-headline">' + error.headline + '</h2>' +
+            '<div><b data-l10n-id="error_code">Error Code: </b>' + (error.type || error.code) + '</div>' +
             details +
           '</div>' +
           '<div class="vjs-errors-ok-button-container">' +
@@ -188,6 +207,15 @@
       on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
         display.hide();
       });
+
+      if(ctx) {
+        ctx.localize([player.error().type, 'error_code'], function(l10n) {
+          var headline_node = player.el().querySelector('[data-l10n-id=headline]');
+          headline_node.textContent = l10n.entities[player.error().type].value;
+          var error_code_node = player.el().querySelector('[data-l10n-id=error_code]');
+          error_code_node.textContent = l10n.entities.error_code.value + ': ';
+        });
+      }
     });
 
     // Initialize custom error conditions

@@ -3,6 +3,7 @@
     defaults = {
       locale: document.getElementsByTagName('html')[0].getAttribute('lang') || navigator.languages && navigator.languages[0] || navigator.userLanguage || navigator.language || 'en-US',
       supportedLocales: ['en-US', 'es'],
+      localeBasePath: '',
       header: '',
       code: '',
       message: '',
@@ -162,6 +163,8 @@
       player = this,
       settings = videojs.util.mergeOptions(defaults, options);
 
+    console.log('locale', settings.locale, options);
+
     if(settings.locale && settings.locale !== 'en-US' &&
     isLocaleSupported(settings.locale, settings.supportedLocales)) {
 
@@ -177,14 +180,14 @@
         //console.log('context warning', err);
       });
 
-      ctx.linkResource('locales/'+ settings.locale+'/strings.l20n');
+      ctx.linkResource(settings.localeBasePath + 'locales/'+ settings.locale+'/strings.l20n');
       ctx.registerLocales('en-US', [settings.locale]);
       ctx.requestLocales();
     }
 
     // Add to the error dialog when an error occurs
     this.on('error', function() {
-      var code, error, display, details = '';
+      var error, display, details = '';
 
       error = videojs.util.mergeOptions(settings.errors[this.error().code || 0], this.error());
 
@@ -220,9 +223,10 @@
       });
 
       if(ctx) {
-        ctx.localize([player.error().type, 'error_code'], function(l10n) {
+        ctx.localize([error.type, 'error_code'], function(l10n) {
           var headline_node = player.el().querySelector('[data-l10n-id=headline]');
-          headline_node.textContent = l10n.entities[player.error().type].value;
+          console.log(l10n);
+          headline_node.textContent = l10n.entities[error.type].value;
           var error_code_node = player.el().querySelector('[data-l10n-id=error_code]');
           error_code_node.textContent = l10n.entities.error_code.value + ': ';
         });

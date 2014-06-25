@@ -1,5 +1,6 @@
 <unknown "Desconocido">
-<error_code "código de error">
+<error_code "Código de error">
+<technical_details "details de technicali">
 <MEDIA_ERR_ABORTED "La descarga de vídeo fue cancelada">
 <MEDIA_ERR_NETWORK "La conexión de vídeo se perdió, por favor confirme que está conectado a Internet">
 <MEDIA_ERR_DECODE "El video es malo o en un formato que no se puede jugar en su navegador">

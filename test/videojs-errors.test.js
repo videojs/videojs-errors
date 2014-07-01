@@ -297,4 +297,54 @@
     }
     strictEqual(errors, 2, 'emitted an error');
   });
+
+  module('videojs-errors-custom', {
+    setup: function() {
+      // force HTML support so the tests run in a reasonable
+      // environment under phantomjs
+      realIsHtmlSupported = videojs.Html5.isSupported;
+      videojs.Html5.isSupported = function() {
+        return true;
+      };
+      realCanPlaySource = videojs.Html5.canPlaySource;
+      videojs.Html5.canPlaySource = function() {
+        return true;
+      };
+
+      // setup sinon fake timers
+      clock = sinon.useFakeTimers();
+
+      // create a video element
+      var video = document.createElement('video');
+      document.querySelector('#qunit-fixture').appendChild(video);
+
+      // create a video.js player
+      player = videojs(video);
+      player.buffered = function() {
+        return videojs.createTimeRange(0, 0);
+      };
+      player.paused = function() {
+        return false;
+      };
+    },
+    teardown: function() {
+      videojs.Html5.isSupported = realIsHtmlSupported;
+      videojs.Html5.canPlaySource = realCanPlaySource;
+      clock.restore();
+    }
+  });
+
+  test('custom error details should override defaults', function() {
+    var customError = {headline: 'test headline', message: 'test details'};
+    // initialize the plugin with custom options
+    player.errors({errors:{4:customError}});
+    // trigger the error in question
+    player.error(4);
+    // confirm results
+    strictEqual(document.querySelector('.vjs-errors-headline').textContent,
+      customError.headline, 'headline should match custom override value');
+    strictEqual(document.querySelector('.vjs-errors-message').textContent,
+      customError.message, 'message should match custom override value');
+  });
+
 })(window, window.videojs, window.sinon, window.QUnit);

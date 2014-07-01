@@ -42,9 +42,11 @@ NOTES:
 If the video element emits any of those errors, the corresponding error message will be displayed. You can override and add custom error codes by supplying options to the plugin:
 
     video.errors({
-      messages: {
-        3: 'This is an override for the generic MEDIA_ERR_DECODE',
-        'custom': 'This is a custom error message'
+      errors: {
+        3: {
+          headline: 'This is an override for the generic MEDIA_ERR_DECODE',
+          message: 'This is a custom error message'
+        }
       }
     });
 

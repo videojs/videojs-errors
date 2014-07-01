@@ -52,11 +52,7 @@ If the video element emits any of those errors, the corresponding error message 
 
 If you define custom error messages, you'll need to let video.js know when to emit them yourself:
 
-    video.trigger({
-      type: 'error',
-      code: 'custom',
-      target: video.el()
-    });
+    video.error({code: 'custom'});
 
 If an error is emitted that doesn't have an associated key, a generic, catch-all message is displayed. You can override that text by supplying a message for the key `unknown`.
 

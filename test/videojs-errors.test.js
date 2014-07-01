@@ -305,11 +305,6 @@
       document.querySelector('#qunit-fixture').appendChild(video);
       // create a video.js player
       player = videojs(video);
-    },
-    teardown: function() {
-      videojs.Html5.isSupported = realIsHtmlSupported;
-      videojs.Html5.canPlaySource = realCanPlaySource;
-      clock.restore();
     }
   });
 

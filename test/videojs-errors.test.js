@@ -300,32 +300,11 @@
 
   module('videojs-errors-custom', {
     setup: function() {
-      // force HTML support so the tests run in a reasonable
-      // environment under phantomjs
-      realIsHtmlSupported = videojs.Html5.isSupported;
-      videojs.Html5.isSupported = function() {
-        return true;
-      };
-      realCanPlaySource = videojs.Html5.canPlaySource;
-      videojs.Html5.canPlaySource = function() {
-        return true;
-      };
-
-      // setup sinon fake timers
-      clock = sinon.useFakeTimers();
-
       // create a video element
       var video = document.createElement('video');
       document.querySelector('#qunit-fixture').appendChild(video);
-
       // create a video.js player
       player = videojs(video);
-      player.buffered = function() {
-        return videojs.createTimeRange(0, 0);
-      };
-      player.paused = function() {
-        return false;
-      };
     },
     teardown: function() {
       videojs.Html5.isSupported = realIsHtmlSupported;

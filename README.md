@@ -42,19 +42,17 @@ NOTES:
 If the video element emits any of those errors, the corresponding error message will be displayed. You can override and add custom error codes by supplying options to the plugin:
 
     video.errors({
-      messages: {
-        3: 'This is an override for the generic MEDIA_ERR_DECODE',
-        'custom': 'This is a custom error message'
+      errors: {
+        3: {
+          headline: 'This is an override for the generic MEDIA_ERR_DECODE',
+          message: 'This is a custom error message'
+        }
       }
     });
 
 If you define custom error messages, you'll need to let video.js know when to emit them yourself:
 
-    video.trigger({
-      type: 'error',
-      code: 'custom',
-      target: video.el()
-    });
+    video.error({code: 'custom'});
 
 If an error is emitted that doesn't have an associated key, a generic, catch-all message is displayed. You can override that text by supplying a message for the key `unknown`.
 

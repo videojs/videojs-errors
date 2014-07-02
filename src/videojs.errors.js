@@ -156,7 +156,7 @@
     this.on('error', function() {
       var code, error, display, details = '';
 
-      error = videojs.util.mergeOptions(settings.errors[this.error().code || 0], this.error());
+      error = videojs.util.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
 
       if (error.message) {
         details = '<div class="vjs-errors-details">Technical details:' +

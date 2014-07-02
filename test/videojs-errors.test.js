@@ -297,4 +297,28 @@
     }
     strictEqual(errors, 2, 'emitted an error');
   });
+
+  module('videojs-errors-custom', {
+    setup: function() {
+      // create a video element
+      var video = document.createElement('video');
+      document.querySelector('#qunit-fixture').appendChild(video);
+      // create a video.js player
+      player = videojs(video);
+    }
+  });
+
+  test('custom error details should override defaults', function() {
+    var customError = {headline: 'test headline', message: 'test details'};
+    // initialize the plugin with custom options
+    player.errors({errors:{4:customError}});
+    // trigger the error in question
+    player.error(4);
+    // confirm results
+    strictEqual(document.querySelector('.vjs-errors-headline').textContent,
+      customError.headline, 'headline should match custom override value');
+    strictEqual(document.querySelector('.vjs-errors-message').textContent,
+      customError.message, 'message should match custom override value');
+  });
+
 })(window, window.videojs, window.sinon, window.QUnit);

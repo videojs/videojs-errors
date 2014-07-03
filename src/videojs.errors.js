@@ -1,10 +1,41 @@
 (function(){
   var
     defaults = {
+      locale: document.getElementsByTagName('html')[0].getAttribute('lang') || navigator.languages && navigator.languages[0] || navigator.userLanguage || navigator.language || 'en-US',
       header: '',
       code: '',
       message: '',
       timeout: 45 * 1000,
+      localizations: {
+        es: {
+          'error code': 'Código de error',
+          'technical details': 'Details de technicali',
+          1: {
+            headline: 'La descarga de vídeo fue cancelada'
+          },
+          2: {
+            headline: 'La conexión de vídeo se perdió, por favor confirme que está conectado a Internet'
+          },
+          3: {
+            headline: 'El video es malo o en un formato que no se puede jugar en su navegador'
+          },
+          4: {
+            headline: 'Este video no está disponible o no está soportado en este navegador'
+          },
+          5: {
+            headline: 'El vídeo que estás tratando de ver es encriptada y no sabemos cómo descifrarlo'
+          },
+          unknown: {
+            headline: 'Se ha encontrado un problema inesperado, vuelva otro día y vuelve a intentarlo'
+          },
+          '-1': {
+            headline: 'Ningún vídeo se ha cargado'
+          },
+          '-2': {
+            headline: 'No se pudo descargar el video'
+          }
+        }
+      },
       errors: {
         1: {
           type: 'MEDIA_ERR_ABORTED',
@@ -159,8 +190,8 @@
       error = videojs.util.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
 
       if (error.message) {
-        details = '<div class="vjs-errors-details">Technical details:' +
-          '<div class="vjs-errors-message">' + error.message + '</div>' +
+        details = '<div class="vjs-errors-details"><span data-i18n="Technical details" class="vjs-tech-details">: </span>' +
+          '<div data-i18n="' + error.message + '" class="vjs-errors-message"></div>' +
           '</div>';
       }
 
@@ -169,12 +200,12 @@
         '<div class="vjs-errors-dialog">' +
           '<button class="vjs-errors-close-button"></button>' +
           '<div class="vjs-errors-content-container">' +
-            '<h2 class="vjs-errors-headline">' + error.headline + '</h2>' +
-            '<div><b>Error Code: </b>' + (error.type || error.code) + '</div>' +
+            '<h2 data-i18n="'+error.headline+'" class="vjs-errors-headline"></h2>' +
+            '<div><b class="vjs-error-code" data-i18n="Error Code">: </b><span data-i18n="' + (error.type || error.code) + '"></span></div>' +
             details +
           '</div>' +
           '<div class="vjs-errors-ok-button-container">' +
-            '<button class="vjs-errors-ok-button">OK</button>' +
+            '<button class="vjs-errors-ok-button" data-i18n="OK"></button>' +
           '</div>' +
         '</div>';
 
@@ -188,6 +219,29 @@
       on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
         display.hide();
       });
+
+      if (settings.locale !== 'en' && settings.locale !== 'en-US' && settings.localizations[settings.locale]) {
+        // Localize Headline
+        if (settings.localizations[settings.locale][this.error().code].headline) {
+          display.el().querySelector('.vjs-errors-headline').setAttribute('data-i18n',
+            settings.localizations[settings.locale][this.error().code].headline);
+        }
+        // Localize Message
+        if (settings.localizations[settings.locale][this.error().code].message) {
+          display.el().querySelector('.vjs-errors-headline').setAttribute('data-i18n',
+            settings.localizations[settings.locale][this.error().code].message);
+        }
+        // Localize Error Code Label
+        if (settings.localizations[settings.locale]['error code']) {
+          display.el().querySelector('.vjs-error-code').setAttribute('data-i18n',
+            settings.localizations[settings.locale]['error code']);
+        }
+        // Localize Technical Details Label
+        if (settings.localizations[settings.locale]['technical details'] && display.el().querySelector('.vjs-tech-details')) {
+          display.el().querySelector('.vjs-tech-details').setAttribute('data-i18n',
+            settings.localizations[settings.locale]['technical details']);
+        }
+      }
     });
 
     // Initialize custom error conditions

@@ -9,7 +9,7 @@
       localizations: {
         es: {
           'error code': 'Código de error',
-          technical_details: 'details de technicali',
+          'technical details': 'Details de technicali',
           1: {
             headline: 'La descarga de vídeo fue cancelada'
           },
@@ -190,7 +190,7 @@
       error = videojs.util.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
 
       if (error.message) {
-        details = '<div class="vjs-errors-details">Technical details:' +
+        details = '<div class="vjs-errors-details"><span data-i18n="Technical details" class="vjs-tech-details">: </span>' +
           '<div data-i18n="' + error.message + '" class="vjs-errors-message"></div>' +
           '</div>';
       }
@@ -236,7 +236,11 @@
           display.el().querySelector('.vjs-error-code').setAttribute('data-i18n',
             settings.localizations[settings.locale]['error code']);
         }
-
+        // Localize Technical Details Label
+        if (settings.localizations[settings.locale]['technical details'] && display.el().querySelector('.vjs-tech-details')) {
+          display.el().querySelector('.vjs-tech-details').setAttribute('data-i18n',
+            settings.localizations[settings.locale]['technical details']);
+        }
       }
     });
 

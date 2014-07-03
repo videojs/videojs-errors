@@ -20,6 +20,16 @@ module.exports = function(grunt) {
         dest: 'dist/<%= pkg.name %>.js'
       }
     },
+    copy: {
+      css: {
+        expand: true,
+        cwd: 'src/',
+        src: '*.css',
+        dest: 'dist/',
+        flatten: true,
+        filter: 'isFile'
+      }
+    },
     connect: {
       dev: {
         options: {
@@ -76,20 +86,16 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-connect');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  require('load-grunt-tasks')(grunt);
 
   grunt.registerTask('test',
                      ['clean',
                       'jshint',
                       'qunit']);
+
   grunt.registerTask('default',
                      ['test',
                       'concat',
-                      'uglify']);
+                      'uglify',
+                      'copy']);
 };

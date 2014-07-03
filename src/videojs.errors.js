@@ -9,29 +9,30 @@
       localizations: {
         es: {
           'error code': 'Código de error',
+          technical_details: 'details de technicali',
           1: {
-            headline: 'The video download was cancelled'
+            headline: 'La descarga de vídeo fue cancelada'
           },
           2: {
-            headline: 'The video connection was lost, please confirm you\'re connected to the internet'
+            headline: 'La conexión de vídeo se perdió, por favor confirme que está conectado a Internet'
           },
           3: {
-            headline: 'The video is bad or in a format that can\'t be played on your browser'
+            headline: 'El video es malo o en un formato que no se puede jugar en su navegador'
           },
           4: {
-            headline: 'This video is either unavailable or not supported in this browser'
+            headline: 'Este video no está disponible o no está soportado en este navegador'
           },
           5: {
-            headline: 'The video you\'re trying to watch is encrypted and we don\'t know how to decrypt it'
+            headline: 'El vídeo que estás tratando de ver es encriptada y no sabemos cómo descifrarlo'
           },
           unknown: {
-            headline: 'An unanticipated problem was encountered, check back soon and try again'
+            headline: 'Se ha encontrado un problema inesperado, vuelva otro día y vuelve a intentarlo'
           },
           '-1': {
             headline: 'Ningún vídeo se ha cargado'
           },
           '-2': {
-            headline: 'Could not download the video'
+            headline: 'No se pudo descargar el video'
           }
         }
       },

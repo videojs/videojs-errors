@@ -315,9 +315,9 @@
     // trigger the error in question
     player.error(4);
     // confirm results
-    strictEqual(document.querySelector('.vjs-errors-headline').textContent,
+    strictEqual(document.querySelector('.vjs-errors-headline').getAttribute('data-i18n'),
       customError.headline, 'headline should match custom override value');
-    strictEqual(document.querySelector('.vjs-errors-message').textContent,
+    strictEqual(document.querySelector('.vjs-errors-message').getAttribute('data-i18n'),
       customError.message, 'message should match custom override value');
   });
 

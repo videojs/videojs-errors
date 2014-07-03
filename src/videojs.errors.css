@@ -3,7 +3,7 @@
 -------------------------------------------------------------------------------
 */
 
-[data-i18n]::before {
+.vjs-error-display [data-i18n]::before {
     content: attr(data-i18n);
 }
 

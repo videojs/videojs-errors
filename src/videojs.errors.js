@@ -1,10 +1,40 @@
 (function(){
   var
     defaults = {
+      locale: document.getElementsByTagName('html')[0].getAttribute('lang') || navigator.languages && navigator.languages[0] || navigator.userLanguage || navigator.language || 'en-US',
       header: '',
       code: '',
       message: '',
       timeout: 45 * 1000,
+      localizations: {
+        es: {
+          'error code': 'Código de error',
+          1: {
+            headline: 'The video download was cancelled'
+          },
+          2: {
+            headline: 'The video connection was lost, please confirm you\'re connected to the internet'
+          },
+          3: {
+            headline: 'The video is bad or in a format that can\'t be played on your browser'
+          },
+          4: {
+            headline: 'This video is either unavailable or not supported in this browser'
+          },
+          5: {
+            headline: 'The video you\'re trying to watch is encrypted and we don\'t know how to decrypt it'
+          },
+          unknown: {
+            headline: 'An unanticipated problem was encountered, check back soon and try again'
+          },
+          '-1': {
+            headline: 'Ningún vídeo se ha cargado'
+          },
+          '-2': {
+            headline: 'Could not download the video'
+          }
+        }
+      },
       errors: {
         1: {
           type: 'MEDIA_ERR_ABORTED',
@@ -160,7 +190,7 @@
 
       if (error.message) {
         details = '<div class="vjs-errors-details">Technical details:' +
-          '<div class="vjs-errors-message">' + error.message + '</div>' +
+          '<div data-i18n="' + error.message + '" class="vjs-errors-message"></div>' +
           '</div>';
       }
 
@@ -169,12 +199,12 @@
         '<div class="vjs-errors-dialog">' +
           '<button class="vjs-errors-close-button"></button>' +
           '<div class="vjs-errors-content-container">' +
-            '<h2 class="vjs-errors-headline">' + error.headline + '</h2>' +
-            '<div><b>Error Code: </b>' + (error.type || error.code) + '</div>' +
+            '<h2 data-i18n="'+error.headline+'" class="vjs-errors-headline"></h2>' +
+            '<div><b class="vjs-error-code" data-i18n="Error Code">: </b><span data-i18n="' + (error.type || error.code) + '"></span></div>' +
             details +
           '</div>' +
           '<div class="vjs-errors-ok-button-container">' +
-            '<button class="vjs-errors-ok-button">OK</button>' +
+            '<button class="vjs-errors-ok-button" data-i18n="OK"></button>' +
           '</div>' +
         '</div>';
 
@@ -188,6 +218,25 @@
       on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
         display.hide();
       });
+
+      if (settings.locale !== 'en' && settings.locale !== 'en-US' && settings.localizations[settings.locale]) {
+        // Localize Headline
+        if (settings.localizations[settings.locale][this.error().code].headline) {
+          display.el().querySelector('.vjs-errors-headline').setAttribute('data-i18n',
+            settings.localizations[settings.locale][this.error().code].headline);
+        }
+        // Localize Message
+        if (settings.localizations[settings.locale][this.error().code].message) {
+          display.el().querySelector('.vjs-errors-headline').setAttribute('data-i18n',
+            settings.localizations[settings.locale][this.error().code].message);
+        }
+        // Localize Error Code Label
+        if (settings.localizations[settings.locale]['error code']) {
+          display.el().querySelector('.vjs-error-code').setAttribute('data-i18n',
+            settings.localizations[settings.locale]['error code']);
+        }
+
+      }
     });
 
     // Initialize custom error conditions

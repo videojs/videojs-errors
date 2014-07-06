@@ -1,0 +1,10 @@
+<unknown "Desconocido">
+<error_code "Código de error">
+<technical_details "details de technicali">
+<MEDIA_ERR_ABORTED "La descarga de vídeo fue cancelada">
+<MEDIA_ERR_NETWORK "La conexión de vídeo se perdió, por favor confirme que está conectado a Internet">
+<MEDIA_ERR_DECODE "El video es malo o en un formato que no se puede jugar en su navegador">
+<MEDIA_ERR_SRC_NOT_SUPPORTED "Este video no está disponible o no está soportado en este navegador">
+<MEDIA_ERR_ENCRYPTED "El vídeo que estás tratando de ver es encriptada y no sabemos cómo descifrarlo">
+<PLAYER_ERR_NO_SRC "Ningún vídeo se ha cargado">
+<PLAYER_ERR_TIMEOUT "No se pudo descargar el video">

@@ -1,4 +1,4 @@
-(function(){
+ (function(){
   var
     defaults = {
       header: '',
@@ -38,6 +38,13 @@
           type: 'PLAYER_ERR_TIMEOUT',
           headline: 'Could not download the video'
         }
+      }
+    },
+    l20n = {
+      es: {
+        'No video has been loaded': 'Ningún vídeo se ha cargado',
+        'Could not download the video': 'No se pudo descargar el video',
+        'Error Code': 'Código de error'
       }
     },
     /**
@@ -152,6 +159,10 @@
       // Merge the external and default settings
       settings = videojs.util.mergeOptions(defaults, options);
 
+    for (var i in l20n) {
+      player.addLocale(i, l20n[i]);
+    }
+
     // Add to the error dialog when an error occurs
     this.on('error', function() {
       var code, error, display, details = '';
@@ -165,12 +176,13 @@
       }
 
       display = this.errorDisplay;
+
       display.el().innerHTML =
         '<div class="vjs-errors-dialog">' +
           '<button class="vjs-errors-close-button"></button>' +
           '<div class="vjs-errors-content-container">' +
             '<h2 class="vjs-errors-headline">' + error.headline + '</h2>' +
-            '<div><b>Error Code: </b>' + (error.type || error.code) + '</div>' +
+            '<div><b>Error Code</b>: ' + (error.type || error.code) + '</div>' +
             details +
           '</div>' +
           '<div class="vjs-errors-ok-button-container">' +
@@ -188,6 +200,10 @@
       on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
         display.hide();
       });
+
+      if(display.requiresLocalization()) {
+        videojs.localizeNode(display.el(), display.locale(), this.l20n());
+      }
     });
 
     // Initialize custom error conditions

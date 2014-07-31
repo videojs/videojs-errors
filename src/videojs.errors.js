@@ -159,7 +159,13 @@
       // Merge the external and default settings
       settings = videojs.util.mergeOptions(defaults, options);
 
-    player.languages = videojs.util.mergeOptions(player.languages, settings.languages);
+    for (var i in languages) {
+      if(player.languages()[i] !== undefined) {
+        player.languages()[i] = videojs.util.mergeOptions(player.languages()[i], languages[i]);
+      } else {
+        player.languages()[i] = languages[i];
+      }
+    }
 
     // Add to the error dialog when an error occurs
     this.on('error', function() {

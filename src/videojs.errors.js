@@ -44,7 +44,9 @@
       es: {
         'No video has been loaded': 'Ningún vídeo se ha cargado',
         'Could not download the video': 'No se pudo descargar el video',
-        'Error Code': 'Código de error'
+        'This video is either unavailable or not supported in this browser': 'Este video no está disponible o no está soportado en este navegador',
+        'Error Code': 'Código de error',
+        'Technical details': 'Detalles Técnicos'
       }
     },
     /**
@@ -174,8 +176,8 @@
       error = videojs.util.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
 
       if (error.message) {
-        details = '<div class="vjs-errors-details">Technical details:' +
-          '<div class="vjs-errors-message">' + this.localize(error.message) + '</div>' +
+        details = '<div class="vjs-errors-details">' + this.localize('Technical details') +
+          ': <div class="vjs-errors-message">' + this.localize(error.message) + '</div>' +
           '</div>';
       }
 

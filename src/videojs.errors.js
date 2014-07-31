@@ -40,7 +40,7 @@
         }
       }
     },
-    l20n = {
+    languages = {
       es: {
         'No video has been loaded': 'Ningún vídeo se ha cargado',
         'Could not download the video': 'No se pudo descargar el video',
@@ -159,9 +159,7 @@
       // Merge the external and default settings
       settings = videojs.util.mergeOptions(defaults, options);
 
-    for (var i in l20n) {
-      player.addLocale(i, l20n[i]);
-    }
+    player.languages = videojs.util.mergeOptions(player.languages, settings.languages);
 
     // Add to the error dialog when an error occurs
     this.on('error', function() {
@@ -171,7 +169,7 @@
 
       if (error.message) {
         details = '<div class="vjs-errors-details">Technical details:' +
-          '<div class="vjs-errors-message">' + error.message + '</div>' +
+          '<div class="vjs-errors-message">' + this.localize(error.message) + '</div>' +
           '</div>';
       }
 
@@ -181,12 +179,12 @@
         '<div class="vjs-errors-dialog">' +
           '<button class="vjs-errors-close-button"></button>' +
           '<div class="vjs-errors-content-container">' +
-            '<h2 class="vjs-errors-headline">' + error.headline + '</h2>' +
-            '<div><b>Error Code</b>: ' + (error.type || error.code) + '</div>' +
-            details +
+            '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
+            '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
+            this.localize(details) +
           '</div>' +
           '<div class="vjs-errors-ok-button-container">' +
-            '<button class="vjs-errors-ok-button">OK</button>' +
+            '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
           '</div>' +
         '</div>';
 
@@ -200,10 +198,6 @@
       on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
         display.hide();
       });
-
-      if(display.requiresLocalization()) {
-        videojs.localizeNode(display.el(), display.locale(), this.l20n());
-      }
     });
 
     // Initialize custom error conditions

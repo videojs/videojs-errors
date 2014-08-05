@@ -12,11 +12,11 @@
         },
         2: {
           type: 'MEDIA_ERR_NETWORK',
-          headline: 'The video connection was lost, please confirm you\'re connected to the internet'
+          headline: 'The video connection was lost, please confirm you are connected to the internet'
         },
         3: {
           type: 'MEDIA_ERR_DECODE',
-          headline: 'The video is bad or in a format that can\'t be played on your browser'
+          headline: 'The video is bad or in a format that cannot be played on your browser'
         },
         4: {
           type: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
@@ -24,7 +24,7 @@
         },
         5: {
           type: 'MEDIA_ERR_ENCRYPTED',
-          headline: 'The video you\'re trying to watch is encrypted and we don\'t know how to decrypt it'
+          headline: 'The video you are trying to watch is encrypted and we do not know how to decrypt it'
         },
         unknown: {
           type: 'MEDIA_ERR_UNKNOWN',
@@ -44,6 +44,8 @@
       es: {
         'No video has been loaded': 'Ningún vídeo se ha cargado',
         'Could not download the video': 'No se pudo descargar el video',
+        'The video connection was lost, please confirm you are connected to the internet':'La conexión de vídeo se perdió, por favor confirme que está conectado a Internet',
+        'The video is bad or in a format that cannot be played on your browser': 'El video es malo o en un formato que no se puede jugar en su navegador',
         'This video is either unavailable or not supported in this browser': 'Este video no está disponible o no está soportado en este navegador',
         'Error Code': 'Código de error',
         'Technical details': 'Detalles Técnicos'

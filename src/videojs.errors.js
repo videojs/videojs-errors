@@ -1,4 +1,4 @@
-(function(){
+ (function(){
   var
     defaults = {
       header: '',
@@ -12,11 +12,11 @@
         },
         2: {
           type: 'MEDIA_ERR_NETWORK',
-          headline: 'The video connection was lost, please confirm you\'re connected to the internet'
+          headline: 'The video connection was lost, please confirm you are connected to the internet'
         },
         3: {
           type: 'MEDIA_ERR_DECODE',
-          headline: 'The video is bad or in a format that can\'t be played on your browser'
+          headline: 'The video is bad or in a format that cannot be played on your browser'
         },
         4: {
           type: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
@@ -24,7 +24,7 @@
         },
         5: {
           type: 'MEDIA_ERR_ENCRYPTED',
-          headline: 'The video you\'re trying to watch is encrypted and we don\'t know how to decrypt it'
+          headline: 'The video you are trying to watch is encrypted and we do not know how to decrypt it'
         },
         unknown: {
           type: 'MEDIA_ERR_UNKNOWN',
@@ -38,6 +38,17 @@
           type: 'PLAYER_ERR_TIMEOUT',
           headline: 'Could not download the video'
         }
+      }
+    },
+    languages = {
+      es: {
+        'No video has been loaded': 'Ningún vídeo se ha cargado',
+        'Could not download the video': 'No se pudo descargar el video',
+        'The video connection was lost, please confirm you are connected to the internet':'La conexión de vídeo se perdió, por favor confirme que está conectado a Internet',
+        'The video is bad or in a format that cannot be played on your browser': 'El video es malo o en un formato que no se puede jugar en su navegador',
+        'This video is either unavailable or not supported in this browser': 'Este video no está disponible o no está soportado en este navegador',
+        'Error Code': 'Código de error',
+        'Technical details': 'Detalles Técnicos'
       }
     },
     /**
@@ -152,6 +163,14 @@
       // Merge the external and default settings
       settings = videojs.util.mergeOptions(defaults, options);
 
+    for (var i in languages) {
+      if(player.languages()[i] !== undefined) {
+        player.languages()[i] = videojs.util.mergeOptions(player.languages()[i], languages[i]);
+      } else {
+        player.languages()[i] = languages[i];
+      }
+    }
+
     // Add to the error dialog when an error occurs
     this.on('error', function() {
       var code, error, display, details = '';
@@ -159,22 +178,23 @@
       error = videojs.util.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
 
       if (error.message) {
-        details = '<div class="vjs-errors-details">Technical details:' +
-          '<div class="vjs-errors-message">' + error.message + '</div>' +
+        details = '<div class="vjs-errors-details">' + this.localize('Technical details') +
+          ': <div class="vjs-errors-message">' + this.localize(error.message) + '</div>' +
           '</div>';
       }
 
       display = this.errorDisplay;
+
       display.el().innerHTML =
         '<div class="vjs-errors-dialog">' +
           '<button class="vjs-errors-close-button"></button>' +
           '<div class="vjs-errors-content-container">' +
-            '<h2 class="vjs-errors-headline">' + error.headline + '</h2>' +
-            '<div><b>Error Code: </b>' + (error.type || error.code) + '</div>' +
-            details +
+            '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
+            '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
+            this.localize(details) +
           '</div>' +
           '<div class="vjs-errors-ok-button-container">' +
-            '<button class="vjs-errors-ok-button">OK</button>' +
+            '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
           '</div>' +
         '</div>';
 

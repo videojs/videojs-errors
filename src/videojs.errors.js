@@ -40,17 +40,6 @@
         }
       }
     },
-    languages = {
-      es: {
-        'No video has been loaded': 'Ningún vídeo se ha cargado',
-        'Could not download the video': 'No se pudo descargar el video',
-        'The video connection was lost, please confirm you are connected to the internet':'La conexión de vídeo se perdió, por favor confirme que está conectado a Internet',
-        'The video is bad or in a format that cannot be played on your browser': 'El video es malo o en un formato que no se puede jugar en su navegador',
-        'This video is either unavailable or not supported in this browser': 'Este video no está disponible o no está soportado en este navegador',
-        'Error Code': 'Código de error',
-        'Technical details': 'Detalles Técnicos'
-      }
-    },
     /**
      * Monitors a player for signs of life during playback and
      * triggers PLAYER_ERR_TIMEOUT if none occur within a reasonable
@@ -162,14 +151,6 @@
       player = this,
       // Merge the external and default settings
       settings = videojs.util.mergeOptions(defaults, options);
-
-    for (var i in languages) {
-      if(player.languages()[i] !== undefined) {
-        player.languages()[i] = videojs.util.mergeOptions(player.languages()[i], languages[i]);
-      } else {
-        player.languages()[i] = languages[i];
-      }
-    }
 
     // Add to the error dialog when an error occurs
     this.on('error', function() {

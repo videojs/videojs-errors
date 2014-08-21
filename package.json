@@ -26,6 +26,6 @@
     "grunt-contrib-watch": "^0.4",
     "qunitjs": "^1.12",
     "sinon": "^1.9.1",
-    "video.js": "^4.7"
+    "video.js": "^4.7.3"
   }
 }

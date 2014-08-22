@@ -16,6 +16,16 @@ You probably want to include the default stylesheet, too. It displays error mess
 
 If you're not a fan of the default styling, you can drop in your own stylesheet. The only new element to worry about is `vjs-errors-dialog` which is the container for the error messages.
 
+### Localization
+The plugin supports multiple languages when using Video.JS v4.7.3 or greater. In order to add additional language support, add the language file after your plugin as follows:
+
+```html
+  <script src='videojs.errors.js'></script>
+  <script src='lang/es.js'></script>
+```
+   
+**Note:** A formatted example is available for Spanish under 'lang/es.js'.
+
 ### Supported Errors
 
 Once you've initialized video.js, you can activate the errors plugin. The plugin has a set of default error messages for the standard HTML5 video errors keyed off their runtime values:

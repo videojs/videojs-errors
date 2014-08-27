@@ -74,7 +74,7 @@ module.exports = function(grunt) {
         tasks: ['jshint:test', 'qunit']
       }
     },
-    videojs_languages: {
+    vjslanguages: {
       defaults: {
         files: {
           'dist/lang': ['lang/*.json']
@@ -91,7 +91,7 @@ module.exports = function(grunt) {
                       'qunit']);
   grunt.registerTask('default',
                      ['test',
-                      'videojs_languages',
+                      'vjslanguages',
                       'concat',
                       'uglify']);
 };

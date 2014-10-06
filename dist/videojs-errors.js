@@ -1,4 +1,4 @@
-/*! videojs-errors - v0.1.5 - 2014-09-02
+/*! videojs-errors - v0.1.6 - 2014-09-23
 * Copyright (c) 2014 Brightcove; Licensed Apache-2.0 */
  (function(){
   var

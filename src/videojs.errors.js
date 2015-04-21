@@ -115,6 +115,10 @@
         });
         healthcheck('progress', resetMonitor);
       });
+
+      player.on('dispose', function() {
+        cleanup();
+      });
     },
     // shim in IE8 event listener support
     on = function(elem, type, fn) {

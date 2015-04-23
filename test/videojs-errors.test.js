@@ -242,9 +242,16 @@
   });
 
   test('player timeouts do not occur if the player is paused', function() {
+    var errors = 0;
     player.src({
       src: 'http://example.com/movie.mp4',
       type: 'video/mp4'
+    });
+    player.on('error', function() {
+      errors++;
+    });
+    player.on('timeupdate', function(event) {
+      event.stopImmediatePropagation();
     });
     player.trigger('play');
     // simulate a misbehaving player that doesn't fire `paused`
@@ -253,14 +260,21 @@
     };
     clock.tick(45 * 1000);
 
-    ok(!player.error(), 'no error fired');
+    strictEqual(errors, 0, 'no error emitted');
   });
 
   // video.paused is false at the end of a video on IE11, Win8 RT
   test('player timeouts do not occur if the video is ended', function() {
+    var errors = 0;
     player.src({
       src: 'http://example.com/movie.mp4',
       type: 'video/mp4'
+    });
+    player.on('error', function() {
+      errors++;
+    });
+    player.on('timeupdate', function(event) {
+      event.stopImmediatePropagation();
     });
     player.trigger('play');
     // simulate a misbehaving player that doesn't fire `ended`
@@ -269,7 +283,7 @@
     };
     clock.tick(45 * 1000);
 
-    ok(!player.error(), 'no error fired');
+    strictEqual(errors, 0, 'no error emitted');
   });
 
   test('player timeouts do not overwrite existing errors', function() {

@@ -101,6 +101,18 @@
     strictEqual(player.error().type, 'PLAYER_ERR_TIMEOUT');
   });
 
+  test('when dispose is triggered should not throw error ', function() {
+    player.src({
+      src: 'movie.mp4',
+      type: 'video/mp4'
+    });
+    player.trigger('play');
+    player.trigger('dispose');
+    clock.tick(45 * 1000);
+
+    ok(!player.error(), 'should not throw player error when dispose is called.');
+  });
+
   test('progress clears player timeout errors', function() {
     var errors = 0;
     player.on('error', function() {

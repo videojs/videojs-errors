@@ -31,7 +31,7 @@
     "grunt-videojs-languages": "0.0.4",
     "load-grunt-tasks": "0.6.0",
     "qunitjs": "^1.12",
-    "sinon": "^1.9.1",
+    "sinon": "1.9.1",
     "video.js": "^4.7.3"
   }
 }

@@ -1,5 +1,5 @@
-/*! videojs-errors - v0.1.6 - 2014-09-23
-* Copyright (c) 2014 Brightcove; Licensed Apache-2.0 */
+/*! videojs-errors - v0.1.7 - 2015-04-23
+* Copyright (c) 2015 Brightcove; Licensed Apache-2.0 */
  (function(){
   var
     defaults = {
@@ -56,8 +56,9 @@
         resetMonitor = function() {
           window.clearTimeout(monitor);
           monitor = window.setTimeout(function() {
-            if (player.error()) {
-              // never overwrite existing errors
+            if (player.error() || player.paused() || player.ended()) {
+              // never overwrite existing errors or display a new one
+              // if the player is paused or ended.
               return;
             }
 
@@ -116,6 +117,10 @@
           }
         });
         healthcheck('progress', resetMonitor);
+      });
+
+      player.on('dispose', function() {
+        cleanup();
       });
     },
     // shim in IE8 event listener support

@@ -72,4 +72,5 @@ On iPhones, the video element intercepts all user interaction so error message d
 
 
 ## Release History
+ - 0.1.8: Fixes a bug with dispose() and fixes playback monitor when ended/paused
  - 0.1.0: Initial release

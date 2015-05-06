@@ -84,6 +84,17 @@
     strictEqual(player.error().type, 'PLAYER_ERR_NO_SRC', 'error type is no source');
   });
 
+  test('play() with a null source but a defined data-video-id is not an error', function() {
+    var errors = 0;
+    player.options()['data-video-id'] = 10;
+    player.on('error', function() {
+      errors++;
+    });
+    player.trigger('play');
+
+    strictEqual(errors, 0, 'did not emit an error');
+  });
+
   test('no progress for 45 seconds is an error', function() {
     var errors = 0;
     player.on('error', function() {

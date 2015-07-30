@@ -1,4 +1,4 @@
-/*! videojs-errors - v0.1.8 - 2015-05-05
+/*! videojs-errors - v0.1.8 - 2015-07-30
 * Copyright (c) 2015 Brightcove; Licensed Apache-2.0 */
  (function(){
   var
@@ -49,7 +49,7 @@
      */
     monitorPlayback = function(player, options) {
       var
-        settings = videojs.util.mergeOptions(defaults, options),
+        settings = videojs.mergeOptions(defaults, options),
 
         monitor,
         // clears the previous monitor timeout and sets up a new one
@@ -157,13 +157,13 @@
     var
       player = this,
       // Merge the external and default settings
-      settings = videojs.util.mergeOptions(defaults, options);
+      settings = videojs.mergeOptions(defaults, options);
 
     // Add to the error dialog when an error occurs
     this.on('error', function() {
       var code, error, display, details = '';
 
-      error = videojs.util.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
+      error = videojs.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
 
       if (error.message) {
         details = '<div class="vjs-errors-details">' + this.localize('Technical details') +

@@ -31,14 +31,16 @@
 
   module('videojs-errors', {
     setup: function() {
+      var Html5 = videojs.getComponent('Html5');
+
       // force HTML support so the tests run in a reasonable
       // environment under phantomjs
-      realIsHtmlSupported = videojs.Html5.isSupported;
-      videojs.Html5.isSupported = function() {
+      realIsHtmlSupported = Html5.isSupported;
+      Html5.isSupported = function() {
         return true;
       };
-      realCanPlaySource = videojs.Html5.canPlaySource;
-      videojs.Html5.canPlaySource = function() {
+      realCanPlaySource = Html5.canPlaySource;
+      Html5.canPlaySource = function() {
         return true;
       };
 
@@ -62,8 +64,10 @@
       player.errors();
     },
     teardown: function() {
-      videojs.Html5.isSupported = realIsHtmlSupported;
-      videojs.Html5.canPlaySource = realCanPlaySource;
+      var Html5 = videojs.getComponent('Html5');
+
+      Html5.isSupported = realIsHtmlSupported;
+      Html5.canPlaySource = realCanPlaySource;
       clock.restore();
     }
   });

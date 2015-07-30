@@ -32,6 +32,6 @@
     "load-grunt-tasks": "0.6.0",
     "qunitjs": "^1.12",
     "sinon": "^1.14.1",
-    "video.js": "^4.12.5"
+    "video.js": "5.0.0-rc.34"
   }
 }

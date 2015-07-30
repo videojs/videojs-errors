@@ -47,7 +47,7 @@
      */
     monitorPlayback = function(player, options) {
       var
-        settings = videojs.util.mergeOptions(defaults, options),
+        settings = videojs.mergeOptions(defaults, options),
 
         monitor,
         // clears the previous monitor timeout and sets up a new one
@@ -155,7 +155,7 @@
     var
       player = this,
       // Merge the external and default settings
-      settings = videojs.util.mergeOptions(defaults, options);
+      settings = videojs.mergeOptions(defaults, options);
 
     // Add to the error dialog when an error occurs
     this.on('error', function() {
@@ -169,7 +169,7 @@
         return;
       }
 
-      error = videojs.util.mergeOptions(error, settings.errors[error.code || 0]);
+      error = videojs.mergeOptions(error, settings.errors[error.code || 0]);
 
       if (error.message) {
         details = '<div class="vjs-errors-details">' + this.localize('Technical details') +

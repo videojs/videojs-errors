@@ -1,4 +1,4 @@
-/*! videojs-errors - v0.1.8 - 2015-07-30
+/*! videojs-errors - v0.1.8 - 2015-08-05
 * Copyright (c) 2015 Brightcove; Licensed Apache-2.0 */
  (function(){
   var
@@ -163,7 +163,15 @@
     this.on('error', function() {
       var code, error, display, details = '';
 
-      error = videojs.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
+      error = this.error();
+
+      // In the rare case when `error()` does not return an error object,
+      // defensively escape the handler function.
+      if (!error) {
+        return;
+      }
+
+      error = videojs.mergeOptions(error, settings.errors[error.code || 0]);
 
       if (error.message) {
         details = '<div class="vjs-errors-details">' + this.localize('Technical details') +

@@ -161,7 +161,15 @@
     this.on('error', function() {
       var code, error, display, details = '';
 
-      error = videojs.util.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
+      error = this.error();
+
+      // In the rare case when `error()` does not return an error object,
+      // defensively escape the handler function.
+      if (!error) {
+        return;
+      }
+
+      error = videojs.util.mergeOptions(error, settings.errors[error.code || 0]);
 
       if (error.message) {
         details = '<div class="vjs-errors-details">' + this.localize('Technical details') +

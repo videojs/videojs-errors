@@ -1,4 +1,4 @@
-/*! videojs-errors - v0.1.8 - 2015-05-05
+/*! videojs-errors - v0.1.8 - 2015-11-17
 * Copyright (c) 2015 Brightcove; Licensed Apache-2.0 */
  (function(){
   var
@@ -49,7 +49,7 @@
      */
     monitorPlayback = function(player, options) {
       var
-        settings = videojs.util.mergeOptions(defaults, options),
+        settings = videojs.mergeOptions(defaults, options),
 
         monitor,
         // clears the previous monitor timeout and sets up a new one
@@ -134,7 +134,6 @@
 
   // Setup Custom Error Conditions
   var initCustomErrorConditions = function(player, options) {
-    var stalledTimeout, playbackMonitor;
 
     // PLAYER_ERR_TIMEOUT
     monitorPlayback(player, options);
@@ -153,52 +152,62 @@
   };
 
   videojs.plugin('errors', function(options){
-
     var
       player = this,
       // Merge the external and default settings
-      settings = videojs.util.mergeOptions(defaults, options);
+      settings = videojs.mergeOptions(defaults, options);
 
-    // Add to the error dialog when an error occurs
-    this.on('error', function() {
-      var code, error, display, details = '';
+    player.ready(function() {
 
-      error = videojs.util.mergeOptions(this.error(), settings.errors[this.error().code || 0]);
+      // Add to the error dialog when an error occurs
+      this.on('error', function() {
+        var code, error, display, details = '';
 
-      if (error.message) {
-        details = '<div class="vjs-errors-details">' + this.localize('Technical details') +
-          ': <div class="vjs-errors-message">' + this.localize(error.message) + '</div>' +
+        error = this.error();
+
+        // In the rare case when `error()` does not return an error object,
+        // defensively escape the handler function.
+        if (!error) {
+          return;
+        }
+
+        error = videojs.mergeOptions(error, settings.errors[error.code || 0]);
+
+        if (error.message) {
+          details = '<div class="vjs-errors-details">' + this.localize('Technical details') +
+            ': <div class="vjs-errors-message">' + this.localize(error.message) + '</div>' +
+            '</div>';
+        }
+
+        display = this.errorDisplay;
+
+        display.el().innerHTML =
+          '<div class="vjs-errors-dialog">' +
+            '<button class="vjs-errors-close-button"></button>' +
+            '<div class="vjs-errors-content-container">' +
+              '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
+              '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
+              this.localize(details) +
+            '</div>' +
+            '<div class="vjs-errors-ok-button-container">' +
+              '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
+            '</div>' +
           '</div>';
-      }
 
-      display = this.errorDisplay;
+        if (player.width() <= 600 || player.height() <= 250) {
+          display.addClass('vjs-xs');
+        }
 
-      display.el().innerHTML =
-        '<div class="vjs-errors-dialog">' +
-          '<button class="vjs-errors-close-button"></button>' +
-          '<div class="vjs-errors-content-container">' +
-            '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
-            '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
-            this.localize(details) +
-          '</div>' +
-          '<div class="vjs-errors-ok-button-container">' +
-            '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
-          '</div>' +
-        '</div>';
-
-      if (player.width() <= 600 || player.height() <= 250) {
-        display.addClass('vjs-xs');
-      }
-
-      on(display.el().querySelector('.vjs-errors-close-button'), 'click', function() {
-        display.hide();
+        on(display.el().querySelector('.vjs-errors-close-button'), 'click', function() {
+          display.hide();
+        });
+        on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
+          display.hide();
+        });
       });
-      on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
-        display.hide();
-      });
+
+      // Initialize custom error conditions
+      initCustomErrorConditions(this, settings);
     });
-
-    // Initialize custom error conditions
-    initCustomErrorConditions(this, settings);
   });
 })();

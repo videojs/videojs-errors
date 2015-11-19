@@ -4,6 +4,31 @@
 (function(window, videojs, sinon, qunit) {
   'use strict';
 
+  if (!Function.prototype.bind) {
+    Function.prototype.bind = function(oThis) {
+      if (typeof this !== 'function') {
+        // closest thing possible to the ECMAScript 5
+        // internal IsCallable function
+        throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+      }
+
+      var aArgs   = Array.prototype.slice.call(arguments, 1),
+          fToBind = this,
+          FNOP    = function() {},
+          fBound  = function() {
+            return fToBind.apply(this instanceof FNOP ? this : oThis, aArgs.concat(Array.prototype.slice.call(arguments)));
+          };
+
+      if (this.prototype) {
+        // native functions don't have a prototype
+        FNOP.prototype = this.prototype;
+      }
+      fBound.prototype = new FNOP();
+
+      return fBound;
+    };
+  }
+
   var realIsHtmlSupported,
       realCanPlaySource,
       player,
@@ -59,9 +84,15 @@
       player.paused = function() {
         return false;
       };
+      player.pause = function() {
+        return false;
+      };
 
       // initialize the plugin with the default options
       player.errors();
+
+      // Tick forward so the player is ready.
+      clock.tick(1);
     },
     teardown: function() {
       var Html5 = videojs.getComponent('Html5');
@@ -328,27 +359,34 @@
     strictEqual(errors, 2, 'emitted an error');
   });
 
-  module('videojs-errors-custom', {
-    setup: function() {
-      // create a video element
-      var video = document.createElement('video');
-      document.querySelector('#qunit-fixture').appendChild(video);
-      // create a video.js player
-      player = videojs(video);
-    }
-  });
+  if (!(/phantom/i.test(window.navigator.userAgent))) {
+    module('videojs-errors-custom', {
+      setup: function() {
+        // create a video element
+        var video = document.createElement('video');
+        clock = sinon.useFakeTimers();
+        document.querySelector('#qunit-fixture').appendChild(video);
+        // create a video.js player
+        player = videojs(video);
+      },
+      teardown: function() {
+        clock.restore();
+      }
+    });
 
-  test('custom error details should override defaults', function() {
-    var customError = {headline: 'test headline', message: 'test details'};
-    // initialize the plugin with custom options
-    player.errors({errors:{4:customError}});
-    // trigger the error in question
-    player.error(4);
-    // confirm results
-    strictEqual(document.querySelector('.vjs-errors-headline').textContent,
-      customError.headline, 'headline should match custom override value');
-    strictEqual(document.querySelector('.vjs-errors-message').textContent,
-      customError.message, 'message should match custom override value');
-  });
-
+    test('custom error details should override defaults', function() {
+      var customError = {headline: 'test headline', message: 'test details'};
+      // initialize the plugin with custom options
+      player.errors({errors:{4:customError}});
+      // tick forward enough to ready the player
+      clock.tick(1);
+      // trigger the error in question
+      player.error(4);
+      // confirm results
+      strictEqual(document.querySelector('.vjs-errors-headline').textContent,
+        customError.headline, 'headline should match custom override value');
+      strictEqual(document.querySelector('.vjs-errors-message').textContent,
+        customError.message, 'message should match custom override value');
+    });
+  }
 })(window, window.videojs, window.sinon, window.QUnit);

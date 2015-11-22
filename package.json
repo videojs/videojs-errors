@@ -16,7 +16,9 @@
     "url": "https://github.com/brightcove/videojs-errors.git"
   },
   "scripts": {
-    "test": "grunt test"
+    "test": "grunt test",
+    "version": "grunt && git add dist",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {},
   "devDependencies": {

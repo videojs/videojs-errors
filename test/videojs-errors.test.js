@@ -113,6 +113,7 @@
       errors++;
     });
     player.trigger('play');
+    clock.tick(1000);
 
     strictEqual(errors, 1, 'emitted an error');
     strictEqual(player.error().code, -1, 'error code is -1');

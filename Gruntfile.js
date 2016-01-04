@@ -37,8 +37,12 @@ module.exports = function(grunt) {
         dest: 'dist/<%= pkg.name %>.min.js'
       }
     },
-    qunit: {
-      files: 'test/**/*.html'
+    karma: {
+      test: {
+        options: {
+          configFile: 'test/karma.config.js'
+        }
+      }
     },
     jshint: {
       gruntfile: {
@@ -67,11 +71,11 @@ module.exports = function(grunt) {
       },
       src: {
         files: '<%= jshint.src.src %>',
-        tasks: ['jshint:src', 'qunit']
+        tasks: ['jshint:src', 'karma']
       },
       test: {
         files: '<%= jshint.test.src %>',
-        tasks: ['jshint:test', 'qunit']
+        tasks: ['jshint:test', 'karma']
       }
     },
     vjslanguages: {
@@ -88,7 +92,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test',
                      ['clean',
                       'jshint',
-                      'qunit']);
+                      'karma']);
   grunt.registerTask('default',
                      ['test',
                       'vjslanguages',

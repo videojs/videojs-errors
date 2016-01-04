@@ -159,7 +159,10 @@
 
       // Add to the error dialog when an error occurs
       this.on('error', function() {
-        var code, error, display, details = '';
+        var
+          code, error, display,
+          details = '',
+          content = document.createElement('div');
 
         error = this.error();
 
@@ -179,18 +182,19 @@
 
         display = this.errorDisplay;
 
-        display.el().innerHTML =
-          '<div class="vjs-errors-dialog">' +
-            '<button class="vjs-errors-close-button"></button>' +
-            '<div class="vjs-errors-content-container">' +
-              '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
-              '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
-              this.localize(details) +
-            '</div>' +
-            '<div class="vjs-errors-ok-button-container">' +
-              '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
-            '</div>' +
+        content.className = 'vjs-errors-dialog';
+        content.innerHTML =
+          '<button class="vjs-errors-close-button"></button>' +
+          '<div class="vjs-errors-content-container">' +
+            '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
+            '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
+            this.localize(details) +
+          '</div>' +
+          '<div class="vjs-errors-ok-button-container">' +
+            '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
           '</div>';
+
+        display.fillWith(content);
 
         if (player.width() <= 600 || player.height() <= 250) {
           display.addClass('vjs-xs');

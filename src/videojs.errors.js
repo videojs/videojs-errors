@@ -47,8 +47,6 @@
      */
     monitorPlayback = function(player, options) {
       var
-        settings = videojs.mergeOptions(defaults, options),
-
         monitor,
         // clears the previous monitor timeout and sets up a new one
         resetMonitor = function() {
@@ -64,7 +62,7 @@
               code: -2,
               type: 'PLAYER_ERR_TIMEOUT'
             });
-          }, settings.timeout);
+          }, options.timeout);
 
           // clear out any existing player timeout
           if (player.error() && player.error().code === -2) {

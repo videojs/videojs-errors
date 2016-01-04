@@ -195,10 +195,10 @@
         }
 
         on(display.el().querySelector('.vjs-errors-close-button'), 'click', function() {
-          display.hide();
+          display.close();
         });
         on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
-          display.hide();
+          display.close();
         });
       });
 

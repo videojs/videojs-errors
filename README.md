@@ -15,7 +15,6 @@ A plugin that displays user-friendly messages when video.js encounters an error.
   - [Supported Errors](#supported-errors)
   - [Custom Errors](#custom-errors)
 - [Known Issues](#known-issues)
-- [Release History](#release-history)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -84,8 +83,3 @@ If an error is emitted that doesn't have an associated key, a generic, catch-all
 ## Known Issues
 
 On iPhones, the video element intercepts all user interaction so error message dialogs miss the tap events and don't dismiss themselves. If your video is busted anyways, you may not be that upset about this.
-
-
-## Release History
- - 0.1.8: Fixes a bug with dispose() and fixes playback monitor when ended/paused
- - 0.1.0: Initial release

@@ -1,5 +1,5 @@
-/*! videojs-errors - v1.0.0 - 2015-11-22
-* Copyright (c) 2015 Brightcove; Licensed Apache-2.0 */
+/*! videojs-errors - v1.0.0 - 2016-01-04
+* Copyright (c) 2016 Brightcove; Licensed Apache-2.0 */
  (function(){
   var
     defaults = {
@@ -49,8 +49,6 @@
      */
     monitorPlayback = function(player, options) {
       var
-        settings = videojs.mergeOptions(defaults, options),
-
         monitor,
         // clears the previous monitor timeout and sets up a new one
         resetMonitor = function() {
@@ -66,7 +64,7 @@
               code: -2,
               type: 'PLAYER_ERR_TIMEOUT'
             });
-          }, settings.timeout);
+          }, options.timeout);
 
           // clear out any existing player timeout
           if (player.error() && player.error().code === -2) {
@@ -161,7 +159,10 @@
 
       // Add to the error dialog when an error occurs
       this.on('error', function() {
-        var code, error, display, details = '';
+        var
+          code, error, display,
+          details = '',
+          content = document.createElement('div');
 
         error = this.error();
 
@@ -181,28 +182,29 @@
 
         display = this.errorDisplay;
 
-        display.el().innerHTML =
-          '<div class="vjs-errors-dialog">' +
-            '<button class="vjs-errors-close-button"></button>' +
-            '<div class="vjs-errors-content-container">' +
-              '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
-              '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
-              this.localize(details) +
-            '</div>' +
-            '<div class="vjs-errors-ok-button-container">' +
-              '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
-            '</div>' +
+        content.className = 'vjs-errors-dialog';
+        content.innerHTML =
+          '<button class="vjs-errors-close-button"></button>' +
+          '<div class="vjs-errors-content-container">' +
+            '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
+            '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
+            this.localize(details) +
+          '</div>' +
+          '<div class="vjs-errors-ok-button-container">' +
+            '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
           '</div>';
+
+        display.fillWith(content);
 
         if (player.width() <= 600 || player.height() <= 250) {
           display.addClass('vjs-xs');
         }
 
         on(display.el().querySelector('.vjs-errors-close-button'), 'click', function() {
-          display.hide();
+          display.close();
         });
         on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
-          display.hide();
+          display.close();
         });
       });
 

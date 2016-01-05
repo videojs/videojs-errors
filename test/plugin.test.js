@@ -56,3 +56,15 @@ QUnit.test('registers itself with video.js', function(assert) {
     'the plugin adds a class to the player'
   );
 });
+
+QUnit.test('play() without a src is an error', function(assert) {
+  var errors = 0;
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.trigger('play');
+
+  assert.strictEqual(errors, 1, 'emitted an error');
+  assert.strictEqual(player.error().code, -1, 'error code is -1');
+  assert.strictEqual(player.error().type, 'PLAYER_ERR_NO_SRC', 'error type is no source');
+});

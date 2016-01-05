@@ -1,11 +1,26 @@
-Video.js Error Messages
-=======================
+# videojs-errors
+
 [![Build Status](https://travis-ci.org/brightcove/videojs-errors.svg?branch=master)](https://travis-ci.org/brightcove/videojs-errors)
 
 A plugin that displays user-friendly messages when video.js encounters an error.
 
-Using the Plugin
-----------------
+### Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Getting Started](#getting-started)
+  - [Localization](#localization)
+  - [Supported Errors](#supported-errors)
+  - [Custom Errors](#custom-errors)
+- [Known Issues](#known-issues)
+- [Release History](#release-history)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Getting Started
+
 The plugin automatically registers itself when you include videojs.errors.js in your page:
 
     <script src='videojs.errors.js'></script>
@@ -23,7 +38,7 @@ The plugin supports multiple languages when using Video.JS v4.7.3 or greater. In
   <script src='videojs.errors.js'></script>
   <script src='lang/es.js'></script>
 ```
-   
+
 **Note:** A formatted example is available for Spanish under 'lang/es.js'.
 
 ### Supported Errors
@@ -38,12 +53,12 @@ Once you've initialized video.js, you can activate the errors plugin. The plugin
 
 ### Custom Errors
 
-Additionally, 2 custom error scenarios have been added as reference for future extension. 
+Additionally, 2 custom error scenarios have been added as reference for future extension.
 
 - PLAYER_ERR_NO_SRC (numeric value `-1`)
 - PLAYER_ERR_TIMEOUT (numeric value `-2`)
 
-NOTES: 
+NOTES:
 
 - Custom error definitions should be limited to the initCustomErrorConditions routine for encapsulation.
 - Custom errors should reference a code value of a negative integer.
@@ -66,8 +81,8 @@ If you define custom error messages, you'll need to let video.js know when to em
 
 If an error is emitted that doesn't have an associated key, a generic, catch-all message is displayed. You can override that text by supplying a message for the key `unknown`.
 
-Known Issues
-------------
+## Known Issues
+
 On iPhones, the video element intercepts all user interaction so error message dialogs miss the tap events and don't dismiss themselves. If your video is busted anyways, you may not be that upset about this.
 
 

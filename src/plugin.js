@@ -42,6 +42,97 @@ const defaults = {
   }
 };
 
+/**
+ * Monitors a player for signs of life during playback and
+ * triggers PLAYER_ERR_TIMEOUT if none occur within a reasonable
+ * timeframe.
+ */
+const monitorPlayback = function(player, options) {
+  const settings = videojs.mergeOptions(defaults, options);
+  let monitor;
+
+  // clears the previous monitor timeout and sets up a new one
+  const resetMonitor = function() {
+    window.clearTimeout(monitor);
+    monitor = window.setTimeout(function() {
+      if (player.error() || player.paused() || player.ended()) {
+        // never overwrite existing errors or display a new one
+        // if the player is paused or ended.
+        return;
+      }
+
+      player.error({
+        code: -2,
+        type: 'PLAYER_ERR_TIMEOUT'
+      });
+    }, settings.timeout);
+
+    // clear out any existing player timeout
+    if (player.error() && player.error().code === -2) {
+      player.error(null);
+    }
+  };
+
+  let listeners = [];
+
+  // creates and tracks a player listener if the player looks alive
+  const healthcheck = function(type, fn) {
+    let check = function() {
+      // playback isn't expected if the player is paused, shut
+      // down monitoring
+      if (player.paused()) {
+        return cleanup();
+      }
+      // playback isn't expected once the video has ended
+      if (player.ended()) {
+        return cleanup();
+      }
+      fn.call(this);
+    };
+    player.on(type, check);
+    listeners.push([type, check]);
+  };
+
+  // clear any previously registered listeners
+  const cleanup = function() {
+    let listener;
+    while (listeners.length) {
+      listener = listeners.shift();
+      player.off(listener[0], listener[1]);
+    }
+    window.clearTimeout(monitor);
+  };
+
+  player.on('play', function() {
+    let lastTime = 0;
+
+    cleanup();
+
+    // if no playback is detected for long enough, trigger a timeout error
+    resetMonitor();
+    healthcheck('timeupdate', function() {
+      let currentTime = player.currentTime();
+      if (currentTime !== lastTime) {
+        lastTime = currentTime;
+        resetMonitor();
+      }
+    });
+    healthcheck('progress', resetMonitor);
+  });
+
+  player.on('dispose', function() {
+    cleanup();
+  });
+};
+
+const on = function(elem, type, fn) {
+  if (elem.addEventListener) {
+    elem.addEventListener(type, fn, false);
+  } else {
+    elem.attachEvent('on' + type, fn);
+  }
+};
+
 // Setup Custom Error Conditions
 const initCustomErrorConditions = function(player, options) {
 
@@ -78,9 +169,9 @@ const onPlayerReady = (player, options) => {
 
   // Add to the error dialog when an error occurs
   player.on('error', function() {
-    var code, error, display, details = '';
-
-    error = player.error();
+    let display;
+    let details = '';
+    let error = player.error();
 
     // In the rare case when `error()` does not return an error object,
     // defensively escape the handler function.

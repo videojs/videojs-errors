@@ -172,6 +172,7 @@ const onPlayerReady = (player, options) => {
     let display;
     let details = '';
     let error = player.error();
+    let content = document.createElement('div');
 
     // In the rare case when `error()` does not return an error object,
     // defensively escape the handler function.
@@ -189,18 +190,19 @@ const onPlayerReady = (player, options) => {
 
     display = player.errorDisplay;
 
-    display.el().innerHTML =
-      '<div class="vjs-errors-dialog">' +
-        '<button class="vjs-errors-close-button"></button>' +
-        '<div class="vjs-errors-content-container">' +
-          '<h2 class="vjs-errors-headline">' + player.localize(error.headline) + '</h2>' +
-          '<div><b>' + player.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
-          player.localize(details) +
-        '</div>' +
-        '<div class="vjs-errors-ok-button-container">' +
-          '<button class="vjs-errors-ok-button">' + player.localize('OK') + '</button>' +
-        '</div>' +
-      '</div>';
+    content.className = 'vjs-errors-dialog';
+    content.innerHTML =
+      '<button class="vjs-errors-close-button"></button>' +
+      '<div class="vjs-errors-content-container">' +
+        '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
+        '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
+        this.localize(details) +
+      '</div>' +
+      '<div class="vjs-errors-ok-button-container">' +
+        '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
+    '</div>';
+
+    display.fillWith(content);
 
     if (player.width() <= 600 || player.height() <= 250) {
       display.addClass('vjs-xs');

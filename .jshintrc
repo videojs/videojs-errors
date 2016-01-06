@@ -1,5 +1,6 @@
 {
     "browser"  : true,
+    "node" : true,
     "curly": true,
     "eqeqeq": true,
     "quotmark" : "single",

@@ -125,14 +125,6 @@ const monitorPlayback = function(player, options) {
   });
 };
 
-const on = function(elem, type, fn) {
-  if (elem.addEventListener) {
-    elem.addEventListener(type, fn, false);
-  } else {
-    elem.attachEvent('on' + type, fn);
-  }
-};
-
 // Setup Custom Error Conditions
 const initCustomErrorConditions = function(player, options) {
 
@@ -208,11 +200,11 @@ const onPlayerReady = (player, options) => {
       display.addClass('vjs-xs');
     }
 
-    on(display.el().querySelector('.vjs-errors-close-button'), 'click', function() {
-      display.hide();
+    videojs.on(display.el().querySelector('.vjs-errors-close-button'), 'click', function() {
+      display.close();
     });
-    on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
-      display.hide();
+    videojs.on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
+      display.close();
     });
   });
 

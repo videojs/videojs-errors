@@ -18,14 +18,14 @@ QUnit.test('the environment is sane', function(assert) {
 QUnit.module('videojs-errors', {
 
   beforeEach() {
-    this.fixture = document.getElementById('qunit-fixture');
-    this.video = document.createElement('video');
-    this.fixture.appendChild(this.video);
-    this.player = videojs(this.video);
 
     // Mock the environment's timers because certain things - particularly
     // player readiness - are asynchronous in video.js 5.
     this.clock = sinon.useFakeTimers();
+    this.fixture = document.getElementById('qunit-fixture');
+    this.video = document.createElement('video');
+    this.fixture.appendChild(this.video);
+    this.player = videojs(this.video);
 
     this.player.buffered = function() {
       return videojs.createTimeRange(0, 0);
@@ -45,11 +45,8 @@ QUnit.module('videojs-errors', {
   },
 
   afterEach() {
-
-    // The clock _must_ be restored before disposing the player; otherwise,
-    // certain timeout listeners that happen inside video.js may throw errors.
-    this.clock.restore();
     this.player.dispose();
+    this.clock.restore();
   }
 });
 
@@ -133,7 +130,6 @@ QUnit.test('progress clears player timeout errors', function(assert) {
 
   this.player.trigger('progress');
   assert.strictEqual(this.player.error(), null, 'error removed');
-
 });
 
 // safari 7 on OSX can emit stalls when playback is just fine

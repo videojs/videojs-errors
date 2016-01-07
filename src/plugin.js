@@ -184,15 +184,15 @@ const onPlayerReady = (player, options) => {
 
     content.className = 'vjs-errors-dialog';
     content.innerHTML =
-      '<button class="vjs-errors-close-button"></button>' +
-      '<div class="vjs-errors-content-container">' +
-        '<h2 class="vjs-errors-headline">' + this.localize(error.headline) + '</h2>' +
-        '<div><b>' + this.localize('Error Code') + '</b>: ' + (error.type || error.code) + '</div>' +
-        this.localize(details) +
-      '</div>' +
-      '<div class="vjs-errors-ok-button-container">' +
-        '<button class="vjs-errors-ok-button">' + this.localize('OK') + '</button>' +
-    '</div>';
+      `<button class="vjs-errors-close-button"></button>
+        <div class="vjs-errors-content-container">
+          <h2 class="vjs-errors-headline">${this.localize(error.headline) }</h2>
+          <div><b>${this.localize("Error Code")}</b>: ${(error.type || error.code)}</div>
+          ${this.localize(details)}
+        </div>
+        <div class="vjs-errors-ok-button-container">
+          <button class="vjs-errors-ok-button">${this.localize("OK")}</button>
+        </div>`;
 
     display.fillWith(content);
 

@@ -175,9 +175,9 @@ const onPlayerReady = (player, options) => {
     error = videojs.mergeOptions(error, options.errors[error.code || 0]);
 
     if (error.message) {
-      details = '<div class="vjs-errors-details">' + player.localize('Technical details') +
-        ': <div class="vjs-errors-message">' + player.localize(error.message) + '</div>' +
-        '</div>';
+      details = `<div class="vjs-errors-details">${player.localize('Technical details')}
+        : <div class="vjs-errors-message">${player.localize(error.message)}</div>
+        </div>`;
     }
 
     display = player.errorDisplay;

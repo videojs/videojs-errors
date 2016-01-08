@@ -147,15 +147,7 @@ const initCustomErrorConditions = function(player, options) {
 };
 
 /**
- * Function to invoke when the player is ready.
- *
- * This is a great place for your plugin to initialize itself. When this
- * function is called, the player will have its DOM and child components
- * in place.
- *
- * @function onPlayerReady
- * @param    {Player} player
- * @param    {Object} [options={}]
+ * Set up the plugin.
  */
 const onPlayerReady = (player, options) => {
 
@@ -190,7 +182,7 @@ const onPlayerReady = (player, options) => {
         <div class="vjs-errors-content-container">
           <h2 class="vjs-errors-headline">${this.localize(error.headline) }</h2>
           <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
-          ${this.localize(details)}
+          ${details}
         </div>
         <div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
@@ -218,16 +210,7 @@ const onPlayerReady = (player, options) => {
 };
 
 /**
- * A video.js plugin.
- *
- * In the plugin function, the value of `this` is a video.js `Player`
- * instance. You cannot rely on the player being in a "ready" state here,
- * depending on how the plugin is invoked. This may or may not be important
- * to you; if not, remove the wait for "ready"!
- *
- * @function errors
- * @param    {Object} [options={}]
- *           An object of options left to the plugin author to define.
+ * Initialize the plugin. Waits until the player is ready to do anything.
  */
 const errors = function(options) {
   this.ready(() => {

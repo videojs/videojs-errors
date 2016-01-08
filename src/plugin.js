@@ -7,27 +7,29 @@ const defaults = {
   message: '',
   timeout: 45 * 1000,
   errors: {
-    1: {
+    '1': {
       type: 'MEDIA_ERR_ABORTED',
       headline: 'The video download was cancelled'
     },
-    2: {
+    '2': {
       type: 'MEDIA_ERR_NETWORK',
-      headline: 'The video connection was lost, please confirm you are connected to the internet'
+      headline: 'The video connection was lost, please confirm you are ' +
+                'connected to the internet'
     },
-    3: {
+    '3': {
       type: 'MEDIA_ERR_DECODE',
       headline: 'The video is bad or in a format that cannot be played on your browser'
     },
-    4: {
+    '4': {
       type: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
       headline: 'This video is either unavailable or not supported in this browser'
     },
-    5: {
+    '5': {
       type: 'MEDIA_ERR_ENCRYPTED',
-      headline: 'The video you are trying to watch is encrypted and we do not know how to decrypt it'
+      headline: 'The video you are trying to watch is encrypted and we do not know how ' +
+                'to decrypt it'
     },
-    unknown: {
+    'unknown': {
       type: 'MEDIA_ERR_UNKNOWN',
       headline: 'An unanticipated problem was encountered, check back soon and try again'
     },
@@ -48,7 +50,6 @@ const defaults = {
  * timeframe.
  */
 const monitorPlayback = function(player, options) {
-  const settings = videojs.mergeOptions(defaults, options);
   let monitor;
 
   // clears the previous monitor timeout and sets up a new one
@@ -65,7 +66,7 @@ const monitorPlayback = function(player, options) {
         code: -2,
         type: 'PLAYER_ERR_TIMEOUT'
       });
-    }, settings.timeout);
+    }, options.timeout);
 
     // clear out any existing player timeout
     if (player.error() && player.error().code === -2) {
@@ -74,6 +75,17 @@ const monitorPlayback = function(player, options) {
   };
 
   let listeners = [];
+
+  // clear any previously registered listeners
+  const cleanup = function() {
+    let listener;
+
+    while (listeners.length) {
+      listener = listeners.shift();
+      player.off(listener[0], listener[1]);
+    }
+    window.clearTimeout(monitor);
+  };
 
   // creates and tracks a player listener if the player looks alive
   const healthcheck = function(type, fn) {
@@ -89,18 +101,9 @@ const monitorPlayback = function(player, options) {
       }
       fn.call(this);
     };
+
     player.on(type, check);
     listeners.push([type, check]);
-  };
-
-  // clear any previously registered listeners
-  const cleanup = function() {
-    let listener;
-    while (listeners.length) {
-      listener = listeners.shift();
-      player.off(listener[0], listener[1]);
-    }
-    window.clearTimeout(monitor);
   };
 
   player.on('play', function() {
@@ -112,6 +115,7 @@ const monitorPlayback = function(player, options) {
     resetMonitor();
     healthcheck('timeupdate', function() {
       let currentTime = player.currentTime();
+
       if (currentTime !== lastTime) {
         lastTime = currentTime;
         resetMonitor();
@@ -133,9 +137,7 @@ const initCustomErrorConditions = function(player, options) {
 
   // PLAYER_ERR_NO_SRC
   player.on('play', function() {
-    if (player.currentSrc() === null ||
-        player.currentSrc() === undefined ||
-        player.currentSrc() === '') {
+    if (!player.currentSrc()) {
       player.error({
         code: -1,
         type: 'PLAYER_ERR_NO_SRC'
@@ -187,11 +189,11 @@ const onPlayerReady = (player, options) => {
       `<button class="vjs-errors-close-button"></button>
         <div class="vjs-errors-content-container">
           <h2 class="vjs-errors-headline">${this.localize(error.headline) }</h2>
-          <div><b>${this.localize("Error Code")}</b>: ${(error.type || error.code)}</div>
+          <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
           ${this.localize(details)}
         </div>
         <div class="vjs-errors-ok-button-container">
-          <button class="vjs-errors-ok-button">${this.localize("OK")}</button>
+          <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
         </div>`;
 
     display.fillWith(content);
@@ -200,10 +202,13 @@ const onPlayerReady = (player, options) => {
       display.addClass('vjs-xs');
     }
 
-    videojs.on(display.el().querySelector('.vjs-errors-close-button'), 'click', function() {
+    let closeButton = display.el().querySelector('.vjs-errors-close-button');
+    let okButton = display.el().querySelector('.vjs-errors-ok-button');
+
+    videojs.on(closeButton, 'click', function() {
       display.close();
     });
-    videojs.on(display.el().querySelector('.vjs-errors-ok-button'), 'click', function() {
+    videojs.on(okButton, 'click', function() {
       display.close();
     });
   });

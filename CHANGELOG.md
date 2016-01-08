@@ -8,6 +8,6 @@
 
 # CHANGELOG
 
+ - 1.0.0: Update for video.js 5.0
  - 0.1.8: Fixes a bug with dispose() and fixes playback monitor when ended/paused
  - 0.1.0: Initial release
- - 1.0.0: Update for video.js 5.0

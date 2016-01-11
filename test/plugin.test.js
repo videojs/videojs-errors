@@ -7,12 +7,6 @@ import videojs from 'video.js';
 import plugin from '../src/plugin';
 
 const Player = videojs.getComponent('Player');
-const Html5 = videojs.getComponent('Html5');
-
-const Html5Backup = {
-  canPlaySource: Html5.canPlaySource,
-  isSupported: Html5.isSupported
-};
 
 QUnit.test('the environment is sane', function(assert) {
   assert.strictEqual(typeof Array.isArray, 'function', 'es5 exists');
@@ -24,14 +18,6 @@ QUnit.test('the environment is sane', function(assert) {
 QUnit.module('videojs-errors', {
 
   beforeEach() {
-
-    Html5.isSupported = function() {
-      return true;
-    };
-
-    Html5.canPlaySource = function() {
-      return true;
-    };
 
     // Mock the environment's timers because certain things - particularly
     // player readiness - are asynchronous in video.js 5.
@@ -61,8 +47,6 @@ QUnit.module('videojs-errors', {
   afterEach() {
     this.player.dispose();
     this.clock.restore();
-    Html5.canPlaySource = Html5Backup.canPlaySource;
-    Html5.isSupported = Html5Backup.isSupported;
   }
 });
 

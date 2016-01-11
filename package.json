@@ -52,7 +52,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "video.js": "^5.0.0"
+    "video.js": "^5.5.1"
   },
   "devDependencies": {
     "babel": "^5.8.0",
@@ -90,7 +90,6 @@
     "serve-static": "^1.10.0",
     "sinon": "^1.0.0",
     "uglify-js": "^2.5.0",
-    "video.js": "^5.2.1",
     "videojs-languages": "^1.0.0",
     "videojs-standard": "^4.0.0",
     "watchify": "^3.6.0"

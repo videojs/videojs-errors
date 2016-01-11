@@ -18,7 +18,9 @@
   right: 0;
   bottom: 0;
   background:rgba(0, 0, 0, .5);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#7F000000,endColorstr=#7F000000)"; /* IE8 */
+}
+.vjs-error .vjs-error-display .vjs-modal-dialog-content {
+  font-size: 14px;
 }
 
 /*
@@ -27,6 +29,7 @@
 */
 
 .vjs-errors-dialog {
+    text-align: left;
     border: 1px #999 solid;
     overflow: hidden;
     position: absolute;

@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>videojs-errors Demo</title>
+  <link href="/node_modules/video.js/dist/video-js.css" rel="stylesheet">
+  <link href="/dist/videojs-errors.css" rel="stylesheet">
+  <script src="/node_modules/video.js/dist/video.js"></script>
+  <script src="/dist/videojs-errors.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .info {
+      background-color: #eee;
+      border: thin solid #333;
+      border-radius: 3px;
+      padding: 0 5px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="info">
+    <p>
+      You can see the Video.js Errors plugin in action below.
+      Look at the source of this page to see how to use it with your videos.
+    </p>
+  </div>
+  <h3>Standard Video Player Size 640x360</h3>
+  <video id="video"
+         class="video-js vjs-default-skin"
+         height="360"
+         width="640"
+         controls>
+    <source src="//vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>
+    <source src="//vjs.zencdn.net/v/oceans.webm" type='video/webm'>
+    <p>
+      Your browser doesn't support video. Please <a href="http://browsehappy.com/">upgrade your browser</a> to see the example.
+    </p>
+  </video>
+  <br />
+  <h3>Mini Video Player Size 300x150</h3>
+  <video id="mini"
+         class="video-js vjs-default-skin"
+         height="150"
+         width="300"
+         controls>
+    <source src="//vjs.zencdn.net/v/oceans.mp4" type='video/mp4'>
+    <source src="//vjs.zencdn.net/v/oceans.webm" type='video/webm'>
+    <p>
+      Your browser doesn't support video. Please <a href="http://browsehappy.com/">upgrade your browser</a> to see the example.
+    </p>
+  </video>
+
+  <ul>
+    <li><a href="/test/">Run unit tests in browser.</a></li>
+  </ul>
+
+  <script>
+    (function(window, videojs) {
+      window.player = videojs('video');
+      window.player.errors();
+      window.player.play();
+
+      window.mini = videojs('mini');
+      window.mini.errors();
+      window.mini.play();
+
+      // Sample Custom Error
+      // If you want to fire a custom error at any time use
+      // the following syntax:
+      // player.error({code: 1, message:'test', status: 404});
+    }(window, window.videojs));
+  </script>
+</body>
+</html>

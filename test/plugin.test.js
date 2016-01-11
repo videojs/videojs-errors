@@ -8,6 +8,14 @@ import plugin from '../src/plugin';
 
 const Player = videojs.getComponent('Player');
 
+const sources = [{
+  src: 'movie.mp4',
+  type: 'video/mp4'
+}, {
+  src: 'movie.webm',
+  type: 'video/webm'
+}];
+
 QUnit.test('the environment is sane', function(assert) {
   assert.strictEqual(typeof Array.isArray, 'function', 'es5 exists');
   assert.strictEqual(typeof sinon, 'object', 'sinon exists');
@@ -91,10 +99,7 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
   this.player.on('error', function() {
     errors++;
   });
-  this.player.src({
-    src: 'movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.trigger('play');
   this.clock.tick(45 * 1000);
 
@@ -104,10 +109,7 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
 });
 
 QUnit.test('when dispose is triggered should not throw error ', function(assert) {
-  this.player.src({
-    src: 'movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.trigger('play');
   this.player.trigger('dispose');
   this.clock.tick(45 * 1000);
@@ -122,10 +124,7 @@ QUnit.test('progress clears player timeout errors', function(assert) {
   this.player.on('error', function() {
     errors++;
   });
-  this.player.src({
-    src: 'movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.trigger('play');
 
   this.clock.tick(45 * 1000);
@@ -140,10 +139,7 @@ QUnit.test('progress clears player timeout errors', function(assert) {
 
 // safari 7 on OSX can emit stalls when playback is just fine
 QUnit.test('stalling by itself is not an error', function(assert) {
-  this.player.src({
-    src: 'movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.trigger('play');
   this.player.trigger('stalled');
 
@@ -156,10 +152,7 @@ QUnit.test('timing out multiple times only throws a single error', function(asse
   this.player.on('error', function() {
     errors++;
   });
-  this.player.src({
-    src: 'movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.trigger('play');
   // trigger a player timeout
   this.clock.tick(45 * 1000);
@@ -176,10 +169,7 @@ QUnit.test('progress events while playing reset the player timeout', function(as
   this.player.on('error', function() {
     errors++;
   });
-  this.player.src({
-    src: 'movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.trigger('play');
   // stalled for awhile
   this.clock.tick(44 * 1000);
@@ -193,10 +183,7 @@ QUnit.test('progress events while playing reset the player timeout', function(as
 QUnit.test('no signs of playback triggers a player timeout', function(assert) {
   let errors = 0;
 
-  this.player.src({
-    src: 'http://example.com/movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.on('error', function() {
     errors++;
   });
@@ -217,10 +204,7 @@ QUnit.test('no signs of playback triggers a player timeout', function(assert) {
 QUnit.test('time changes while playing reset the player timeout', function(assert) {
   let errors = 0;
 
-  this.player.src({
-    src: 'http://example.com/movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.on('error', function() {
     errors++;
   });
@@ -236,10 +220,7 @@ QUnit.test('time changes while playing reset the player timeout', function(asser
 });
 
 QUnit.test('time changes after a player timeout clears the error', function(assert) {
-  this.player.src({
-    src: 'http://example.com/movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.trigger('play');
   this.clock.tick(45 * 1000);
   this.player.currentTime = function() {
@@ -253,10 +234,7 @@ QUnit.test('time changes after a player timeout clears the error', function(asse
 QUnit.test('player timeouts do not occur if the player is paused', function(assert) {
   let errors = 0;
 
-  this.player.src({
-    src: 'http://example.com/movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.on('error', function() {
     errors++;
   });
@@ -277,10 +255,7 @@ QUnit.test('player timeouts do not occur if the player is paused', function(asse
 QUnit.test('player timeouts do not occur if the video is ended', function(assert) {
   let errors = 0;
 
-  this.player.src({
-    src: 'http://example.com/movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.on('error', function() {
     errors++;
   });
@@ -298,10 +273,7 @@ QUnit.test('player timeouts do not occur if the video is ended', function(assert
 });
 
 QUnit.test('player timeouts do not overwrite existing errors', function(assert) {
-  this.player.src({
-    src: 'http://example.com/movie.mp4',
-    type: 'video/mp4'
-  });
+  this.player.src(sources);
   this.player.trigger('play');
   this.player.error({
     type: 'custom',

@@ -121,6 +121,14 @@ const monitorPlayback = function(player, options) {
         resetMonitor();
       }
     });
+    healthcheck('adtimeupdate', function() {
+      let currentTime = player.currentTime();
+
+      if (currentTime !== lastTime) {
+        lastTime = currentTime;
+        resetMonitor();
+      }
+    });
     healthcheck('progress', resetMonitor);
   });
 

@@ -219,6 +219,24 @@ QUnit.test('time changes while playing reset the player timeout', function(asser
   assert.strictEqual(errors, 0, 'no error emitted');
 });
 
+QUnit.test('time changes while playing ads reset the player timeout', function(assert) {
+  let errors = 0;
+
+  this.player.src(sources);
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.trigger('play');
+  this.clock.tick(44 * 1000);
+  this.player.currentTime = function() {
+    return 1;
+  };
+  this.player.trigger('adtimeupdate');
+  this.clock.tick(10 * 1000);
+
+  assert.strictEqual(errors, 0, 'no error emitted');
+});
+
 QUnit.test('time changes after a player timeout clears the error', function(assert) {
   this.player.src(sources);
   this.player.trigger('play');

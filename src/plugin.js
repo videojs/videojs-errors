@@ -113,7 +113,7 @@ const monitorPlayback = function(player, options) {
 
     // if no playback is detected for long enough, trigger a timeout error
     resetMonitor();
-    healthcheck('timeupdate', function() {
+    healthcheck(['timeupdate', 'adtimeupdate'], function() {
       let currentTime = player.currentTime();
 
       if (currentTime !== lastTime) {

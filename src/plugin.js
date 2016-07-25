@@ -174,7 +174,7 @@ const onPlayerReady = (player, options) => {
         </div>`;
     }
     display = player.errorDisplay;
-    
+
     content.className = 'vjs-errors-dialog';
     content.id = 'vjs-errors-dialog';
     content.innerHTML =

@@ -173,13 +173,12 @@ const onPlayerReady = (player, options) => {
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
     }
-
     display = player.errorDisplay;
-
+    
     content.className = 'vjs-errors-dialog';
+    content.id = 'vjs-errors-dialog';
     content.innerHTML =
-      `<button class="vjs-errors-close-button"></button>
-        <div class="vjs-errors-content-container">
+      `<div class="vjs-errors-content-container">
           <h2 class="vjs-errors-headline">${this.localize(error.headline) }</h2>
           <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
           ${details}
@@ -189,17 +188,27 @@ const onPlayerReady = (player, options) => {
         </div>`;
 
     display.fillWith(content);
-
+    
+    // Make the error display closeable, and we should get a close button
+    player.errorDisplay.closeable(true);
+    let elm = document.getElementById('vjs-errors-dialog');
+    let right = window.getComputedStyle(elm).right;
+    let top = window.getComputedStyle(elm).top;
+    let cb = document.querySelector('.video-js .vjs-control.vjs-close-button');
+    
+    // The close-button needs to be aligned across the edges of vjs-errors-dialog
+    // and this is tricky as it's outside the parent div.
+    // So I take the button and align it inside vjs-errros-dialog and then use the
+    // calculations below to get it aligned to the top right edge.
+    cb.style.top = (parseFloat(top) - 22.5346).toString() + "px";
+    cb.style.right = (parseFloat(right) - 29.642).toString() + "px";
+    
     if (player.width() <= 600 || player.height() <= 250) {
       display.addClass('vjs-xs');
     }
 
-    let closeButton = display.el().querySelector('.vjs-errors-close-button');
     let okButton = display.el().querySelector('.vjs-errors-ok-button');
 
-    videojs.on(closeButton, 'click', function() {
-      display.close();
-    });
     videojs.on(okButton, 'click', function() {
       display.close();
     });

@@ -84,37 +84,17 @@
     overflow: auto;
     position: absolute;
     padding-bottom: 15px;
-    top: 75px;
+    top: 5opx;
     left: 15px;
     right: 15px;
     bottom: 61px; /* dialog padding + ok button + 10 */
 }
 
 .vjs-errors-headline {
-    font-size: 22px;
+    font-size: 18px;
     font-weight: bold;
     margin-top: 0;
 }
-
-.vjs-errors-close-button {
-    background-color: transparent;
-    font-size: 14px;
-    font-weight: bold;
-    cursor: pointer;
-    float: right;
-    margin: 5px;
-    border: 0;
-    color: #999;
-}
-
-.vjs-errors-close-button:before {
-    content: 'X';
-}
-
-.vjs-errors-close-button:hover {
-    color: #FFF;
-}
-
 
 /*
     "Extra small" Styles
@@ -126,7 +106,6 @@
   background-color: #000;
 }
 
-.vjs-xs.vjs-error-display .vjs-errors-close-button,
 .vjs-xs.vjs-error-display .vjs-errors-details,
 .vjs-xs.vjs-error-display .vjs-errors-message {
   display: none;
@@ -162,7 +141,6 @@
         background-color: #000;
     }
 
-    .vjs-error-display .vjs-errors-close-button,
     .vjs-error-display .vjs-errors-details,
     .vjs-error-display .vjs-errors-message {
         display: none;

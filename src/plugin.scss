@@ -26,6 +26,9 @@
   top: 0px;
   right : -3px;
 }
+.vjs-modal-dialog-content {
+  line-height:1.25;
+}
 /*
     Full Size Styles
 -------------------------------------------------------------------------------
@@ -85,18 +88,19 @@
 
 .vjs-errors-content-container {
     overflow: auto;
-    position: absolute;
+    position: relative;
     padding-bottom: 15px;
-    top: 50px;
+    top: 0px;
     left: 15px;
     right: 15px;
     bottom: 61px; /* dialog padding + ok button + 10 */
+    margin-right: 35px;
+    margin-left: 20px;
 }
 
 .vjs-errors-headline {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
-    margin-top: 0;
 }
 
 /*

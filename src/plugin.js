@@ -1,4 +1,5 @@
 import videojs from 'video.js';
+import window from 'global/window'
 
 // Default options for the plugin.
 const defaults = {
@@ -194,7 +195,7 @@ const onPlayerReady = (player, options) => {
         </div>`;
     display.fillWith(content);
     // Get the close button inside the error display
-    $(".vjs-errors-dialog").appendChild($(".vjs-close-button"));
+    display.contentEl().firstChild.appendChild(display.children()[0].el());
     if (player.width() <= 600 || player.height() <= 250) {
       display.addClass('vjs-xs');
     }

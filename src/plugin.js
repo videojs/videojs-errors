@@ -1,5 +1,6 @@
 import videojs from 'video.js';
-import window from 'global/window'
+import window from 'global/window';
+import document from 'global/document';
 
 // Default options for the plugin.
 const defaults = {
@@ -176,7 +177,7 @@ const onPlayerReady = (player, options) => {
     }
     display = player.errorDisplay;
     // The code snippet below is to make sure we dispose any child closeButtons before
-    // making the display closeable 
+    // making the display closeable
     if (display.getChild('closeButton')) {
       display.removeChild('closeButton');
     }

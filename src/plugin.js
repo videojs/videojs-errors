@@ -174,35 +174,27 @@ const onPlayerReady = (player, options) => {
         </div>`;
     }
     display = player.errorDisplay;
-
+    // The code snippet below is to make sure we dispose any child closeButtons before
+    // making the display closeable 
+    if (display.getChild('closeButton')) {
+      display.removeChild('closeButton');
+    }
+    // Make the error display closeable, and we should get a close button
+    player.errorDisplay.closeable(true);
     content.className = 'vjs-errors-dialog';
     content.id = 'vjs-errors-dialog';
     content.innerHTML =
-      `<div class="vjs-errors-content-container">
-          <h2 class="vjs-errors-headline">${this.localize(error.headline) }</h2>
+      `<div class ="vjs-errors-content-container">
+        <h2 class="vjs-errors-headline">${this.localize(error.headline) }</h2>
           <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
           ${details}
         </div>
         <div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
         </div>`;
-
     display.fillWith(content);
-    
-    // Make the error display closeable, and we should get a close button
-    player.errorDisplay.closeable(true);
-    let elm = document.getElementById('vjs-errors-dialog');
-    let right = window.getComputedStyle(elm).right;
-    let top = window.getComputedStyle(elm).top;
-    let cb = document.querySelector('.video-js .vjs-control.vjs-close-button');
-    
-    // The close-button needs to be aligned across the edges of vjs-errors-dialog
-    // and this is tricky as it's outside the parent div.
-    // So I take the button and align it inside vjs-errros-dialog and then use the
-    // calculations below to get it aligned to the top right edge.
-    cb.style.top = (parseFloat(top) - 22.5346).toString() + "px";
-    cb.style.right = (parseFloat(right) - 29.642).toString() + "px";
-    
+    // Get the close button inside the error display
+    $(".vjs-errors-dialog").appendChild($(".vjs-close-button"));
     if (player.width() <= 600 || player.height() <= 250) {
       display.addClass('vjs-xs');
     }

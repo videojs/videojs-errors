@@ -175,14 +175,14 @@ const onPlayerReady = (player, options) => {
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
     }
-    display = player.errorDisplay;
+    display = player.getChild('errorDisplay');
     // The code snippet below is to make sure we dispose any child closeButtons before
     // making the display closeable
     if (display.getChild('closeButton')) {
       display.removeChild('closeButton');
     }
     // Make the error display closeable, and we should get a close button
-    player.errorDisplay.closeable(true);
+    display.closeable(true);
     content.className = 'vjs-errors-dialog';
     content.id = 'vjs-errors-dialog';
     content.innerHTML =
@@ -196,7 +196,7 @@ const onPlayerReady = (player, options) => {
         </div>`;
     display.fillWith(content);
     // Get the close button inside the error display
-    display.contentEl().firstChild.appendChild(display.children()[0].el());
+    display.contentEl().firstChild.appendChild(display.getChild('closeButton').el());
     if (player.width() <= 600 || player.height() <= 250) {
       display.addClass('vjs-xs');
     }

@@ -187,7 +187,7 @@ const onPlayerReady = (player, options) => {
     content.id = 'vjs-errors-dialog';
     content.innerHTML =
       `<div class="vjs-errors-content-container">
-        <h2 class="vjs-errors-headline">${this.localize(error.headline) }</h2>
+        <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
           <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
           ${details}
         </div>

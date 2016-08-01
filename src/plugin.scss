@@ -20,14 +20,7 @@
   background:rgba(0, 0, 0, .5);
 }
 .vjs-error .vjs-error-display .vjs-modal-dialog-content {
-  font-size: 14px;
-}
-.vjs-close-button.vjs-control.vjs-button {
-  top: 0px;
-  right : -3px;
-}
-.vjs-modal-dialog-content {
-  line-height:1.25;
+  font-size: 12px;
 }
 /*
     Full Size Styles
@@ -39,8 +32,8 @@
     border: 1px #999 solid;
     overflow: hidden;
     position: absolute;
-    top: 5%;
-    bottom: 5%;
+    top: 2%;
+    bottom: 2%;
     left: 5%;
     right: 5%;
     background: rgba(24, 24, 24, 0.8);
@@ -90,7 +83,7 @@
     overflow: auto;
     position: relative;
     padding-bottom: 15px;
-    top: -10px;
+    top: 0px;
     left: 15px;
     right: 15px;
     bottom: 61px; /* dialog padding + ok button + 10 */

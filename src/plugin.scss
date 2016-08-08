@@ -36,6 +36,8 @@
     bottom: 2%;
     left: 5%;
     right: 5%;
+    padding-left: 1%;
+    padding-right: 1%;
     background: rgba(24, 24, 24, 0.8);
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)"; /* IE8 */
 }
@@ -81,19 +83,24 @@
 
 .vjs-errors-content-container {
     overflow: auto;
-    position: relative;
+    position: absolute;
     padding-bottom: 15px;
-    top: 0px;
+    top: 0;
     left: 15px;
     right: 15px;
     bottom: 61px; /* dialog padding + ok button + 10 */
-    margin-right: 35px;
-    margin-left: 20px;
 }
 
 .vjs-errors-headline {
-    font-size: 16px;
+    font-size: 14px;
     font-weight: bold;
+    padding-right: 3em;
+}
+
+.vjs-close-button.vjs-control.vjs-button {
+  width: 3em;
+  height: 3em;
+  top: 0;
 }
 
 /*
@@ -112,7 +119,7 @@
 }
 
 .vjs-xs .vjs-errors-content-container {
-  top: 0px;
+  top: 0;
 }
 
 .vjs-xs .vjs-errors-headline {

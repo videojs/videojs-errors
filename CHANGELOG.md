@@ -2,7 +2,8 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* @mkody Fix typo in French translation (#39)
+* @vdeshpande Close-button errors message accessible fix (#40)
 
 --------------------
 

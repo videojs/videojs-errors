@@ -1,4 +1,6 @@
 import videojs from 'video.js';
+import window from 'global/window';
+import document from 'global/document';
 
 // Default options for the plugin.
 const defaults = {
@@ -173,33 +175,34 @@ const onPlayerReady = (player, options) => {
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
     }
-
-    display = player.errorDisplay;
-
+    display = player.getChild('errorDisplay');
+    // The code snippet below is to make sure we dispose any child closeButtons before
+    // making the display closeable
+    if (display.getChild('closeButton')) {
+      display.removeChild('closeButton');
+    }
+    // Make the error display closeable, and we should get a close button
+    display.closeable(true);
     content.className = 'vjs-errors-dialog';
+    content.id = 'vjs-errors-dialog';
     content.innerHTML =
-      `<button class="vjs-errors-close-button"></button>
-        <div class="vjs-errors-content-container">
-          <h2 class="vjs-errors-headline">${this.localize(error.headline) }</h2>
+      `<div class="vjs-errors-content-container">
+        <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
           <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
           ${details}
         </div>
         <div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
         </div>`;
-
     display.fillWith(content);
-
+    // Get the close button inside the error display
+    display.contentEl().firstChild.appendChild(display.getChild('closeButton').el());
     if (player.width() <= 600 || player.height() <= 250) {
       display.addClass('vjs-xs');
     }
 
-    let closeButton = display.el().querySelector('.vjs-errors-close-button');
     let okButton = display.el().querySelector('.vjs-errors-ok-button');
 
-    videojs.on(closeButton, 'click', function() {
-      display.close();
-    });
     videojs.on(okButton, 'click', function() {
       display.close();
     });

@@ -22,7 +22,6 @@
 .vjs-error .vjs-error-display .vjs-modal-dialog-content {
   font-size: 14px;
 }
-
 /*
     Full Size Styles
 -------------------------------------------------------------------------------
@@ -33,10 +32,12 @@
     border: 1px #999 solid;
     overflow: hidden;
     position: absolute;
-    top: 5%;
-    bottom: 5%;
+    top: 2%;
+    bottom: 2%;
     left: 5%;
     right: 5%;
+    padding-left: 1%;
+    padding-right: 1%;
     background: rgba(24, 24, 24, 0.8);
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)"; /* IE8 */
 }
@@ -84,37 +85,23 @@
     overflow: auto;
     position: absolute;
     padding-bottom: 15px;
-    top: 75px;
+    top: 0;
     left: 15px;
     right: 15px;
     bottom: 61px; /* dialog padding + ok button + 10 */
 }
 
 .vjs-errors-headline {
-    font-size: 22px;
-    font-weight: bold;
-    margin-top: 0;
-}
-
-.vjs-errors-close-button {
-    background-color: transparent;
     font-size: 14px;
     font-weight: bold;
-    cursor: pointer;
-    float: right;
-    margin: 5px;
-    border: 0;
-    color: #999;
+    padding-right: 3em;
 }
 
-.vjs-errors-close-button:before {
-    content: 'X';
+.vjs-errors-dialog .vjs-control.vjs-close-button {
+  width: 3em;
+  height: 3em;
+  top: 0;
 }
-
-.vjs-errors-close-button:hover {
-    color: #FFF;
-}
-
 
 /*
     "Extra small" Styles
@@ -126,14 +113,13 @@
   background-color: #000;
 }
 
-.vjs-xs.vjs-error-display .vjs-errors-close-button,
 .vjs-xs.vjs-error-display .vjs-errors-details,
 .vjs-xs.vjs-error-display .vjs-errors-message {
   display: none;
 }
 
 .vjs-xs .vjs-errors-content-container {
-  top: 15px;
+  top: 0;
 }
 
 .vjs-xs .vjs-errors-headline {
@@ -162,7 +148,6 @@
         background-color: #000;
     }
 
-    .vjs-error-display .vjs-errors-close-button,
     .vjs-error-display .vjs-errors-details,
     .vjs-error-display .vjs-errors-message {
         display: none;

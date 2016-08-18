@@ -5,14 +5,16 @@ import document from 'global/document';
 /** THe logic below is used to check if flash is disabled or not installed
  *  in IE browser and show the appropriate message to the user.
  */
-let isSupported = navigator.mimeTypes['application/x-shockwave-flash'];
+let isSupported = window.navigator.mimeTypes['application/x-shockwave-flash'];
+
 isSupported = isSupported && isSupported.enabledPlugin;
-let flash_disabled;
-  if (isSupported === undefined) {
-    flash_disabled = true;
-  } else { 
-    flash_disabled = false;
-  }
+let flashDisabled;
+
+if (isSupported === undefined) {
+  flashDisabled = true;
+} else {
+  flashDisabled = false;
+}
 
 // Default options for the plugin.
 const defaults = {
@@ -184,9 +186,9 @@ const onPlayerReady = (player, options) => {
 
     if (error.message) {
       // IF Flash is disabled for IE, add in the details as below to the user
-      if (flash_disabled) {
-       error.message += '. You could also try installing Flash.';
-      } 
+      if (flashDisabled) {
+        error.message += '. You could also try installing Flash.';
+      }
       details = `<div class="vjs-errors-details">${player.localize('Technical details')}
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;

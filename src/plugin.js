@@ -5,16 +5,7 @@ import document from 'global/document';
 /** THe logic below is used to check if flash is disabled or not installed
  *  in IE browser and show the appropriate message to the user.
  */
-let isSupported = window.navigator.mimeTypes['application/x-shockwave-flash'];
-
-isSupported = isSupported && isSupported.enabledPlugin;
-let flashDisabled;
-
-if (isSupported === undefined) {
-  flashDisabled = true;
-} else {
-  flashDisabled = false;
-}
+const isFlashSupported = videojs.getComponent('Flash').isSupported();
 
 // Default options for the plugin.
 const defaults = {
@@ -186,12 +177,16 @@ const onPlayerReady = (player, options) => {
 
     if (error.message) {
       // IF Flash is disabled for IE, add in the details as below to the user
-      if (flashDisabled) {
-        error.message += '. You could also try installing Flash.';
-      }
-      details = `<div class="vjs-errors-details">${player.localize('Technical details')}
-        : <div class="vjs-errors-message">${player.localize(error.message)}</div>
+      if (!isFlashSupported) {
+        details = `<div class="vjs-errors-details">${player.localize('Technical details')}
+        : <div class="vjs-errors-message">
+        ${player.localize(error.message + '. You could also try installing Flash')}</div>
         </div>`;
+      } else {
+        details = `<div class="vjs-errors-details">${player.localize('Technical details')}
+          : <div class="vjs-errors-message">${player.localize(error.message)}</div>
+          </div>`;
+      }
     }
     display = player.getChild('errorDisplay');
     // The code snippet below is to make sure we dispose any child closeButtons before

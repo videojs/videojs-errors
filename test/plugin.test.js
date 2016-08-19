@@ -323,17 +323,48 @@ QUnit.test('unrecognized error codes do not cause exceptions', function(assert) 
 });
 
 QUnit.test('custom error details should override defaults', function(assert) {
-  let customError = {headline: 'test headline', message: 'test details'};
+  let isFlashSupported = videojs.getComponent('Flash').isSupported();
 
-  // initialize the plugin with custom options
-  this.player.errors({errors: {4: customError}});
-  // tick forward enough to ready the player
-  this.clock.tick(1);
-  // trigger the error in question
-  this.player.error(4);
-  // confirm results
-  assert.strictEqual(document.querySelector('.vjs-errors-headline').textContent,
-    customError.headline, 'headline should match custom override value');
-  assert.strictEqual(document.querySelector('.vjs-errors-message').textContent,
-    customError.message, 'message should match custom override value');
+  if (isFlashSupported) {
+    let customError = {headline: 'test headline',
+    message: 'test details'};
+
+    // initialize the plugin with custom options
+    this.player.errors({errors: {4: customError}});
+    // tick forward enough to ready the player
+    this.clock.tick(1);
+    // trigger the error in question
+    this.player.error(4);
+    // confirm results
+    assert.strictEqual(document.querySelector('.vjs-errors-headline').textContent,
+      customError.headline, 'headline should match custom override value');
+    assert.strictEqual(document.querySelector('.vjs-errors-message').textContent,
+      customError.message, 'message should match custom override value');
+  } else {
+    assert.ok(!isFlashSupported, 'Flash is not supported');
+  }
+});
+
+QUnit.test('custom error details when flash is not supported', function(assert) {
+  let isFlashSupported = videojs.getComponent('Flash').isSupported();
+
+  if (!isFlashSupported) {
+    let customError = {headline: 'test headline',
+    message: 'test details'};
+
+    // initialize the plugin with custom options
+    this.player.errors({errors: {4: customError}});
+    // tick forward enough to ready the player
+    this.clock.tick(1);
+    // trigger the error in question
+    this.player.error(4);
+    // confirm results
+    assert.strictEqual(document.querySelector('.vjs-errors-headline').textContent,
+      customError.headline, 'headline should match custom override value');
+    assert.equal(document.querySelector('.vjs-errors-message').textContent,
+      '\n        ' + customError.message + '. You could also try installing Flash',
+      'message should match custom override value');
+  } else {
+    assert.ok(isFlashSupported, 'Flash is supported');
+  }
 });

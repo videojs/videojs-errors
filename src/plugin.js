@@ -176,17 +176,22 @@ const onPlayerReady = (player, options) => {
     error = videojs.mergeOptions(error, options.errors[error.code || 0]);
 
     if (error.message) {
+      /** This check is made because we want to check if we have got a custom error
+       * message and we do not want to change that
+       */
+      let errmsg = 'The media could not be loaded, either because the server or network' +
+       ' failed or because the format is not supported.';
+
       // IF Flash is disabled for IE, add in the details as below to the user
-      if (!isFlashSupported) {
-        details = `<div class="vjs-errors-details">${player.localize('Technical details')}
-        : <div class="vjs-errors-message">${player.localize(error.message +
-        '. You could also try installing Flash')}</div>
-        </div>`;
-      } else {
-        details = `<div class="vjs-errors-details">${player.localize('Technical details')}
-          : <div class="vjs-errors-message">${player.localize(error.message)}</div>
-          </div>`;
+      if (!isFlashSupported && player.error().code === 4 &&
+      error.message === errmsg) {
+        let flashMessage = player.localize(' You could also try installing Flash.');
+
+        error.message += flashMessage;
       }
+      details = `<div class="vjs-errors-details">${player.localize('Technical details')}
+        : <div class="vjs-errors-message">${player.localize(error.message)}</div>
+        </div>`;
     }
     display = player.getChild('errorDisplay');
     // The code snippet below is to make sure we dispose any child closeButtons before

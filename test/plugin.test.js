@@ -323,26 +323,19 @@ QUnit.test('unrecognized error codes do not cause exceptions', function(assert) 
 });
 
 QUnit.test('custom error details should override defaults', function(assert) {
-  let isFlashSupported = videojs.getComponent('Flash').isSupported();
+  let customError = {headline: 'test headline', message: 'test details'};
 
-  if (isFlashSupported) {
-    let customError = {headline: 'test headline',
-    message: 'test details'};
-
-    // initialize the plugin with custom options
-    this.player.errors({errors: {4: customError}});
-    // tick forward enough to ready the player
-    this.clock.tick(1);
-    // trigger the error in question
-    this.player.error(4);
-    // confirm results
-    assert.strictEqual(document.querySelector('.vjs-errors-headline').textContent,
-      customError.headline, 'headline should match custom override value');
-    assert.strictEqual(document.querySelector('.vjs-errors-message').textContent,
-      customError.message, 'message should match custom override value');
-  } else {
-    assert.ok(!isFlashSupported, 'Flash is not supported');
-  }
+  // initialize the plugin with custom options
+  this.player.errors({errors: {4: customError}});
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+  // trigger the error in question
+  this.player.error(4);
+  // confirm results
+  assert.strictEqual(document.querySelector('.vjs-errors-headline').textContent,
+    customError.headline, 'headline should match custom override value');
+  assert.strictEqual(document.querySelector('.vjs-errors-message').textContent,
+    customError.message, 'message should match custom override value');
 });
 
 QUnit.test('Append Flash error details when flash is not supported', function(assert) {
@@ -356,7 +349,7 @@ QUnit.test('Append Flash error details when flash is not supported', function(as
     this.player.error(4);
     // confirm results
     assert.equal(document.querySelector('.vjs-errors-message').textContent,
-      this.player.error().message + '. You could also try installing Flash',
+      this.player.error().message + ' You could also try installing Flash.',
       'Flash Error message should be appended');
   } else {
     assert.ok(isFlashSupported, 'Flash is supported');

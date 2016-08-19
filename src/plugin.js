@@ -179,8 +179,8 @@ const onPlayerReady = (player, options) => {
       // IF Flash is disabled for IE, add in the details as below to the user
       if (!isFlashSupported) {
         details = `<div class="vjs-errors-details">${player.localize('Technical details')}
-        : <div class="vjs-errors-message">
-        ${player.localize(error.message + '. You could also try installing Flash')}</div>
+        : <div class="vjs-errors-message">${player.localize(error.message +
+        '. You could also try installing Flash')}</div>
         </div>`;
       } else {
         details = `<div class="vjs-errors-details">${player.localize('Technical details')}

@@ -2,9 +2,8 @@ import videojs from 'video.js';
 import window from 'global/window';
 import document from 'global/document';
 
-/** THe logic below is used to check if flash is disabled or not installed
- *  in IE browser and show the appropriate message to the user.
- */
+// The logic below is used to check if flash is disabled or not installed
+// in IE browser and show the appropriate message to the user.
 const isFlashSupported = videojs.getComponent('Flash').isSupported();
 let isCustomError = false;
 

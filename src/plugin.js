@@ -6,6 +6,7 @@ import document from 'global/document';
  *  in IE browser and show the appropriate message to the user.
  */
 const isFlashSupported = videojs.getComponent('Flash').isSupported();
+let isCustomError = false;
 
 // Default options for the plugin.
 const defaults = {
@@ -176,15 +177,13 @@ const onPlayerReady = (player, options) => {
     error = videojs.mergeOptions(error, options.errors[error.code || 0]);
 
     if (error.message) {
-      /** This check is made because we want to check if we have got a custom error
-       * message and we do not want to change that
-       */
-      let errmsg = 'The media could not be loaded, either because the server or network' +
-       ' failed or because the format is not supported.';
+      // This check is made because we want to check if we have got a custom error
+      // message and we do not want to change that
+      let custErrmsg = isCustomError;
 
       // IF Flash is disabled for IE, add in the details as below to the user
-      if (!isFlashSupported && player.error().code === 4 &&
-      error.message === errmsg) {
+      if (!isFlashSupported && player.error().code === 4 && !custErrmsg) {
+
         let flashMessage = player.localize(' You could also try installing Flash.');
 
         error.message += flashMessage;
@@ -235,6 +234,11 @@ const onPlayerReady = (player, options) => {
  */
 const errors = function(options) {
   this.ready(() => {
+    if (options) {
+      isCustomError = true;
+    } else {
+      isCustomError = false;
+    }
     onPlayerReady(this, videojs.mergeOptions(defaults, options));
   });
 };

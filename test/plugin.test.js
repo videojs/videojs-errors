@@ -348,9 +348,9 @@ QUnit.test('Append Flash error details when flash is not supported', function(as
     // trigger the error in question
     this.player.error(4);
     // confirm results
-    assert.equal(document.querySelector('.vjs-errors-message').textContent,
-      this.player.error().message + ' You could also try installing Flash.',
-      'Flash Error message should be appended');
+    assert.equal(document.getElementById('fmsg').innerHTML,
+      ' * You could also try installing Flash.',
+      'Flash Error message should be displayed');
   } else {
     assert.ok(isFlashSupported, 'Flash is supported');
   }

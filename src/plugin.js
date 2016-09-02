@@ -5,7 +5,6 @@ import document from 'global/document';
 // The logic below is used to check if flash is disabled or not installed
 // in IE browser and show the appropriate message to the user.
 const isFlashSupported = videojs.getComponent('Flash').isSupported();
-let isCustomError = false;
 
 // Default options for the plugin.
 const defaults = {
@@ -166,27 +165,18 @@ const onPlayerReady = (player, options) => {
     let details = '';
     let error = player.error();
     let content = document.createElement('div');
+    let flashMessage = '';
 
     // In the rare case when `error()` does not return an error object,
     // defensively escape the handler function.
     if (!error) {
       return;
     }
-
+    if (error.code === 4 && !isFlashSupported) {
+      flashMessage = player.localize(' * You could also try installing Flash.');
+    }
     error = videojs.mergeOptions(error, options.errors[error.code || 0]);
-
     if (error.message) {
-      // This check is made because we want to check if we have got a custom error
-      // message and we do not want to change that
-      let custErrmsg = isCustomError;
-
-      // IF Flash is disabled for IE, add in the details as below to the user
-      if (!isFlashSupported && player.error().code === 4 && !custErrmsg) {
-
-        let flashMessage = player.localize(' You could also try installing Flash.');
-
-        error.message += flashMessage;
-      }
       details = `<div class="vjs-errors-details">${player.localize('Technical details')}
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
@@ -206,6 +196,7 @@ const onPlayerReady = (player, options) => {
         <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
           <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
           ${details}
+          <i><span id="fmsg" style="float:right;font-size:75%">${flashMessage}</span></i>
         </div>
         <div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
@@ -233,11 +224,6 @@ const onPlayerReady = (player, options) => {
  */
 const errors = function(options) {
   this.ready(() => {
-    if (options) {
-      isCustomError = true;
-    } else {
-      isCustomError = false;
-    }
     onPlayerReady(this, videojs.mergeOptions(defaults, options));
   });
 };

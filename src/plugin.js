@@ -4,7 +4,7 @@ import document from 'global/document';
 
 // The logic below is used to check if flash is disabled or not installed
 // in IE browser and show the appropriate message to the user.
-const isFlashSupported = videojs.getComponent('Flash').isSupported();
+const flashObj = videojs.getComponent('Flash');
 
 // Default options for the plugin.
 const defaults = {
@@ -172,8 +172,9 @@ const onPlayerReady = (player, options) => {
     if (!error) {
       return;
     }
-    if (error.code === 4 && !isFlashSupported) {
-      flashMessage = player.localize(' * You could also try installing Flash.');
+    if (error.code === 4 && !flashObj.isSupported()) {
+      flashMessage = player.localize(' * If you are using an older browser' +
+      ' please try upgrading or installing Flash.');
     }
     error = videojs.mergeOptions(error, options.errors[error.code || 0]);
     if (error.message) {
@@ -196,7 +197,7 @@ const onPlayerReady = (player, options) => {
         <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
           <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
           ${details}
-          <i><span id="fmsg" style="float:right;font-size:75%">${flashMessage}</span></i>
+          <i><span class="vjs-errors-flashmessage">${flashMessage}</span></i>
         </div>
         <div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>

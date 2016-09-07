@@ -339,19 +339,19 @@ QUnit.test('custom error details should override defaults', function(assert) {
 });
 
 QUnit.test('Append Flash error details when flash is not supported', function(assert) {
-  let isFlashSupported = videojs.getComponent('Flash').isSupported();
+  let oldIsSupported = videojs.getComponent('Flash').isSupported;
 
-  if (!isFlashSupported) {
+  // Mock up isSupported to be false
+  videojs.getComponent('Flash').isSupported = () => false;
 
-    // tick forward enough to ready the player
-    this.clock.tick(1);
-    // trigger the error in question
-    this.player.error(4);
-    // confirm results
-    assert.equal(document.getElementById('fmsg').innerHTML,
-      ' * You could also try installing Flash.',
-      'Flash Error message should be displayed');
-  } else {
-    assert.ok(isFlashSupported, 'Flash is supported');
-  }
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+  // trigger the error in question
+  this.player.error(4);
+  // confirm results
+  assert.equal(document.querySelector('.vjs-errors-flashmessage').textContent,
+    ' * If you are using an older browser please try upgrading or installing Flash.',
+    'Flash Error message should be displayed');
+  // Restoring isSupported to the old value
+  videojs.getComponent('Flash').isSupported = oldIsSupported;
 });

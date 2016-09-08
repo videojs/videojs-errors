@@ -163,16 +163,11 @@ const onPlayerReady = (player, options) => {
     let details = '';
     let error = player.error();
     let content = document.createElement('div');
-    let flashMessage = '';
 
     // In the rare case when `error()` does not return an error object,
     // defensively escape the handler function.
     if (!error) {
       return;
-    }
-    if (error.code === 4 && !FlashObj.isSupported()) {
-      flashMessage = player.localize(' * If you are using an older browser' +
-      ' please try upgrading or installing Flash.');
     }
     error = videojs.mergeOptions(error, options.errors[error.code || 0]);
     if (error.message) {
@@ -180,7 +175,12 @@ const onPlayerReady = (player, options) => {
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
     }
-    details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
+    if (error.code === 4 && !FlashObj.isSupported()) {
+      const flashMessage = player.localize(' * If you are using an older browser' +
+      ' please try upgrading or installing Flash.');
+
+      details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
+    }
     display = player.getChild('errorDisplay');
     // The code snippet below is to make sure we dispose any child closeButtons before
     // making the display closeable

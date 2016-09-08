@@ -2,9 +2,7 @@ import videojs from 'video.js';
 import window from 'global/window';
 import document from 'global/document';
 
-// The logic below is used to check if flash is disabled or not installed
-// in IE browser and show the appropriate message to the user.
-const flashObj = videojs.getComponent('Flash');
+const FlashObj = videojs.getComponent('Flash');
 
 // Default options for the plugin.
 const defaults = {
@@ -172,7 +170,7 @@ const onPlayerReady = (player, options) => {
     if (!error) {
       return;
     }
-    if (error.code === 4 && !flashObj.isSupported()) {
+    if (error.code === 4 && !FlashObj.isSupported()) {
       flashMessage = player.localize(' * If you are using an older browser' +
       ' please try upgrading or installing Flash.');
     }
@@ -182,6 +180,7 @@ const onPlayerReady = (player, options) => {
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
     }
+    details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     display = player.getChild('errorDisplay');
     // The code snippet below is to make sure we dispose any child closeButtons before
     // making the display closeable
@@ -197,7 +196,6 @@ const onPlayerReady = (player, options) => {
         <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
           <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
           ${details}
-          <i><span class="vjs-errors-flashmessage">${flashMessage}</span></i>
         </div>
         <div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>

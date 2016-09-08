@@ -2,6 +2,8 @@ import videojs from 'video.js';
 import window from 'global/window';
 import document from 'global/document';
 
+const FlashObj = videojs.getComponent('Flash');
+
 // Default options for the plugin.
 const defaults = {
   header: '',
@@ -167,13 +169,17 @@ const onPlayerReady = (player, options) => {
     if (!error) {
       return;
     }
-
     error = videojs.mergeOptions(error, options.errors[error.code || 0]);
-
     if (error.message) {
       details = `<div class="vjs-errors-details">${player.localize('Technical details')}
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
+    }
+    if (error.code === 4 && !FlashObj.isSupported()) {
+      const flashMessage = player.localize(' * If you are using an older browser' +
+      ' please try upgrading or installing Flash.');
+
+      details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     }
     display = player.getChild('errorDisplay');
     // The code snippet below is to make sure we dispose any child closeButtons before

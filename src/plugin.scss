@@ -103,6 +103,12 @@
   top: 0;
 }
 
+.vjs-errors-flashmessage {
+  float: right;
+  font-size: 9px;
+  font-style: italic;
+}
+
 /*
     "Extra small" Styles
 -------------------------------------------------------------------------------
@@ -135,6 +141,9 @@
   right: 0;
 }
 
+.vjs-xs.vjs-errors-flashmessage {
+  display: none;
+}
 /*
     Media query for player sizes of 600x250 or less.  NOTE: This is a
     copy of the extra small styles above yet without ".vjs-xs".
@@ -168,5 +177,9 @@
         bottom: 0;
         left: 0;
         right: 0;
+    }
+    
+    .vjs-errors-flashmessage {
+      display:none;
     }
 }

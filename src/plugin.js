@@ -53,8 +53,9 @@ const defaults = {
  * triggers PLAYER_ERR_TIMEOUT if none occur within a reasonable
  * timeframe.
  */
-const monitorPlayback = function(player, options) {
+const initPlugin = function(player, options) {
   let monitor;
+  let listeners = [];
 
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
@@ -78,8 +79,6 @@ const monitorPlayback = function(player, options) {
     }
   };
 
-  let listeners = [];
-
   // clear any previously registered listeners
   const cleanup = function() {
     let listener;
@@ -97,11 +96,11 @@ const monitorPlayback = function(player, options) {
       // playback isn't expected if the player is paused, shut
       // down monitoring
       if (player.paused()) {
-        return cleanup();
+        return resetMonitor();
       }
       // playback isn't expected once the video has ended
       if (player.ended()) {
-        return cleanup();
+        return resetMonitor();
       }
       fn.call(this);
     };
@@ -110,7 +109,7 @@ const monitorPlayback = function(player, options) {
     listeners.push([type, check]);
   };
 
-  player.on('play', function() {
+  const onPlayStartMonitor = function() {
     let lastTime = 0;
 
     cleanup();
@@ -126,39 +125,18 @@ const monitorPlayback = function(player, options) {
       }
     });
     healthcheck('progress', resetMonitor);
-  });
+  };
 
-  player.on('dispose', function() {
-    cleanup();
-  });
-};
-
-// Setup Custom Error Conditions
-const initCustomErrorConditions = function(player, options) {
-
-  // PLAYER_ERR_TIMEOUT
-  monitorPlayback(player, options);
-
-  // PLAYER_ERR_NO_SRC
-  player.on('play', function() {
+  const onPlayNoSource = function() {
     if (!player.currentSrc()) {
       player.error({
         code: -1,
         type: 'PLAYER_ERR_NO_SRC'
       });
     }
-  });
-};
+  };
 
-/**
- * Set up the plugin.
- */
-const onPlayerReady = (player, options) => {
-
-  player.addClass('vjs-errors');
-
-  // Add to the error dialog when an error occurs
-  player.on('error', function() {
+  const onErrorHandler = function() {
     let display;
     let details = '';
     let error = player.error();
@@ -212,19 +190,40 @@ const onPlayerReady = (player, options) => {
     videojs.on(okButton, 'click', function() {
       display.close();
     });
+  };
+
+  const onDisposeHandler = function() {
+    cleanup();
+
+    player.removeClass('vjs-errors');
+    player.off('play', onPlayStartMonitor);
+    player.off('play', onPlayNoSource);
+    player.off('dispose', onDisposeHandler);
+    player.off('error', onErrorHandler);
+  };
+
+  const reInitPlugin = function(newOptions) {
+    onDisposeHandler();
+    initPlugin(player, videojs.mergeOptions(defaults, newOptions));
+  };
+
+  player.on('play', onPlayStartMonitor);
+  player.on('play', onPlayNoSource);
+  player.on('dispose', onDisposeHandler);
+  player.on('error', onErrorHandler);
+
+  player.ready(() => {
+    player.addClass('vjs-errors');
   });
 
-  // Initialize custom error conditions
-  initCustomErrorConditions(player, options);
+  player.errors = reInitPlugin;
 };
 
 /**
  * Initialize the plugin. Waits until the player is ready to do anything.
  */
 const errors = function(options) {
-  this.ready(() => {
-    onPlayerReady(this, videojs.mergeOptions(defaults, options));
-  });
+  initPlugin(this, videojs.mergeOptions(defaults, options));
 };
 
 // Register the plugin with video.js.

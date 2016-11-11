@@ -114,10 +114,14 @@ QUnit.test('the plugin cleans up after its previous incarnation when called agai
 
     this.player.on('error', () => errors++);
 
+    // Call plugin multiple times
     this.player.errors();
     this.player.errors();
-    this.player.trigger('play');
+
+    // Tick the clock forward enough to trigger the player to be "ready".
     this.clock.tick(1);
+
+    this.player.trigger('play');
 
     assert.strictEqual(errors, 1, 'emitted a single error');
     assert.strictEqual(this.player.error().code, -1, 'error code is -1');

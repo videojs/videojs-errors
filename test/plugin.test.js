@@ -108,6 +108,26 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
+QUnit.test('the plugin cleans up after its previous incarnation when called again',
+  function(assert) {
+    let errors = 0;
+
+    this.player.on('error', () => errors++);
+
+    // Call plugin multiple times
+    this.player.errors();
+    this.player.errors();
+
+    // Tick the clock forward enough to trigger the player to be "ready".
+    this.clock.tick(1);
+
+    this.player.trigger('play');
+
+    assert.strictEqual(errors, 1, 'emitted a single error');
+    assert.strictEqual(this.player.error().code, -1, 'error code is -1');
+    assert.strictEqual(this.player.error().type, 'PLAYER_ERR_NO_SRC');
+  });
+
 QUnit.test('when dispose is triggered should not throw error ', function(assert) {
   this.player.src(sources);
   this.player.trigger('play');

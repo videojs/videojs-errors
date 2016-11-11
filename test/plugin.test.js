@@ -111,53 +111,17 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
 QUnit.test('the plugin cleans up after its previous incarnation when called again',
   function(assert) {
     let errors = 0;
-    let oldOn = this.player.on.bind(this.player);
-    let oldOff = this.player.off.bind(this.player);
-    let onList = [];
-    let offList = [];
 
     this.player.on('error', () => errors++);
 
-    this.player.on = (...args) => {
-      // QUnit attaches a listener with function name disposeFn, so dont push those to
-      // the list
-      if (args[1].name !== 'disposeFn') {
-        onList.push(args);
-      }
-      oldOn(...args);
-    };
-
-    this.player.off = (...args) => {
-      // QUnit attaches a listener with function name disposeFn, so dont push those to
-      // the list
-      if (args[1].name !== 'disposeFn') {
-        offList.push(args);
-      }
-      oldOff(...args);
-    };
-
-    this.player.src(sources);
-    this.player.trigger('play');
     this.player.errors();
     this.player.errors();
-    this.player.on = oldOn;
-    this.player.off = oldOff;
     this.player.trigger('play');
-    this.clock.tick(46 * 1000);
-
-    for (let i = 0, l = onList.length; i < l; i++) {
-      let on = onList[i];
-      let off = offList[i];
-
-      // deepEqual since on[0] and off[0] can be an array
-      // e.g. ['timeupdate', 'adtimeupdate']
-      assert.deepEqual(on[0], off[0], 'add and removed same type');
-      assert.equal(on[1].name, off[1].name, 'add and removed same callback');
-    }
+    this.clock.tick(1);
 
     assert.strictEqual(errors, 1, 'emitted a single error');
-    assert.strictEqual(this.player.error().code, -2, 'error code is -2');
-    assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+    assert.strictEqual(this.player.error().code, -1, 'error code is -1');
+    assert.strictEqual(this.player.error().type, 'PLAYER_ERR_NO_SRC');
   });
 
 QUnit.test('when dispose is triggered should not throw error ', function(assert) {

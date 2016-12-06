@@ -61,9 +61,10 @@ const initPlugin = function(player, options) {
   const resetMonitor = function() {
     window.clearTimeout(monitor);
     monitor = window.setTimeout(function() {
+      let tech = player.$('.vjs-tech');
+
       // if using Flash then make sure its API is available
-      if (/swf/i.test(player.tech_.el().data) &&
-        player.tech_.el().vjs_getProperty) {
+      if (tech && /swf/i.test(tech.data) && tech.vjs_getProperty) {
         player.error('Flash API is no longer available');
         return;
       }

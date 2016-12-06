@@ -121,6 +121,8 @@ QUnit.skip('Flash API is unavailable when using Flash is an error', function(ass
   });
   this.player.trigger('play');
   this.clock.tick(45 * 1000);
+  assert.strictEqual(errors, 0);
+
   techEl.vjs_getProptery = null;
   this.clock.tick(45 * 1000);
   /* eslint-enable camelcase */

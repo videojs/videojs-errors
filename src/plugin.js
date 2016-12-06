@@ -61,17 +61,21 @@ const initPlugin = function(player, options) {
   const resetMonitor = function() {
     window.clearTimeout(monitor);
     monitor = window.setTimeout(function() {
+      // never overwrite existing errors
+      if (player.error()) {
+        return;
+      }
+
       let tech = player.$('.vjs-tech');
 
-      // if using Flash then make sure its API is available
+      // error if using Flash and its API is unavailable
       if (tech && /swf/i.test(tech.data) && tech.vjs_getProperty) {
         player.error('Flash API is no longer available');
         return;
       }
 
-      if (player.error() || player.paused() || player.ended()) {
-        // never overwrite existing errors or display a new one
-        // if the player is paused or ended.
+      // don't display a new error if the player is paused or ended.
+      if (player.paused() || player.ended()) {
         return;
       }
 

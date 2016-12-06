@@ -113,7 +113,7 @@ QUnit.skip('Flash API is unavailable when using Flash is an error', function(ass
   let errors = 0;
   let techEl = this.player.tech_.el_;
 
-  techEl.data = 'swf';
+  techEl.type = 'application/x-shockwave-flash';
   techEl.vjs_getProptery = function() { };
 
   this.player.on('error', function() {
@@ -128,8 +128,8 @@ QUnit.skip('Flash API is unavailable when using Flash is an error', function(ass
   /* eslint-enable camelcase */
 
   assert.strictEqual(errors, 1, 'emitted an error');
-  assert.strictEqual(this.player.error().code, 0, 'error code is 0');
-  assert.strictEqual(this.player.error().type, 'undefined');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
 QUnit.test('the plugin cleans up after its previous incarnation when called again',

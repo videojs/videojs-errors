@@ -68,9 +68,12 @@ const initPlugin = function(player, options) {
 
       let tech = player.$('.vjs-tech');
 
-      // error if using Flash and its API is unavailable
-      if (tech && (/swf/i).test(tech.data) && tech.vjs_getProperty) {
-        player.error('Flash API is no longer available');
+      // don't error if using Flash and its API is available
+      if (tech && tech.type === 'application/x-shockwave-flash' && tech.vjs_getProperty) {
+        player.error({
+          code: -2,
+          type: 'PLAYER_ERR_TIMEOUT'
+        });
         return;
       }
 

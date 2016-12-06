@@ -69,7 +69,7 @@ const initPlugin = function(player, options) {
       let tech = player.$('.vjs-tech');
 
       // error if using Flash and its API is unavailable
-      if (tech && /swf/i.test(tech.data) && tech.vjs_getProperty) {
+      if (tech && (/swf/i).test(tech.data) && tech.vjs_getProperty) {
         player.error('Flash API is no longer available');
         return;
       }

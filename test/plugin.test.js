@@ -108,6 +108,28 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
+QUnit.skip('Flash API is unavailable when using Flash is an error', function(assert) {
+  /* eslint-disable camelcase */
+  let errors = 0;
+  let techEl = this.player.tech_.el_;
+
+  techEl.data = 'swf';
+  techEl.vjs_getProptery = function() { };
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.trigger('play');
+  this.clock.tick(45 * 1000);
+  techEl.vjs_getProptery = null;
+  this.clock.tick(45 * 1000);
+  /* eslint-enable camelcase */
+
+  assert.strictEqual(errors, 1, 'emitted an error');
+  assert.strictEqual(this.player.error().code, 0, 'error code is 0');
+  assert.strictEqual(this.player.error().type, 'undefined');
+});
+
 QUnit.test('the plugin cleans up after its previous incarnation when called again',
   function(assert) {
     let errors = 0;

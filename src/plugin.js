@@ -61,6 +61,13 @@ const initPlugin = function(player, options) {
   const resetMonitor = function() {
     window.clearTimeout(monitor);
     monitor = window.setTimeout(function() {
+      // if using Flash then make sure its API is available
+      if (/swf/i.test(player.tech_.el().data) &&
+        player.tech_.el().vjs_getProperty) {
+        player.error('Flash API is no longer available');
+        return;
+      }
+
       if (player.error() || player.paused() || player.ended()) {
         // never overwrite existing errors or display a new one
         // if the player is paused or ended.

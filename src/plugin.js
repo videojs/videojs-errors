@@ -97,8 +97,8 @@ const initPlugin = function(player, options) {
       let tech = player.$('.vjs-tech');
 
       if (tech &&
-        tech.type === 'application/x-shockwave-flash' &&
-        !tech.vjs_getProperty) {
+          tech.type === 'application/x-shockwave-flash' &&
+          !tech.vjs_getProperty) {
         player.error({
           code: -2,
           type: 'PLAYER_ERR_TIMEOUT'

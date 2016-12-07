@@ -96,7 +96,8 @@ const initPlugin = function(player, options) {
       // error if using Flash and its API is unavailable
       let tech = player.$('.vjs-tech');
 
-      if (tech &&
+      if (!player.error() &&
+          tech &&
           tech.type === 'application/x-shockwave-flash' &&
           !tech.vjs_getProperty) {
         player.error({

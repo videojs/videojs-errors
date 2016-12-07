@@ -93,29 +93,31 @@ const initPlugin = function(player, options) {
   // creates and tracks a player listener if the player looks alive
   const healthcheck = function(type, fn) {
     let check = function() {
-      // error if using Flash and its API is unavailable
-      let tech = player.$('.vjs-tech');
+      if (!player.error()) {
+        // error if using Flash and its API is unavailable
+        let tech = player.$('.vjs-tech');
 
-      if (!player.error() &&
-          tech &&
-          tech.type === 'application/x-shockwave-flash' &&
-          !tech.vjs_getProperty) {
-        player.error({
-          code: -2,
-          type: 'PLAYER_ERR_TIMEOUT'
-        });
-        return;
+        if (tech &&
+            tech.type === 'application/x-shockwave-flash' &&
+            !tech.vjs_getProperty) {
+          player.error({
+            code: -2,
+            type: 'PLAYER_ERR_TIMEOUT'
+          });
+          return;
+        }
+
+        // playback isn't expected if the player is paused, shut
+        // down monitoring
+        if (player.paused()) {
+          return resetMonitor();
+        }
+        // playback isn't expected once the video has ended
+        if (player.ended()) {
+          return resetMonitor();
+        }
       }
 
-      // playback isn't expected if the player is paused, shut
-      // down monitoring
-      if (player.paused()) {
-        return resetMonitor();
-      }
-      // playback isn't expected once the video has ended
-      if (player.ended()) {
-        return resetMonitor();
-      }
       fn.call(this);
     };
 

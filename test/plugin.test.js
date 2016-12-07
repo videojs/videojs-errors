@@ -121,7 +121,7 @@ QUnit.test('Flash API is unavailable when using Flash is an error', function(ass
   });
   this.player.src(sources);
   this.player.trigger('play');
-  this.clock.tick(45 * 1000);
+  this.player.trigger('timeupdate');
 
   assert.strictEqual(errors, 1, 'emitted an error');
   assert.strictEqual(this.player.error().code, -2, 'error code is -2');

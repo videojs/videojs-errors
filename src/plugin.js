@@ -61,26 +61,9 @@ const initPlugin = function(player, options) {
   const resetMonitor = function() {
     window.clearTimeout(monitor);
     monitor = window.setTimeout(function() {
-      // never overwrite existing errors
-      if (player.error()) {
-        return;
-      }
-
-      let tech = player.$('.vjs-tech');
-
-      // error if using Flash and its API is unavailable
-      if (tech &&
-        tech.type === 'application/x-shockwave-flash' &&
-        !tech.vjs_getProperty) {
-        player.error({
-          code: -2,
-          type: 'PLAYER_ERR_TIMEOUT'
-        });
-        return;
-      }
-
-      // don't display a new error if the player is paused or ended.
-      if (player.paused() || player.ended()) {
+      if (player.error() || player.paused() || player.ended()) {
+        // never overwrite existing errors or display a new one
+        // if the player is paused or ended.
         return;
       }
 
@@ -110,6 +93,19 @@ const initPlugin = function(player, options) {
   // creates and tracks a player listener if the player looks alive
   const healthcheck = function(type, fn) {
     let check = function() {
+      // error if using Flash and its API is unavailable
+      let tech = player.$('.vjs-tech');
+
+      if (tech &&
+        tech.type === 'application/x-shockwave-flash' &&
+        !tech.vjs_getProperty) {
+        player.error({
+          code: -2,
+          type: 'PLAYER_ERR_TIMEOUT'
+        });
+        return;
+      }
+
       // playback isn't expected if the player is paused, shut
       // down monitoring
       if (player.paused()) {

@@ -61,9 +61,9 @@ const initPlugin = function(player, options) {
   const resetMonitor = function() {
     window.clearTimeout(monitor);
     monitor = window.setTimeout(function() {
+      // player already has an error
+      // or is not playing under normal conditions
       if (player.error() || player.paused() || player.ended()) {
-        // never overwrite existing errors or display a new one
-        // if the player is paused or ended.
         return;
       }
 
@@ -74,6 +74,7 @@ const initPlugin = function(player, options) {
     }, options.timeout);
 
     // clear out any existing player timeout
+    // playback has recovered
     if (player.error() && player.error().code === -2) {
       player.error(null);
     }
@@ -93,15 +94,32 @@ const initPlugin = function(player, options) {
   // creates and tracks a player listener if the player looks alive
   const healthcheck = function(type, fn) {
     let check = function() {
-      // playback isn't expected if the player is paused, shut
-      // down monitoring
-      if (player.paused()) {
-        return resetMonitor();
+      // if there's an error do not reset the monitor and
+      // clear the error unless time is progressing
+      if (!player.error()) {
+        // error if using Flash and its API is unavailable
+        let tech = player.$('.vjs-tech');
+
+        if (tech &&
+            tech.type === 'application/x-shockwave-flash' &&
+            !tech.vjs_getProperty) {
+          player.error({
+            code: -2,
+            type: 'PLAYER_ERR_TIMEOUT'
+          });
+          return;
+        }
+
+        // playback isn't expected if the player is paused
+        if (player.paused()) {
+          return resetMonitor();
+        }
+        // playback isn't expected once the video has ended
+        if (player.ended()) {
+          return resetMonitor();
+        }
       }
-      // playback isn't expected once the video has ended
-      if (player.ended()) {
-        return resetMonitor();
-      }
+
       fn.call(this);
     };
 
@@ -119,6 +137,7 @@ const initPlugin = function(player, options) {
     healthcheck(['timeupdate', 'adtimeupdate'], function() {
       let currentTime = player.currentTime();
 
+      // playback is operating normally or has recovered
       if (currentTime !== lastTime) {
         lastTime = currentTime;
         resetMonitor();

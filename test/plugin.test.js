@@ -110,6 +110,10 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
 
 QUnit.test('Flash API is unavailable when using Flash is an error', function(assert) {
   this.player.tech_.el_.type = 'application/x-shockwave-flash';
+  // when Flash dies the object methods go away
+  /* eslint-disable camelcase */
+  this.player.tech_.el_.vjs_getProperty = null;
+  /* eslint-enable camelcase */
   this.player.paused = function() {
     return true;
   };

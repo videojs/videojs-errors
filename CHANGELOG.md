@@ -2,11 +2,21 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* @mjneil Cleanup event bindings when reinitialized (#44)
-* @mkody Fix typo in French translation (#39)
-* @vdeshpande Close-button errors message accessible fix (#40)
 
 --------------------
+
+## v1.1.2 (2016-12-07)
+* @forbesjo Error if Flash tech is unusable (#50)
+
+## v1.1.1 (2016-11-11)
+* @mjneil Cleanup event bindings when reinitialized (#44)
+
+## v1.1.0 (2016-09-08)
+* @vdeshpande Add in a user-friendly message for disabled Flash in IE (#41)
+
+## v1.0.5 (2016-08-10)
+* @vdeshpande Close-button errors message accessible fix (#40)
+* @mkody Fix typo in French translation (#39)
 
 ## v1.0.4 (2016-04-13)
 * Added listening for `'adtimeupdate'` ([#36](https://github.com/brightcove/videojs-errors/pull/36))

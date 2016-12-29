@@ -10,48 +10,41 @@ const defaults = {
   code: '',
   message: '',
   timeout: 45 * 1000,
+  dismiss: true,
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',
-      headline: 'The video download was cancelled',
-      dismiss: true
+      headline: 'The video download was cancelled'
     },
     '2': {
       type: 'MEDIA_ERR_NETWORK',
       headline: 'The video connection was lost, please confirm you are ' +
-                'connected to the internet',
-      dismiss: true
+                'connected to the internet'
     },
     '3': {
       type: 'MEDIA_ERR_DECODE',
-      headline: 'The video is bad or in a format that cannot be played on your browser',
-      dismiss: true
+      headline: 'The video is bad or in a format that cannot be played on your browser'
     },
     '4': {
       type: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
-      headline: 'This video is either unavailable or not supported in this browser',
-      dismiss: true
+      headline: 'This video is either unavailable or not supported in this browser'
     },
     '5': {
       type: 'MEDIA_ERR_ENCRYPTED',
       headline: 'The video you are trying to watch is encrypted and we do not know how ' +
-                'to decrypt it',
-      dismiss: true
+                'to decrypt it'
     },
     'unknown': {
       type: 'MEDIA_ERR_UNKNOWN',
-      headline: 'An unanticipated problem was encountered, check back soon and try again',
-      dismiss: true
+      headline: 'An unanticipated problem was encountered, check back soon and try again'
     },
     '-1': {
       type: 'PLAYER_ERR_NO_SRC',
-      headline: 'No video has been loaded',
-      dismiss: true
+      headline: 'No video has been loaded'
     },
     '-2': {
       type: 'PLAYER_ERR_TIMEOUT',
-      headline: 'Could not download the video',
-      dismiss: true
+      headline: 'Could not download the video'
     }
   }
 };
@@ -195,26 +188,19 @@ const initPlugin = function(player, options) {
 
     content.className = 'vjs-errors-dialog';
     content.id = 'vjs-errors-dialog';
+    content.innerHTML =
+     `<div class="vjs-errors-content-container">
+      <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
+        <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
+        ${details}
+      </div>`;
 
     // Make the error display closeable, and we should get a close button
-    if (error.dismiss) {
+    if (!('dismiss' in error) || error.dismiss) {
       display.closeable(true);
-      content.innerHTML =
-      `<div class="vjs-errors-content-container">
-        <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
-          <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
-          ${details}
-        </div>
-        <div class="vjs-errors-ok-button-container">
+      content.innerHTML +=
+       `<div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
-        </div>`;
-    }
-    else {
-      content.innerHTML =
-       `<div class="vjs-errors-content-container">
-        <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
-          <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
-          ${details}
         </div>`;
     }
 
@@ -227,15 +213,13 @@ const initPlugin = function(player, options) {
 
     let closeButton = display.el().querySelector('.vjs-close-button');
     let okButton = display.el().querySelector('.vjs-errors-ok-button');
+    let dismiss = function() {
+      display.close();
+      player.error(null);
+    };
 
-    videojs.on(closeButton, 'click', function() {
-      display.close();
-      player.error(null);
-    });
-    videojs.on(okButton, 'click', function() {
-      display.close();
-      player.error(null);
-    });
+    videojs.on(closeButton, 'click', dismiss);
+    videojs.on(okButton, 'click', dismiss);
   };
 
   const onDisposeHandler = function() {

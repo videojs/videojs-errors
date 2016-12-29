@@ -13,37 +13,45 @@ const defaults = {
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',
-      headline: 'The video download was cancelled'
+      headline: 'The video download was cancelled',
+      dismiss: true
     },
     '2': {
       type: 'MEDIA_ERR_NETWORK',
       headline: 'The video connection was lost, please confirm you are ' +
-                'connected to the internet'
+                'connected to the internet',
+      dismiss: true
     },
     '3': {
       type: 'MEDIA_ERR_DECODE',
-      headline: 'The video is bad or in a format that cannot be played on your browser'
+      headline: 'The video is bad or in a format that cannot be played on your browser',
+      dismiss: true
     },
     '4': {
       type: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
-      headline: 'This video is either unavailable or not supported in this browser'
+      headline: 'This video is either unavailable or not supported in this browser',
+      dismiss: true
     },
     '5': {
       type: 'MEDIA_ERR_ENCRYPTED',
       headline: 'The video you are trying to watch is encrypted and we do not know how ' +
-                'to decrypt it'
+                'to decrypt it',
+      dismiss: true
     },
     'unknown': {
       type: 'MEDIA_ERR_UNKNOWN',
-      headline: 'An unanticipated problem was encountered, check back soon and try again'
+      headline: 'An unanticipated problem was encountered, check back soon and try again',
+      dismiss: true
     },
     '-1': {
       type: 'PLAYER_ERR_NO_SRC',
-      headline: 'No video has been loaded'
+      headline: 'No video has been loaded',
+      dismiss: true
     },
     '-2': {
       type: 'PLAYER_ERR_TIMEOUT',
-      headline: 'Could not download the video'
+      headline: 'Could not download the video',
+      dismiss: true
     }
   }
 };
@@ -184,11 +192,14 @@ const initPlugin = function(player, options) {
     if (display.getChild('closeButton')) {
       display.removeChild('closeButton');
     }
-    // Make the error display closeable, and we should get a close button
-    display.closeable(true);
+
     content.className = 'vjs-errors-dialog';
     content.id = 'vjs-errors-dialog';
-    content.innerHTML =
+
+    // Make the error display closeable, and we should get a close button
+    if (error.dismiss) {
+      display.closeable(true);
+      content.innerHTML =
       `<div class="vjs-errors-content-container">
         <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
           <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
@@ -197,6 +208,16 @@ const initPlugin = function(player, options) {
         <div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
         </div>`;
+    }
+    else {
+      content.innerHTML =
+       `<div class="vjs-errors-content-container">
+        <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
+          <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
+          ${details}
+        </div>`;
+    }
+
     display.fillWith(content);
     // Get the close button inside the error display
     display.contentEl().firstChild.appendChild(display.getChild('closeButton').el());
@@ -204,10 +225,16 @@ const initPlugin = function(player, options) {
       display.addClass('vjs-xs');
     }
 
+    let closeButton = display.el().querySelector('.vjs-close-button');
     let okButton = display.el().querySelector('.vjs-errors-ok-button');
 
+    videojs.on(closeButton, 'click', function() {
+      display.close();
+      player.error(null);
+    });
     videojs.on(okButton, 'click', function() {
       display.close();
+      player.error(null);
     });
   };
 

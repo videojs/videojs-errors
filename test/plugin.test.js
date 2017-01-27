@@ -62,8 +62,8 @@ QUnit.test('registers itself with video.js', function(assert) {
   assert.expect(2);
 
   assert.strictEqual(
-    Player.prototype.errors,
-    plugin,
+    typeof Player.prototype.errors,
+    'function',
     'videojs-errors plugin was registered'
   );
 
@@ -383,6 +383,14 @@ QUnit.test('custom error details should override defaults', function(assert) {
 });
 
 QUnit.test('Append Flash error details when flash is not supported', function(assert) {
+  const Flash = videojs.getTech('Flash');
+
+  // vjs6 won't have flash by default
+  if (!Flash) {
+    assert.notOk(Flash, 'flash tech not available, skipping unit test');
+    return;
+  }
+
   let oldIsSupported = videojs.getComponent('Flash').isSupported;
 
   // Mock up isSupported to be false

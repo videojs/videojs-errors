@@ -2,8 +2,13 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
+* @misteroneill Remove deprecation warning about using videojs.plugin (#72)
+* @BrandonOCasey Update Travis build to run w/ Video.js 5 and 6 (#71)
 
 --------------------
+
+## v1.1.3 (2017-01-27)
+* @BrandonOCasey Updates for Video.js 6.0 compatibility. (#67)
 
 ## v1.1.2 (2016-12-07)
 * @forbesjo Error if Flash tech is unusable (#50)

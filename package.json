@@ -73,7 +73,7 @@
     "karma-safari-launcher": "^0.1.0",
     "lodash-compat": "^3.10.0",
     "minimist": "^1.2.0",
-    "node-sass": "^3.4.0",
+    "node-sass": "^4.2.0",
     "npm-run-all": "~1.2.0",
     "portscanner": "^2.1.1",
     "qunitjs": "^1.0.0",

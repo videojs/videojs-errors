@@ -4,6 +4,9 @@ import document from 'global/document';
 
 const FlashObj = videojs.getComponent('Flash');
 
+// Video.js 5/6 cross-compatibility.
+const registerPlugin = videojs.registerPlugin || videojs.plugin;
+
 // Default options for the plugin.
 const defaults = {
   header: '',
@@ -246,6 +249,6 @@ const errors = function(options) {
 };
 
 // Register the plugin with video.js.
-videojs.plugin('errors', errors);
+registerPlugin('errors', errors);
 
 export default errors;

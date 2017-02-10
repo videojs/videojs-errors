@@ -407,3 +407,51 @@ QUnit.test('Append Flash error details when flash is not supported', function(as
   // Restoring isSupported to the old value
   videojs.getComponent('Flash').isSupported = oldIsSupported;
 });
+
+QUnit.test('default error is dismissible', function(assert) {
+  // initialize the plugin
+  this.player.errors();
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+  // trigger the error in question
+  this.player.error(2);
+  // confirm results
+  assert.ok(document.querySelector('.vjs-errors-ok-button'), 'ok button is present');
+  assert.ok(document.querySelector('.vjs-close-button'), 'close button is present');
+});
+
+QUnit.test('custom error is dismissible', function(assert) {
+  let customErrorDismiss = {
+    headline: 'test headline',
+    message: 'test details',
+    dismiss: true
+  };
+
+  // initialize the plugin with custom options
+  this.player.errors({errors: {4: customErrorDismiss}});
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+  // trigger the error in question
+  this.player.error(4);
+  // confirm results
+  assert.ok(document.querySelector('.vjs-errors-ok-button'), 'ok button is present');
+  assert.ok(document.querySelector('.vjs-close-button'), 'close button is present');
+});
+
+QUnit.test('custom error is not dismissible', function(assert) {
+  let customErrorNoDimiss = {
+    headline: 'test headline',
+    message: 'test details',
+    dismiss: false
+  };
+
+  // initialize the plugin with custom options
+  this.player.errors({errors: {4: customErrorNoDimiss}});
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+  // trigger the error in question
+  this.player.error(4);
+  // confirm results
+  assert.ok(!document.querySelector('.vjs-errors-ok-button'), 'ok button is not present');
+  assert.ok(!document.querySelector('.vjs-close-button'), 'close button is not present');
+});

@@ -195,21 +195,16 @@ const initPlugin = function(player, options) {
         ${details}
       </div>`;
 
-    // Make the error display closeable, and we should get a close button
-    if (!('dismiss' in error) || error.dismiss) {
-      closeable = display.closeable(true);
+    closeable = display.closeable(!('dismiss' in error) || error.dismiss);
+
+    // We should get a close button
+    if (closeable) {
       content.innerHTML +=
        `<div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
         </div>`;
-    } else {
-      closeable = display.closeable(false);
-    }
-
-    display.fillWith(content);
-
-    // Get the close button inside the error display
-    if (closeable === true) {
+      display.fillWith(content);
+      // Get the close button inside the error display
       display.contentEl().firstChild.appendChild(display.getChild('closeButton').el());
 
       let okButton = display.el().querySelector('.vjs-errors-ok-button');
@@ -217,6 +212,8 @@ const initPlugin = function(player, options) {
       player.on(okButton, 'click', function() {
         display.close();
       });
+    } else {
+      display.fillWith(content);
     }
 
     if (player.width() <= 600 || player.height() <= 250) {

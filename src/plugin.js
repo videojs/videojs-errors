@@ -4,6 +4,9 @@ import document from 'global/document';
 
 const FlashObj = videojs.getComponent('Flash');
 
+// Video.js 5/6 cross-compatibility.
+const registerPlugin = videojs.registerPlugin || videojs.plugin;
+
 // Default options for the plugin.
 const defaults = {
   header: '',
@@ -173,7 +176,7 @@ const initPlugin = function(player, options) {
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
     }
-    if (error.code === 4 && !FlashObj.isSupported()) {
+    if (error.code === 4 && FlashObj && !FlashObj.isSupported()) {
       const flashMessage = player.localize(' * If you are using an older browser' +
       ' please try upgrading or installing Flash.');
 
@@ -257,6 +260,6 @@ const errors = function(options) {
 };
 
 // Register the plugin with video.js.
-videojs.plugin('errors', errors);
+registerPlugin('errors', errors);
 
 export default errors;

@@ -165,6 +165,7 @@ const initPlugin = function(player, options) {
     let details = '';
     let error = player.error();
     let content = document.createElement('div');
+    let dialogContent = '';
     let closeable;
 
     // In the rare case when `error()` does not return an error object,
@@ -188,7 +189,7 @@ const initPlugin = function(player, options) {
 
     content.className = 'vjs-errors-dialog';
     content.id = 'vjs-errors-dialog';
-    content.innerHTML =
+    dialogContent =
      `<div class="vjs-errors-content-container">
       <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
         <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
@@ -199,10 +200,11 @@ const initPlugin = function(player, options) {
 
     // We should get a close button
     if (closeable) {
-      content.innerHTML +=
+      dialogContent +=
        `<div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
         </div>`;
+      content.innerHTML = dialogContent;
       display.fillWith(content);
       // Get the close button inside the error display
       display.contentEl().firstChild.appendChild(display.getChild('closeButton').el());
@@ -213,6 +215,7 @@ const initPlugin = function(player, options) {
         display.close();
       });
     } else {
+      content.innerHTML = dialogContent;
       display.fillWith(content);
     }
 

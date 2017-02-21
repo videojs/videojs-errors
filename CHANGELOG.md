@@ -2,10 +2,14 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* @misteroneill Remove deprecation warning about using videojs.plugin (#72)
-* @BrandonOCasey Update Travis build to run w/ Video.js 5 and 6 (#71)
+* @gfviegas Add support for Portuguese ([#42](https://github.com/brightcove/videojs-errors/pull/42))
+* @bc-paul Allow errors to be non-dismissible ([#54](https://github.com/brightcove/videojs-errors/pull/54))
 
 --------------------
+
+## v1.1.4 (2017-02-09)
+* @misteroneill Remove deprecation warning about using videojs.plugin (#72)
+* @BrandonOCasey Update Travis build to run w/ Video.js 5 and 6 (#71)
 
 ## v1.1.3 (2017-01-27)
 * @BrandonOCasey Updates for Video.js 6.0 compatibility. (#67)

@@ -12,7 +12,8 @@ var exec = function() {
   return result;
 };
 
-exec('git add package.json');
+exec('chg release -y');
+exec('git add CHANGELOG.md package.json');
 exec('git commit -m "' + VERSION + '"');
 exec('npm run build');
 exec('git add -f dist');

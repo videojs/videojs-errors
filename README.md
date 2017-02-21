@@ -62,6 +62,7 @@ NOTES:
 - Custom error definitions should be limited to the initCustomErrorConditions routine for encapsulation.
 - Custom errors should reference a code value of a negative integer.
 - Custom errors should reference a type beginning with 'PLAYER_ERR' versus the standardized 'MEDIA_ERR' to avoid confusion.
+- Custom errors can be chosen to be dismissible (boolean value `true`)
 
 If the video element emits any of those errors, the corresponding error message will be displayed. You can override and add custom error codes by supplying options to the plugin:
 
@@ -76,10 +77,10 @@ If the video element emits any of those errors, the corresponding error message 
 
 If you define custom error messages, you'll need to let video.js know when to emit them yourself:
 
-    video.error({code: 'custom'});
+    video.error({code: 'custom',dismiss: true});
 
 If an error is emitted that doesn't have an associated key, a generic, catch-all message is displayed. You can override that text by supplying a message for the key `unknown`.
 
 ## Known Issues
 
-On iPhones, the video element intercepts all user interaction so error message dialogs miss the tap events and don't dismiss themselves. If your video is busted anyways, you may not be that upset about this.
+On iPhones, default errors are not dismissible. The video element intercepts all user interaction so error message dialogs miss the tap events. If your video is busted anyways, you may not be that upset about this.

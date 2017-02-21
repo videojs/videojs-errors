@@ -3,6 +3,7 @@ import window from 'global/window';
 import document from 'global/document';
 
 const FlashObj = videojs.getComponent('Flash');
+const defaultDismiss = !videojs.browser.IS_IPHONE;
 
 // Video.js 5/6 cross-compatibility.
 const registerPlugin = videojs.registerPlugin || videojs.plugin;
@@ -13,6 +14,7 @@ const defaults = {
   code: '',
   message: '',
   timeout: 45 * 1000,
+  dismiss: defaultDismiss,
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',
@@ -163,6 +165,8 @@ const initPlugin = function(player, options) {
     let details = '';
     let error = player.error();
     let content = document.createElement('div');
+    let dialogContent = '';
+    let closeable;
 
     // In the rare case when `error()` does not return an error object,
     // defensively escape the handler function.
@@ -182,36 +186,44 @@ const initPlugin = function(player, options) {
       details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     }
     display = player.getChild('errorDisplay');
-    // The code snippet below is to make sure we dispose any child closeButtons before
-    // making the display closeable
-    if (display.getChild('closeButton')) {
-      display.removeChild('closeButton');
-    }
-    // Make the error display closeable, and we should get a close button
-    display.closeable(true);
+
     content.className = 'vjs-errors-dialog';
     content.id = 'vjs-errors-dialog';
-    content.innerHTML =
-      `<div class="vjs-errors-content-container">
-        <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
-          <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
-          ${details}
-        </div>
-        <div class="vjs-errors-ok-button-container">
+    dialogContent =
+     `<div class="vjs-errors-content-container">
+      <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
+        <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
+        ${details}
+      </div>`;
+
+    closeable = display.closeable(!('dismiss' in error) || error.dismiss);
+
+    // We should get a close button
+    if (closeable) {
+      dialogContent +=
+       `<div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>
         </div>`;
-    display.fillWith(content);
-    // Get the close button inside the error display
-    display.contentEl().firstChild.appendChild(display.getChild('closeButton').el());
+      content.innerHTML = dialogContent;
+      display.fillWith(content);
+      // Get the close button inside the error display
+      display.contentEl().firstChild.appendChild(display.getChild('closeButton').el());
+
+      let okButton = display.el().querySelector('.vjs-errors-ok-button');
+
+      player.on(okButton, 'click', function() {
+        display.close();
+      });
+    } else {
+      content.innerHTML = dialogContent;
+      display.fillWith(content);
+    }
+
     if (player.width() <= 600 || player.height() <= 250) {
       display.addClass('vjs-xs');
     }
 
-    let okButton = display.el().querySelector('.vjs-errors-ok-button');
-
-    videojs.on(okButton, 'click', function() {
-      display.close();
-    });
+    display.one('modalclose', () => player.error(null));
   };
 
   const onDisposeHandler = function() {

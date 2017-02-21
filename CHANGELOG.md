@@ -2,10 +2,13 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* @gfviegas Add support for Portuguese ([#42](https://github.com/brightcove/videojs-errors/pull/42))
-* @bc-paul Allow errors to be non-dismissible ([#54](https://github.com/brightcove/videojs-errors/pull/54))
+_(none)_
 
 --------------------
+
+## 1.2.0 (2017-02-21)
+* @gfviegas Add support for Portuguese ([#42](https://github.com/brightcove/videojs-errors/pull/42))
+* @bc-paul Allow errors to be non-dismissible ([#54](https://github.com/brightcove/videojs-errors/pull/54))
 
 ## v1.1.4 (2017-02-09)
 * @misteroneill Remove deprecation warning about using videojs.plugin (#72)

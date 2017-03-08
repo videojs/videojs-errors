@@ -47,6 +47,7 @@ QUnit.module('videojs-errors', {
 
     // initialize the plugin with the default options
     this.player.errors();
+    this.errorDisplay = this.player.getChild('errorDisplay');
 
     // Tick forward so the player is ready.
     this.clock.tick(1);
@@ -376,9 +377,9 @@ QUnit.test('custom error details should override defaults', function(assert) {
   // trigger the error in question
   this.player.error(4);
   // confirm results
-  assert.strictEqual(document.querySelector('.vjs-errors-headline').textContent,
+  assert.strictEqual(this.errorDisplay.$('.vjs-errors-headline').textContent,
     customError.headline, 'headline should match custom override value');
-  assert.strictEqual(document.querySelector('.vjs-errors-message').textContent,
+  assert.strictEqual(this.errorDisplay.$('.vjs-errors-message').textContent,
     customError.message, 'message should match custom override value');
 });
 
@@ -401,7 +402,7 @@ QUnit.test('Append Flash error details when flash is not supported', function(as
   // trigger the error in question
   this.player.error(4);
   // confirm results
-  assert.equal(document.querySelector('.vjs-errors-flashmessage').textContent,
+  assert.equal(this.errorDisplay.$('.vjs-errors-flashmessage').textContent,
     ' * If you are using an older browser please try upgrading or installing Flash.',
     'Flash Error message should be displayed');
   // Restoring isSupported to the old value
@@ -416,8 +417,8 @@ QUnit.test('default error is dismissible', function(assert) {
   // trigger the error in question
   this.player.error(2);
   // confirm results
-  assert.ok(document.querySelector('.vjs-errors-ok-button'), 'ok button is present');
-  assert.ok(document.querySelector('.vjs-close-button'), 'close button is present');
+  assert.ok(this.errorDisplay.$('.vjs-errors-ok-button'), 'ok button is present');
+  assert.ok(this.errorDisplay.$('.vjs-close-button'), 'close button is present');
 });
 
 QUnit.test('custom error is dismissible', function(assert) {
@@ -434,8 +435,8 @@ QUnit.test('custom error is dismissible', function(assert) {
   // trigger the error in question
   this.player.error(4);
   // confirm results
-  assert.ok(document.querySelector('.vjs-errors-ok-button'), 'ok button is present');
-  assert.ok(document.querySelector('.vjs-close-button'), 'close button is present');
+  assert.ok(this.errorDisplay.$('.vjs-errors-ok-button'), 'ok button is present');
+  assert.ok(this.errorDisplay.$('.vjs-close-button'), 'close button is present');
 });
 
 QUnit.test('custom error is not dismissible', function(assert) {
@@ -452,6 +453,6 @@ QUnit.test('custom error is not dismissible', function(assert) {
   // trigger the error in question
   this.player.error(4);
   // confirm results
-  assert.ok(!document.querySelector('.vjs-errors-ok-button'), 'ok button is not present');
-  assert.ok(!document.querySelector('.vjs-close-button'), 'close button is not present');
+  assert.ok(!this.errorDisplay.$('.vjs-errors-ok-button'), 'ok button is not present');
+  assert.ok(!this.errorDisplay.$('.vjs-close-button'), 'close button is not present');
 });

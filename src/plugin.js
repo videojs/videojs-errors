@@ -133,7 +133,7 @@ const initPlugin = function(player, options) {
   };
 
   const onPlayStartMonitor = function() {
-    let lastTime = 0;
+    let lastTime = player.currentTime();
 
     cleanup();
 
@@ -143,7 +143,7 @@ const initPlugin = function(player, options) {
       let currentTime = player.currentTime();
 
       // playback is operating normally or has recovered
-      if (currentTime !== lastTime) {
+      if ((lastTime + 1) <= (currentTime)) {
         lastTime = currentTime;
         resetMonitor();
       }

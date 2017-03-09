@@ -246,6 +246,68 @@ QUnit.test('no signs of playback triggers a player timeout', function(assert) {
     'type is player timeout');
 });
 
+QUnit.test('small time changes do not reset the player timeout', function(assert) {
+  let errors = 0;
+  let currentTime = 0;
+
+  this.player.src(sources);
+  this.player.on('error', function() {
+    errors++;
+  });
+  // swallow any timeupdate events
+  this.player.on('timeupdate', function(event) {
+    event.stopImmediatePropagation();
+  });
+
+  this.player.currentTime = function() {
+    return currentTime;
+  };
+  this.player.trigger('play');
+  this.clock.tick(20 * 1000);
+  currentTime += 0.1;
+  this.clock.tick(25 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted a single error');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type,
+    'PLAYER_ERR_TIMEOUT',
+    'type is player timeout');
+});
+
+QUnit.test('after player timeout is triggered it is not not reset by small time changes', function(assert) {
+  let errors = 0;
+  let currentTime = 0;
+
+  this.player.src(sources);
+  this.player.on('error', function() {
+    errors++;
+  });
+  // swallow any timeupdate events
+  this.player.on('timeupdate', function(event) {
+    event.stopImmediatePropagation();
+  });
+
+  this.player.currentTime = function() {
+    return currentTime;
+  };
+  this.player.trigger('play');
+  this.clock.tick(45 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted a single error');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type,
+    'PLAYER_ERR_TIMEOUT',
+    'type is player timeout');
+
+  currentTime += 0.1;
+  this.player.trigger('timeupdate');
+  assert.strictEqual(errors, 1, 'there is still only a single error');
+  assert.strictEqual(this.player.error().code, -2, 'error code is still -2');
+  assert.strictEqual(this.player.error().type,
+    'PLAYER_ERR_TIMEOUT',
+    'type is still player timeout');
+});
+
 QUnit.test('time changes while playing reset the player timeout', function(assert) {
   let errors = 0;
 

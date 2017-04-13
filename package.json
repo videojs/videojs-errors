@@ -1,8 +1,8 @@
 {
   "name": "videojs-errors",
   "version": "1.2.0",
-  "author": "Brightcove",
-  "description": "A VideoJS plugin for custom error reporting",
+  "author": "Brightcove, Inc.",
+  "description": "A Video.js plugin for custom error reporting",
   "license": "Apache-2.0",
   "keywords": [
     "flash",
@@ -17,105 +17,44 @@
     "url": "https://github.com/brightcove/videojs-errors.git"
   },
   "scripts": {
-    "prebuild": "npm run clean",
-    "build": "npm-run-all -p build:*",
-    "build:css": "npm-run-all mkdirs build:css:sass build:css:bannerize",
-    "build:css:bannerize": "bannerize dist/videojs-errors.css --banner=scripts/banner.ejs",
-    "build:css:sass": "node-sass --output-style=compressed --linefeed=lf src/plugin.scss -o dist &&  mv dist/plugin.css dist/videojs-errors.css",
-    "build:js": "npm-run-all mkdirs build:js:babel build:js:browserify build:js:bannerize build:js:uglify",
-    "build:js:babel": "babel src -d es5",
-    "build:js:bannerize": "bannerize dist/videojs-errors.js --banner=scripts/banner.ejs",
-    "build:js:browserify": "browserify . -s videojs-errors -o dist/videojs-errors.js",
-    "build:js:uglify": "uglifyjs dist/videojs-errors.js --comments --mangle --compress -o dist/videojs-errors.min.js",
-    "build:lang": "vjslang --dir dist/lang",
-    "build:test": "npm-run-all mkdirs build:test:browserify",
-    "build:test:browserify": "browserify  `find test -name '*.test.js'` -t babelify -o dist-test/videojs-errors.js",
-    "clean": "rm -rf dist dist-test es5",
-    "lint": "vjsstandard",
-    "mkdirs": "mkdir -p dist dist-test es5",
-    "prestart": "npm run build",
-    "start": "npm-run-all -p start:serve watch",
-    "start:serve": "babel-node scripts/server.js",
-    "pretest": "npm-run-all lint build:test",
-    "test": "karma start test/karma.conf.js",
-    "test:chrome": "npm run pretest && karma start test/karma.conf.js --browsers Chrome",
-    "test:firefox": "npm run pretest && karma start test/karma.conf.js --browsers Firefox",
-    "test:ie": "npm run pretest && karma start test/karma.conf.js --browsers IE",
-    "test:safari": "npm run pretest && karma start test/karma.conf.js --browsers Safari",
+    "build": "sb-build",
+    "clean": "sb-clean",
+    "lint": "sb-lint",
+    "start": "sb-start",
+    "test": "sb-test",
     "preversion": "npm test",
-    "version": "node scripts/npm-version-for-bower.js",
-    "postversion": "git reset --hard HEAD~1",
-    "watch": "npm run mkdirs && npm-run-all -p watch:*",
-    "watch:css": "node-sass --output-style=nested --linefeed=lf src/plugin.scss -o dist -w src && mv dist/plugin.css dist/videojs-errors.css",
-    "watch:js": "watchify src/plugin.js -t babelify -v -o dist/videojs-errors.js",
-    "watch:test": "watchify `find test -name '*.test.js'` -t babelify -o dist-test/videojs-errors.js",
-    "prepublish": "npm run build"
+    "postversion": "sb-release",
+    "prepush": "npm run lint"
   },
   "dependencies": {
-    "video.js": "^5.5.1",
-    "global": "^4.3.0"
+    "global": "^4.3.0",
+    "video.js": "^5.16.0"
   },
   "devDependencies": {
-    "babel": "^5.8.0",
-    "babelify": "^6.0.0",
-    "bannerize": "^1.0.0",
-    "browserify": "^13.3.0",
-    "browserify-shim": "^3.0.0",
-    "connect": "^3.4.0",
-    "cowsay": "^1.1.0",
-    "karma": "^1.4.1",
-    "karma-browserify": "^4.4.0",
-    "karma-chrome-launcher": "^0.2.0",
-    "karma-detect-browsers": "^2.0.0",
-    "karma-firefox-launcher": "^0.1.0",
-    "karma-ie-launcher": "^0.2.0",
-    "karma-qunit": "^0.1.0",
-    "karma-safari-launcher": "^0.1.0",
-    "lodash-compat": "^3.10.0",
-    "minimist": "^1.2.0",
-    "node-sass": "^4.5.0",
-    "npm-run-all": "~3.1.2",
-    "portscanner": "^2.1.1",
-    "qunitjs": "^1.0.0",
-    "serve-static": "^1.10.0",
-    "shelljs": "^0.5.3",
-    "sinon": "1.14.1",
-    "uglify-js": "^2.5.0",
-    "videojs-languages": "^1.0.0",
-    "videojs-standard": "^4.0.0",
-    "watchify": "^3.6.0"
+    "husky": "^0.13.1",
+    "videojs-spellbook": "^3.1.3"
   },
-  "main": "es5/plugin.js",
-  "browserify": {
-    "transform": [
-      "browserify-shim"
-    ]
-  },
-  "browserify-shim": {
-    "qunit": "global:QUnit",
-    "sinon": "global:sinon",
-    "video.js": "global:videojs"
-  },
-  "vjsstandard": {
-    "ignore": [
-      "dist",
-      "dist-test",
-      "docs",
-      "es5",
-      "test/karma.conf.js",
-      "scripts"
-    ]
-  },
+  "main": "dist/es5/index.js",
   "files": [
+    "CHANGELOG.md",
     "CONTRIBUTING.md",
-    "bower.json",
-    "dist-test/",
-    "dist/",
+    "README.md",
+    "dist/browser",
+    "dist/docs",
+    "dist/es5",
+    "dist/lang",
     "docs/",
-    "es5/",
     "index.html",
-    "scripts/",
-    "src/",
-    "test/"
-  ]
+    "src/"
+  ],
+  "jsnext:main": "src/js/index.js",
+  "engines": {
+    "node": ">=4.4.0"
+  },
+  "generator-videojs-plugin": {
+    "version": "3.2.0"
+  },
+  "spellbook": {
+    "ie8": true
+  }
 }

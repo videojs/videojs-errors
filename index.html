@@ -4,13 +4,14 @@
   <meta charset="utf-8">
   <title>videojs-errors Demo</title>
   <link href="/node_modules/video.js/dist/video-js.css" rel="stylesheet">
-  <link href="/dist/videojs-errors.css" rel="stylesheet">
+  <link href="/dist/browser/videojs-errors.css" rel="stylesheet">
   <script src="/node_modules/video.js/dist/video.js"></script>
-  <script src="/dist/videojs-errors.js"></script>
+  <script src="/dist/browser/videojs-errors.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
     }
+
     .info {
       background-color: #eee;
       border: thin solid #333;
@@ -58,20 +59,18 @@
   </ul>
 
   <script>
-    (function(window, videojs) {
-      window.player = videojs('video');
-      window.player.errors();
-      window.player.play();
+    var player = videojs('video');
 
-      window.mini = videojs('mini');
-      window.mini.errors();
-      window.mini.play();
+    player.errors();
 
-      // Sample Custom Error
-      // If you want to fire a custom error at any time use
-      // the following syntax:
-      // player.error({code: 1, message:'test', status: 404});
-    }(window, window.videojs));
+    var mini = videojs('mini');
+
+    mini.errors();
+
+    // Sample Custom Error
+    // If you want to fire a custom error at any time use
+    // the following syntax:
+    // player.error({code: 1, message:'test', status: 404});
   </script>
 </body>
 </html>

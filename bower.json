@@ -3,10 +3,12 @@
   "author": "Brightcove, Inc.",
   "license": "Apache-2.0",
   "main": [
-    "dist/videojs-errors.min.js"
+    "dist/browser/videojs-errors.min.css",
+    "dist/browser/videojs-errors.min.js"
   ],
   "keywords": [
     "videojs",
     "videojs-plugin"
   ]
 }
+

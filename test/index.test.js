@@ -4,7 +4,7 @@ import QUnit from 'qunit';
 import sinon from 'sinon';
 import videojs from 'video.js';
 
-import plugin from '../src/plugin';
+import plugin from '../src/js/index';
 
 const Player = videojs.getComponent('Player');
 
@@ -368,7 +368,7 @@ QUnit.test('unrecognized error codes do not cause exceptions', function(assert) 
 });
 
 QUnit.test('custom error details should override defaults', function(assert) {
-  let customError = {headline: 'test headline', message: 'test details'};
+  const customError = {headline: 'test headline', message: 'test details'};
 
   // initialize the plugin with custom options
   this.player.errors({errors: {4: customError}});
@@ -392,7 +392,7 @@ QUnit.test('Append Flash error details when flash is not supported', function(as
     return;
   }
 
-  let oldIsSupported = videojs.getComponent('Flash').isSupported;
+  const oldIsSupported = videojs.getComponent('Flash').isSupported;
 
   // Mock up isSupported to be false
   videojs.getComponent('Flash').isSupported = () => false;
@@ -422,7 +422,7 @@ QUnit.test('default error is dismissible', function(assert) {
 });
 
 QUnit.test('custom error is dismissible', function(assert) {
-  let customErrorDismiss = {
+  const customErrorDismiss = {
     headline: 'test headline',
     message: 'test details',
     dismiss: true
@@ -440,7 +440,7 @@ QUnit.test('custom error is dismissible', function(assert) {
 });
 
 QUnit.test('custom error is not dismissible', function(assert) {
-  let customErrorNoDimiss = {
+  const customErrorNoDimiss = {
     headline: 'test headline',
     message: 'test details',
     dismiss: false

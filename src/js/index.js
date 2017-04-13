@@ -60,7 +60,7 @@ const defaults = {
  */
 const initPlugin = function(player, options) {
   let monitor;
-  let listeners = [];
+  const listeners = [];
 
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
@@ -98,12 +98,12 @@ const initPlugin = function(player, options) {
 
   // creates and tracks a player listener if the player looks alive
   const healthcheck = function(type, fn) {
-    let check = function() {
+    const check = function() {
       // if there's an error do not reset the monitor and
       // clear the error unless time is progressing
       if (!player.error()) {
         // error if using Flash and its API is unavailable
-        let tech = player.$('.vjs-tech');
+        const tech = player.$('.vjs-tech');
 
         if (tech &&
             tech.type === 'application/x-shockwave-flash' &&
@@ -140,7 +140,7 @@ const initPlugin = function(player, options) {
     // if no playback is detected for long enough, trigger a timeout error
     resetMonitor();
     healthcheck(['timeupdate', 'adtimeupdate'], function() {
-      let currentTime = player.currentTime();
+      const currentTime = player.currentTime();
 
       // playback is operating normally or has recovered
       if (currentTime !== lastTime) {
@@ -161,12 +161,10 @@ const initPlugin = function(player, options) {
   };
 
   const onErrorHandler = function() {
-    let display;
     let details = '';
     let error = player.error();
-    let content = document.createElement('div');
+    const content = document.createElement('div');
     let dialogContent = '';
-    let closeable;
 
     // In the rare case when `error()` does not return an error object,
     // defensively escape the handler function.
@@ -185,7 +183,8 @@ const initPlugin = function(player, options) {
 
       details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     }
-    display = player.getChild('errorDisplay');
+
+    const display = player.getChild('errorDisplay');
 
     content.className = 'vjs-errors-dialog';
     content.id = 'vjs-errors-dialog';
@@ -196,7 +195,7 @@ const initPlugin = function(player, options) {
         ${details}
       </div>`;
 
-    closeable = display.closeable(!('dismiss' in error) || error.dismiss);
+    const closeable = display.closeable(!('dismiss' in error) || error.dismiss);
 
     // We should get a close button
     if (closeable) {
@@ -209,7 +208,7 @@ const initPlugin = function(player, options) {
       // Get the close button inside the error display
       display.contentEl().firstChild.appendChild(display.getChild('closeButton').el());
 
-      let okButton = display.el().querySelector('.vjs-errors-ok-button');
+      const okButton = display.el().querySelector('.vjs-errors-ok-button');
 
       player.on(okButton, 'click', function() {
         display.close();

@@ -11,5 +11,7 @@
   "An unanticipated problem was encountered, check back soon and try again": "An unanticipated problem was encountered, check back soon and try again",
   "This video is restricted from playing on your current domain": "This video is restricted from playing on your current domain",
   "This video is restricted at your current IP address": "This video is restricted at your current IP address",
-  "This video is restricted from playing in your current geographic region": "This video is restricted from playing in your current geographic region"
+  "This video is restricted from playing in your current geographic region": "This video is restricted from playing in your current geographic region",
+  "If you are using an older browser please try upgrading or installing Flash.": "If you are using an older browser please try upgrading or installing Flash.",
+  "OK": "OK"
 }

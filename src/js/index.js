@@ -190,8 +190,7 @@ const initPlugin = function(player, options) {
         </div>`;
     }
     if (error.code === 4 && FlashObj && !FlashObj.isSupported()) {
-      const flashMessage = player.localize(' * If you are using an older browser' +
-      ' please try upgrading or installing Flash.');
+      const flashMessage = player.localize('If you are using an older browser please try upgrading or installing Flash.');
 
       details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     }

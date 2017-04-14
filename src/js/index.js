@@ -51,15 +51,15 @@ const defaults = {
       headline: 'Could not download the video'
     },
     '-3': {
-      type: 'MEDIA_ERR_DOMAIN_RESTRICTED',
+      type: 'PLAYER_ERR_DOMAIN_RESTRICTED',
       headline: 'This video is restricted from playing on your current domain'
     },
     '-4': {
-      type: 'MEDIA_ERR_IP_RESTRICTED',
+      type: 'PLAYER_ERR_IP_RESTRICTED',
       headline: 'This video is restricted at your current IP address'
     },
     '-5': {
-      type: 'MEDIA_ERR_GEO_RESTRICTED',
+      type: 'PLAYER_ERR_GEO_RESTRICTED',
       headline: 'This video is restricted from playing in your current geographic region'
     }
   }
@@ -183,12 +183,15 @@ const initPlugin = function(player, options) {
     if (!error) {
       return;
     }
+
     error = videojs.mergeOptions(error, options.errors[error.code || 0]);
+
     if (error.message) {
       details = `<div class="vjs-errors-details">${player.localize('Technical details')}
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
     }
+
     if (error.code === 4 && FlashObj && !FlashObj.isSupported()) {
       const flashMessage = player.localize('If you are using an older browser please try upgrading or installing Flash.');
 
@@ -249,6 +252,10 @@ const initPlugin = function(player, options) {
   const reInitPlugin = function(newOptions) {
     onDisposeHandler();
     initPlugin(player, videojs.mergeOptions(defaults, newOptions));
+  };
+
+  reInitPlugin.extend = function(errors) {
+    options.errors = videojs.mergeOptions(options.errors, errors);
   };
 
   player.on('play', onPlayStartMonitor);

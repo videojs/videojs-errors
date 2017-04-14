@@ -456,3 +456,34 @@ QUnit.test('custom error is not dismissible', function(assert) {
   assert.ok(!this.errorDisplay.$('.vjs-errors-ok-button'), 'ok button is not present');
   assert.ok(!this.errorDisplay.$('.vjs-close-button'), 'close button is not present');
 });
+
+QUnit.test('custom errors can be added at runtime', function(assert) {
+  this.player.errors();
+
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+
+  const error = {
+    '-3': {
+      type: 'TEST',
+      headline: 'test',
+      message: 'test test'
+    }
+  };
+
+  this.player.errors.extend(error);
+
+  this.player.error({code: -3});
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-headline').textContent,
+    error['-3'].headline,
+    'headline should match custom override value'
+  );
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-message').textContent,
+    error['-3'].message,
+    'message should match custom override value'
+  );
+});

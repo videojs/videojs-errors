@@ -403,7 +403,7 @@ QUnit.test('Append Flash error details when flash is not supported', function(as
   this.player.error(4);
   // confirm results
   assert.equal(this.errorDisplay.$('.vjs-errors-flashmessage').textContent,
-    ' * If you are using an older browser please try upgrading or installing Flash.',
+    'If you are using an older browser please try upgrading or installing Flash.',
     'Flash Error message should be displayed');
   // Restoring isSupported to the old value
   videojs.getComponent('Flash').isSupported = oldIsSupported;

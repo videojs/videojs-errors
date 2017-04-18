@@ -403,7 +403,7 @@ QUnit.test('Append Flash error details when flash is not supported', function(as
   this.player.error(4);
   // confirm results
   assert.equal(this.errorDisplay.$('.vjs-errors-flashmessage').textContent,
-    ' * If you are using an older browser please try upgrading or installing Flash.',
+    'If you are using an older browser please try upgrading or installing Flash.',
     'Flash Error message should be displayed');
   // Restoring isSupported to the old value
   videojs.getComponent('Flash').isSupported = oldIsSupported;
@@ -455,4 +455,35 @@ QUnit.test('custom error is not dismissible', function(assert) {
   // confirm results
   assert.ok(!this.errorDisplay.$('.vjs-errors-ok-button'), 'ok button is not present');
   assert.ok(!this.errorDisplay.$('.vjs-close-button'), 'close button is not present');
+});
+
+QUnit.test('custom errors can be added at runtime', function(assert) {
+  this.player.errors();
+
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+
+  const error = {
+    '-3': {
+      type: 'TEST',
+      headline: 'test',
+      message: 'test test'
+    }
+  };
+
+  this.player.errors.extend(error);
+
+  this.player.error({code: -3});
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-headline').textContent,
+    error['-3'].headline,
+    'headline should match custom override value'
+  );
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-message').textContent,
+    error['-3'].message,
+    'message should match custom override value'
+  );
 });

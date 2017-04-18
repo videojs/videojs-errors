@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* @misteroneill Add new custom errors and an `extend` method to customize errors at runtime ([#90](https://github.com/brightcove/videojs-errors/pull/90))
+_(none)_
 
 --------------------
+
+## 1.3.0 (2017-04-18)
+* @misteroneill Add new custom errors and an `extend` method to customize errors at runtime ([#90](https://github.com/brightcove/videojs-errors/pull/90))
 
 ## 1.2.0 (2017-02-21)
 * @gfviegas Add support for Portuguese ([#42](https://github.com/brightcove/videojs-errors/pull/42))

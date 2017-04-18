@@ -1,0 +1,12 @@
+{
+  "No video has been loaded": "未加载视频",
+  "Could not download the video": "无法下载视频",
+  "The video connection was lost, please confirm you are connected to the internet": "视频连接丢失，请确认已连接至互联网",
+  "The video is bad or in a format that cannot be played on your browser": "视频已损坏，或使用无法在浏览器中播放的格式",
+  "This video is either unavailable or not supported in this browser": "此视频不可用或不受此浏览器支持",
+  "Error Code": "错误代码",
+  "Technical details": "技术细节",
+  "The video download was cancelled": "视频下载已取消",
+  "The video you are trying to watch is encrypted and we do not know how to decrypt it": "您尝试观看的视频已加密，而且解密方法未知",
+  "An unanticipated problem was encountered, check back soon and try again": "发生意外问题，稍后请检查并重试"
+}

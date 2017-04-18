@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* @misteroneill Add new custom errors and an `extend` method to customize errors at runtime ([#90](https://github.com/brightcove/videojs-errors/pull/90))
 
 --------------------
 

@@ -232,7 +232,7 @@ const initPlugin = function(player, options) {
       display.fillWith(content);
     }
 
-    if (player.width() <= 600 || player.height() <= 250) {
+    if (player.currentWidth() <= 600 || player.currentHeight() <= 250) {
       display.addClass('vjs-xs');
     }
 

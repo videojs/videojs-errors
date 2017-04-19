@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* @misteroneill Fix size detection to account for players that have no configured dimensions ([#92](https://github.com/brightcove/videojs-errors/pull/92))
+_(none)_
 
 --------------------
+
+## 1.3.1 (2017-04-19)
+* @misteroneill Fix size detection to account for players that have no configured dimensions ([#92](https://github.com/brightcove/videojs-errors/pull/92))
 
 ## 1.3.0 (2017-04-18)
 * @misteroneill Add new custom errors and an `extend` method to customize errors at runtime ([#90](https://github.com/brightcove/videojs-errors/pull/90))

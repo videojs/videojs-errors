@@ -1,0 +1,9 @@
+{
+  "No video has been loaded": "動画がロードされませんでした",
+  "Could not download the video": "動画をダウンロードできませんでした",
+  "The video connection was lost, please confirm you are connected to the internet": "動画の接続が失われました。インターネットに接続していることを確認してください",
+  "The video is bad or in a format that cannot be played on your browser": "動画が悪いか、お役様のブラウザで再生できない動画フォーマットです。",
+  "This video is either unavailable or not supported in this browser": "この動画は利用できないか、このブラウザによってサポートされていません",
+  "Error Code": "エラー コード",
+  "Technical details": "技術面の詳細"
+}

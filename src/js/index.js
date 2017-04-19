@@ -15,6 +15,7 @@ const defaults = {
   message: '',
   timeout: 45 * 1000,
   dismiss: defaultDismiss,
+  progressDisabled: false,
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',
@@ -160,7 +161,10 @@ const initPlugin = function(player, options) {
         resetMonitor();
       }
     });
-    healthcheck('progress', resetMonitor);
+
+    if (!options.progressDisabled) {
+      healthcheck('progress', resetMonitor);
+    }
   };
 
   const onPlayNoSource = function() {
@@ -256,6 +260,10 @@ const initPlugin = function(player, options) {
 
   reInitPlugin.extend = function(errors) {
     options.errors = videojs.mergeOptions(options.errors, errors);
+  };
+
+  reInitPlugin.disableProgress = function(disabled) {
+    options.progressDisabled = disabled;
   };
 
   player.on('play', onPlayStartMonitor);

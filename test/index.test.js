@@ -109,6 +109,27 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
+QUnit.test('when progress watching is disabled, progress within 45 seconds is an error', function(assert) {
+  let errors = 0;
+
+  this.player.errors.disableProgress(true);
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+  this.player.trigger('play');
+  this.clock.tick(40 * 1000);
+  this.player.trigger('progress');
+  this.clock.tick(5 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted an error');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+
+  this.player.errors.disableProgress(false);
+});
+
 QUnit.test('Flash API is unavailable when using Flash is an error', function(assert) {
   this.player.tech_.el_.type = 'application/x-shockwave-flash';
   // when Flash dies the object methods go away

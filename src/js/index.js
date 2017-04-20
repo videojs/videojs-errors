@@ -264,6 +264,7 @@ const initPlugin = function(player, options) {
 
   reInitPlugin.disableProgress = function(disabled) {
     options.progressDisabled = disabled;
+    onPlayStartMonitor();
   };
 
   player.on('play', onPlayStartMonitor);

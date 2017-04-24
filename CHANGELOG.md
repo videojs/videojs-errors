@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* @forbesjo Added option to disable watching progress events ([#91](https://github.com/brightcove/videojs-errors/pull/91))
+_(none)_
 
 --------------------
+
+## 1.3.2 (2017-04-24)
+* @forbesjo Added option to disable watching progress events ([#91](https://github.com/brightcove/videojs-errors/pull/91))
 
 ## 1.3.1 (2017-04-19)
 * @misteroneill Fix size detection to account for players that have no configured dimensions ([#92](https://github.com/brightcove/videojs-errors/pull/92))

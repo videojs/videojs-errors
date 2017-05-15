@@ -51,16 +51,13 @@ const defaults = {
       type: 'PLAYER_ERR_TIMEOUT',
       headline: 'Could not download the video'
     },
-    'restricted-domain': {
-      type: 'PLAYER_ERR_DOMAIN_RESTRICTED',
+    'PLAYER_ERR_DOMAIN_RESTRICTED': {
       headline: 'This video is restricted from playing on your current domain'
     },
-    'restricted-ip': {
-      type: 'PLAYER_ERR_IP_RESTRICTED',
+    'PLAYER_ERR_IP_RESTRICTED': {
       headline: 'This video is restricted at your current IP address'
     },
-    'restricted-geo': {
-      type: 'PLAYER_ERR_GEO_RESTRICTED',
+    'PLAYER_ERR_GEO_RESTRICTED': {
       headline: 'This video is restricted from playing in your current geographic region'
     }
   }
@@ -74,6 +71,19 @@ const defaults = {
 const initPlugin = function(player, options) {
   let monitor;
   const listeners = [];
+
+  const updateErrors = function(updates) {
+    options.errors = videojs.mergeOptions(options.errors, updates);
+
+    // Create `code`s from errors which don't have them (based on their keys).
+    Object.keys(options.errors).forEach(k => {
+      const err = options.errors[k];
+
+      if (!err.code) {
+        err.code = k;
+      }
+    });
+  };
 
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
@@ -259,7 +269,7 @@ const initPlugin = function(player, options) {
   };
 
   reInitPlugin.extend = function(errors) {
-    options.errors = videojs.mergeOptions(options.errors, errors);
+    updateErrors(errors);
   };
 
   reInitPlugin.disableProgress = function(disabled) {

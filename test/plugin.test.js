@@ -508,3 +508,33 @@ QUnit.test('custom errors can be added at runtime', function(assert) {
     'message should match custom override value'
   );
 });
+
+QUnit.test('custom errors can be defined without a type', function(assert) {
+  this.player.errors();
+
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+
+  const error = {
+    TEST: {
+      headline: 'test',
+      message: 'test test'
+    }
+  };
+
+  this.player.errors.extend(error);
+
+  this.player.error({code: 'TEST'});
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-headline').textContent,
+    error.TEST.headline,
+    'headline should match custom override value'
+  );
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-message').textContent,
+    error.TEST.message,
+    'message should match custom override value'
+  );
+});

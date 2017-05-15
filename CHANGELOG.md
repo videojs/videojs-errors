@@ -2,7 +2,8 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* @misteroneill Move off of Spellbook for now and add pkg.module. ([#95](https://github.com/brightcove/videojs-errors/pull/95))
+* @misteroneill __BREAKING CHANGE__: Change codes of recently-added errors, allow type and code to be shared, and add `getAll()` method. ([#95](https://github.com/brightcove/videojs-errors/pull/95))
 
 --------------------
 

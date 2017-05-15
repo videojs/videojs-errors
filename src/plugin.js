@@ -63,11 +63,6 @@ const defaults = {
   }
 };
 
-/**
- * Monitors a player for signs of life during playback and
- * triggers PLAYER_ERR_TIMEOUT if none occur within a reasonable
- * timeframe.
- */
 const initPlugin = function(player, options) {
   let monitor;
   const listeners = [];
@@ -79,8 +74,8 @@ const initPlugin = function(player, options) {
     Object.keys(options.errors).forEach(k => {
       const err = options.errors[k];
 
-      if (!err.code) {
-        err.code = k;
+      if (!err.type) {
+        err.type = k;
       }
     });
   };
@@ -207,7 +202,9 @@ const initPlugin = function(player, options) {
     }
 
     if (error.code === 4 && FlashObj && !FlashObj.isSupported()) {
-      const flashMessage = player.localize('If you are using an older browser please try upgrading or installing Flash.');
+      const flashMessage = player.localize(
+        'If you are using an older browser please try upgrading or installing Flash.'
+      );
 
       details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     }
@@ -268,9 +265,8 @@ const initPlugin = function(player, options) {
     initPlugin(player, videojs.mergeOptions(defaults, newOptions));
   };
 
-  reInitPlugin.extend = function(errors) {
-    updateErrors(errors);
-  };
+  reInitPlugin.extend = (errors) => updateErrors(errors);
+  reInitPlugin.getAll = () => videojs.mergeOptions(options.errors);
 
   reInitPlugin.disableProgress = function(disabled) {
     options.progressDisabled = disabled;
@@ -289,12 +285,15 @@ const initPlugin = function(player, options) {
   player.errors = reInitPlugin;
 };
 
-/**
- * Initialize the plugin. Waits until the player is ready to do anything.
- */
 const errors = function(options) {
   initPlugin(this, videojs.mergeOptions(defaults, options));
 };
+
+['extend', 'getAll', 'disableProgress'].forEach(k => {
+  errors[k] = function() {
+    videojs.log.warn(`The errors.${k}() method is not available until the plugin has been initialized!`);
+  };
+});
 
 // Register the plugin with video.js.
 registerPlugin('errors', errors);

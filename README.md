@@ -130,6 +130,18 @@ The difference here being that one would then trigger it via:
 player.error({code: 'PLAYER_ERR_FOO'});
 ```
 
+### `getAll()`
+
+After the errors plugin has been initialized on a player, a `getAll()` method is available on the `errors()` plugin method. This function returns an object with all the errors the plugin currently understands:
+
+```js
+player.errors();
+
+var errors = player.errors.getAll();
+
+console.log(errors['1'].type); // "MEDIA_ERR_ABORTED"
+```
+
 ## Known Issues
 
 On iPhones, default errors are not dismissible. The video element intercepts all user interaction so error message dialogs miss the tap events. If your video is busted anyways, you may not be that upset about this.

@@ -538,3 +538,25 @@ QUnit.test('custom errors can be defined without a type', function(assert) {
     'message should match custom override value'
   );
 });
+
+QUnit.test('getAll()', function(assert) {
+  this.player.errors();
+
+  let errors = this.player.errors.getAll();
+
+  assert.strictEqual(errors['1'].type, 'MEDIA_ERR_ABORTED');
+  assert.strictEqual(errors['2'].type, 'MEDIA_ERR_NETWORK');
+
+  this.player.errors.extend({
+    TEST: {
+      headline: 'test',
+      message: 'test test'
+    }
+  });
+
+  errors = this.player.errors.getAll();
+
+  assert.strictEqual(errors['1'].type, 'MEDIA_ERR_ABORTED');
+  assert.strictEqual(errors['2'].type, 'MEDIA_ERR_NETWORK');
+  assert.strictEqual(errors.TEST.type, 'TEST');
+});

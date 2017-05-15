@@ -51,15 +51,15 @@ const defaults = {
       type: 'PLAYER_ERR_TIMEOUT',
       headline: 'Could not download the video'
     },
-    '-3': {
+    'restricted-domain': {
       type: 'PLAYER_ERR_DOMAIN_RESTRICTED',
       headline: 'This video is restricted from playing on your current domain'
     },
-    '-4': {
+    'restricted-ip': {
       type: 'PLAYER_ERR_IP_RESTRICTED',
       headline: 'This video is restricted at your current IP address'
     },
-    '-5': {
+    'restricted-geo': {
       type: 'PLAYER_ERR_GEO_RESTRICTED',
       headline: 'This video is restricted from playing in your current geographic region'
     }

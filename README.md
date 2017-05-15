@@ -58,15 +58,17 @@ Once you've initialized Video.js, you can activate the errors plugin. The plugin
 
 Additionally, some custom errors have been added as reference for future extension.
 
+- MEDIA_ERR_UNKNOWN (value `'unknown'`)
 - PLAYER_ERR_NO_SRC (numeric value `-1`)
 - PLAYER_ERR_TIMEOUT (numeric value `-2`)
-- PLAYER_ERR_DOMAIN_RESTRICTED (numeric value `-3`)
-- PLAYER_ERR_IP_RESTRICTED (numeric value `-4`)
-- PLAYER_ERR_GEO_RESTRICTED (numeric value `-5`)
+- PLAYER_ERR_DOMAIN_RESTRICTED (value `'restricted-domain'`)
+- PLAYER_ERR_IP_RESTRICTED (value `'restricted-ip'`)
+- PLAYER_ERR_GEO_RESTRICTED (value `'restricted-geo'`)
 
 **Note:**
 
-- Custom errors should reference a code value of a negative integer.
+- Custom errors should reference a code value of a string.
+  - Two of the provided errors use negative numbers for historical reasons, but alpha-numeric/descriptive strings are less likely to cause collision issues.
 - Custom errors should reference a type beginning with `PLAYER_ERR` versus the standardized `MEDIA_ERR` to avoid confusion.
 - Custom errors can be chosen to be dismissible (boolean value `true`)
 
@@ -103,7 +105,7 @@ player.errors.extend({
 If you define custom error messages, you'll need to let Video.js know when to emit them yourself:
 
 ```js
-player.error({code: 'custom', dismiss: true});
+player.error({code: 'foo', dismiss: true});
 ```
 
 If an error is emitted that doesn't have an associated key, a generic, catch-all message is displayed. You can override that text by supplying a message for the key `unknown`.

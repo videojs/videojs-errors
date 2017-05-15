@@ -51,29 +51,37 @@ const defaults = {
       type: 'PLAYER_ERR_TIMEOUT',
       headline: 'Could not download the video'
     },
-    '-3': {
-      type: 'PLAYER_ERR_DOMAIN_RESTRICTED',
+    'PLAYER_ERR_DOMAIN_RESTRICTED': {
       headline: 'This video is restricted from playing on your current domain'
     },
-    '-4': {
-      type: 'PLAYER_ERR_IP_RESTRICTED',
+    'PLAYER_ERR_IP_RESTRICTED': {
       headline: 'This video is restricted at your current IP address'
     },
-    '-5': {
-      type: 'PLAYER_ERR_GEO_RESTRICTED',
+    'PLAYER_ERR_GEO_RESTRICTED': {
       headline: 'This video is restricted from playing in your current geographic region'
     }
   }
 };
 
-/**
- * Monitors a player for signs of life during playback and
- * triggers PLAYER_ERR_TIMEOUT if none occur within a reasonable
- * timeframe.
- */
 const initPlugin = function(player, options) {
   let monitor;
   const listeners = [];
+
+  const updateErrors = function(updates) {
+    options.errors = videojs.mergeOptions(options.errors, updates);
+
+    // Create `code`s from errors which don't have them (based on their keys).
+    Object.keys(options.errors).forEach(k => {
+      const err = options.errors[k];
+
+      if (!err.type) {
+        err.type = k;
+      }
+    });
+  };
+
+  // Make sure we flesh out initially-provided errors.
+  updateErrors();
 
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
@@ -197,7 +205,9 @@ const initPlugin = function(player, options) {
     }
 
     if (error.code === 4 && FlashObj && !FlashObj.isSupported()) {
-      const flashMessage = player.localize('If you are using an older browser please try upgrading or installing Flash.');
+      const flashMessage = player.localize(
+        'If you are using an older browser please try upgrading or installing Flash.'
+      );
 
       details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     }
@@ -258,9 +268,8 @@ const initPlugin = function(player, options) {
     initPlugin(player, videojs.mergeOptions(defaults, newOptions));
   };
 
-  reInitPlugin.extend = function(errors) {
-    options.errors = videojs.mergeOptions(options.errors, errors);
-  };
+  reInitPlugin.extend = (errors) => updateErrors(errors);
+  reInitPlugin.getAll = () => videojs.mergeOptions(options.errors);
 
   reInitPlugin.disableProgress = function(disabled) {
     options.progressDisabled = disabled;
@@ -279,12 +288,15 @@ const initPlugin = function(player, options) {
   player.errors = reInitPlugin;
 };
 
-/**
- * Initialize the plugin. Waits until the player is ready to do anything.
- */
 const errors = function(options) {
   initPlugin(this, videojs.mergeOptions(defaults, options));
 };
+
+['extend', 'getAll', 'disableProgress'].forEach(k => {
+  errors[k] = function() {
+    videojs.log.warn(`The errors.${k}() method is not available until the plugin has been initialized!`);
+  };
+});
 
 // Register the plugin with video.js.
 registerPlugin('errors', errors);

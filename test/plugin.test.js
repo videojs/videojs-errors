@@ -508,3 +508,82 @@ QUnit.test('custom errors can be added at runtime', function(assert) {
     'message should match custom override value'
   );
 });
+
+QUnit.test('custom errors can be defined without a type at init time', function(assert) {
+  const error = {
+    TEST: {
+      headline: 'test',
+      message: 'test test'
+    }
+  };
+
+  this.player.errors({errors: error});
+
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+
+  this.player.error({code: 'TEST'});
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-headline').textContent,
+    error.TEST.headline,
+    'headline should match custom override value'
+  );
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-message').textContent,
+    error.TEST.message,
+    'message should match custom override value'
+  );
+});
+
+QUnit.test('custom errors can be defined without a type at init time', function(assert) {
+  const error = {
+    TEST: {
+      headline: 'test',
+      message: 'test test'
+    }
+  };
+
+  this.player.errors();
+
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+
+  this.player.errors.extend(error);
+  this.player.error({code: 'TEST'});
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-headline').textContent,
+    error.TEST.headline,
+    'headline should match custom override value'
+  );
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-message').textContent,
+    error.TEST.message,
+    'message should match custom override value'
+  );
+});
+
+QUnit.test('getAll()', function(assert) {
+  this.player.errors();
+
+  let errors = this.player.errors.getAll();
+
+  assert.strictEqual(errors['1'].type, 'MEDIA_ERR_ABORTED');
+  assert.strictEqual(errors['2'].type, 'MEDIA_ERR_NETWORK');
+
+  this.player.errors.extend({
+    TEST: {
+      headline: 'test',
+      message: 'test test'
+    }
+  });
+
+  errors = this.player.errors.getAll();
+
+  assert.strictEqual(errors['1'].type, 'MEDIA_ERR_ABORTED');
+  assert.strictEqual(errors['2'].type, 'MEDIA_ERR_NETWORK');
+  assert.strictEqual(errors.TEST.type, 'TEST');
+});

@@ -58,16 +58,18 @@ Once you've initialized Video.js, you can activate the errors plugin. The plugin
 
 Additionally, some custom errors have been added as reference for future extension.
 
+- MEDIA_ERR_UNKNOWN (value `'unknown'`)
 - PLAYER_ERR_NO_SRC (numeric value `-1`)
 - PLAYER_ERR_TIMEOUT (numeric value `-2`)
-- PLAYER_ERR_DOMAIN_RESTRICTED (numeric value `-3`)
-- PLAYER_ERR_IP_RESTRICTED (numeric value `-4`)
-- PLAYER_ERR_GEO_RESTRICTED (numeric value `-5`)
+- PLAYER_ERR_DOMAIN_RESTRICTED
+- PLAYER_ERR_IP_RESTRICTED
+- PLAYER_ERR_GEO_RESTRICTED
 
 **Note:**
 
-- Custom errors should reference a code value of a negative integer.
-- Custom errors should reference a type beginning with `PLAYER_ERR` versus the standardized `MEDIA_ERR` to avoid confusion.
+- Custom errors should reference a code value of a string.
+  - Two of the provided errors use negative numbers for historical reasons, but alpha-numeric/descriptive strings are less likely to cause collision issues.
+- Custom errors should have a `type` beginning with `PLAYER_ERR_` versus the standardized `MEDIA_ERR` to avoid confusion.
 - Custom errors can be chosen to be dismissible (boolean value `true`)
 
 If the video element emits any of those errors, the corresponding error message will be displayed. You can override and add custom error codes by supplying options to the plugin:
@@ -95,7 +97,8 @@ player.errors.extend({
   },
   foo: {
     headline: 'My custom "foo" error',
-    message: 'A custom "foo" error message.'
+    message: 'A custom "foo" error message.',
+    type: 'PLAYER_ERR_FOO'
   }
 });
 ```
@@ -103,10 +106,41 @@ player.errors.extend({
 If you define custom error messages, you'll need to let Video.js know when to emit them yourself:
 
 ```js
-player.error({code: 'custom', dismiss: true});
+player.error({code: 'foo', dismiss: true});
 ```
 
 If an error is emitted that doesn't have an associated key, a generic, catch-all message is displayed. You can override that text by supplying a message for the key `unknown`.
+
+### Custom Errors without a Type
+
+As of v2.0.0, custom errors can be defined without a code. In these cases, the key provided will be used as the code. For example, the custom `foo` error above could be:
+
+```js
+player.errors.extend({
+  PLAYER_ERR_FOO: {
+    headline: 'My custom "foo" error',
+    message: 'A custom "foo" error message.'
+  }
+});
+```
+
+The difference here being that one would then trigger it via:
+
+```js
+player.error({code: 'PLAYER_ERR_FOO'});
+```
+
+### `getAll()`
+
+After the errors plugin has been initialized on a player, a `getAll()` method is available on the `errors()` plugin method. This function returns an object with all the errors the plugin currently understands:
+
+```js
+player.errors();
+
+var errors = player.errors.getAll();
+
+console.log(errors['1'].type); // "MEDIA_ERR_ABORTED"
+```
 
 ## Known Issues
 

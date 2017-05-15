@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Fixed mis-configured `package.json` fields.
+_(none)_
 
 --------------------
+
+## 2.0.1 (2017-05-15)
+* Fixed mis-configured `package.json` fields.
 
 ## 2.0.0 (2017-05-15)
 * @misteroneill Move off of Spellbook for now and add pkg.module. ([#95](https://github.com/brightcove/videojs-errors/pull/95))

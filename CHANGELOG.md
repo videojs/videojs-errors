@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Fixed mis-configured `package.json` fields.
 
 --------------------
 

@@ -95,8 +95,8 @@
     "uglify-js": "^2.6.1",
     "videojs-standard": "^6.0.0"
   },
-  "main": "dist/es5/index.js",
-  "module": "src/js/index.js",
+  "main": "dist/es5/plugin.js",
+  "module": "src/plugin.js",
   "files": [
     "CONTRIBUTING.md",
     "dist/",

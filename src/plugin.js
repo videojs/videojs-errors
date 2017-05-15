@@ -80,6 +80,9 @@ const initPlugin = function(player, options) {
     });
   };
 
+  // Make sure we flesh out initially-provided errors.
+  updateErrors();
+
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
     window.clearTimeout(monitor);

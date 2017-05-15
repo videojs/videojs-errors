@@ -509,12 +509,7 @@ QUnit.test('custom errors can be added at runtime', function(assert) {
   );
 });
 
-QUnit.test('custom errors can be defined without a type', function(assert) {
-  this.player.errors();
-
-  // tick forward enough to ready the player
-  this.clock.tick(1);
-
+QUnit.test('custom errors can be defined without a type at init time', function(assert) {
   const error = {
     TEST: {
       headline: 'test',
@@ -522,8 +517,40 @@ QUnit.test('custom errors can be defined without a type', function(assert) {
     }
   };
 
-  this.player.errors.extend(error);
+  this.player.errors({errors: error});
 
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+
+  this.player.error({code: 'TEST'});
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-headline').textContent,
+    error.TEST.headline,
+    'headline should match custom override value'
+  );
+
+  assert.strictEqual(
+    this.player.errorDisplay.$('.vjs-errors-message').textContent,
+    error.TEST.message,
+    'message should match custom override value'
+  );
+});
+
+QUnit.test('custom errors can be defined without a type at init time', function(assert) {
+  const error = {
+    TEST: {
+      headline: 'test',
+      message: 'test test'
+    }
+  };
+
+  this.player.errors();
+
+  // tick forward enough to ready the player
+  this.clock.tick(1);
+
+  this.player.errors.extend(error);
   this.player.error({code: 'TEST'});
 
   assert.strictEqual(

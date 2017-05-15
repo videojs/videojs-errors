@@ -1,6 +1,6 @@
 {
   "name": "videojs-errors",
-  "version": "1.3.2",
+  "version": "2.0.0",
   "author": "Brightcove, Inc.",
   "description": "A Video.js plugin for custom error reporting",
   "license": "Apache-2.0",

@@ -2,10 +2,13 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* @misteroneill Move off of Spellbook for now and add pkg.module. ([#95](https://github.com/brightcove/videojs-errors/pull/95))
-* @misteroneill __BREAKING CHANGE__: Change codes of recently-added errors, allow type and code to be shared, and add `getAll()` method. ([#95](https://github.com/brightcove/videojs-errors/pull/95))
+_(none)_
 
 --------------------
+
+## 2.0.0 (2017-05-15)
+* @misteroneill Move off of Spellbook for now and add pkg.module. ([#95](https://github.com/brightcove/videojs-errors/pull/95))
+* @misteroneill __BREAKING CHANGE__: Change codes of recently-added errors, allow type and code to be shared, and add `getAll()` method. ([#95](https://github.com/brightcove/videojs-errors/pull/95))
 
 ## 1.3.2 (2017-04-24)
 * @forbesjo Added option to disable watching progress events ([#91](https://github.com/brightcove/videojs-errors/pull/91))

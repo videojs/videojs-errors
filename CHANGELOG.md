@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Fixed some tooling issues, including missing `dist/lang` files.
+_(none)_
 
 --------------------
+
+## 2.0.2 (2017-05-15)
+* Fixed some tooling issues, including missing `dist/lang` files.
 
 ## 2.0.1 (2017-05-15)
 * Fixed mis-configured `package.json` fields.

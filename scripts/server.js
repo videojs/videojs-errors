@@ -5,7 +5,9 @@ import fs from 'fs';
 import glob from 'glob';
 import _ from 'lodash';
 import mkdirp from 'mkdirp';
+import sass from 'node-sass';
 import path from 'path';
+import vjslangs from 'videojs-languages';
 
 /* eslint no-console: 0 */
 
@@ -16,16 +18,40 @@ const nameify = (str) =>
   str.replace(/%s/g, pkg.name.split('/').reverse()[0]);
 
 const srces = {
+  css: 'src/plugin.scss',
   js: 'src/plugin.js',
+  langs: 'lang/*.json',
   tests: glob.sync('test/**/*.test.js')
 };
 
 const dests = {
+  css: nameify('dist/%s.css'),
   js: nameify('dist/%s.js'),
+  langs: 'dist/lang',
   tests: 'test/dist/bundle.js'
 };
 
 const tasks = {
+
+  lang(resolve) {
+    vjslangs(srces.langs, dests.langs);
+    resolve();
+  },
+
+  sass(resolve, reject) {
+    const finish = (err) => err ? reject(err.message) : resolve();
+
+    sass.render({
+      file: srces.css,
+      outputStyle: 'compressed'
+    }, (err, result) => {
+      if (err) {
+        reject(err.message);
+      } else {
+        fs.writeFile(dests.css, result.css, finish);
+      }
+    });
+  },
 
   js: browserify({
     debug: true,
@@ -77,7 +103,7 @@ const build = (name) => {
 };
 
 mkdirp.sync('dist');
-
+build('lang');build('sass');
 // Start the server _after_ the initial bundling is done.
 build(['js', 'tests']).then(() => {
   const server = budo({
@@ -93,6 +119,30 @@ build(['js', 'tests']).then(() => {
    * @type {Object}
    */
   const handlers = {
+
+    /**
+     * Handler for language JSON files.
+     *
+     * @param  {String} event
+     * @param  {String} file
+     */
+    '^lang/.+\.json$': _.debounce((event, file) => {
+      console.log('re-compiling languages');
+      build('lang');
+      server.reload();
+    }),
+
+    /**
+     * Handler for Sass source.
+     *
+     * @param  {String} event
+     * @param  {String} file
+     */
+    '^src/.+\.scss$': _.debounce((event, file) => {
+      console.log('re-compiling sass');
+      build('sass');
+      server.reload();
+    }),
 
     /**
      * Handler for JavaScript source and tests.
@@ -129,7 +179,8 @@ build(['js', 'tests']).then(() => {
     .live()
     .watch([
       'index.html',
-      'src/**/*.js',
+      'lang/*.json',
+      'src/**/*.{scss,js}',
       'test/**/*.js',
       '!test/dist/**/*.js',
       'test/index.html'

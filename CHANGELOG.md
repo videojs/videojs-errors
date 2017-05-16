@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Fixed some tooling issues, including missing `dist/lang` files.
 
 --------------------
 

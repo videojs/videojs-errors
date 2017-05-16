@@ -14,6 +14,8 @@ A plugin that displays user-friendly messages when Video.js encounters an error.
   - [Localization](#localization)
   - [Supported Errors](#supported-errors)
   - [Custom Errors](#custom-errors)
+  - [Custom Errors without a Type](#custom-errors-without-a-type)
+  - [`getAll()`](#getall)
 - [Known Issues](#known-issues)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->

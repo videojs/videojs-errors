@@ -1,11 +1,13 @@
+/**
+ * Rollup configuration for packaging the plugin in a module that is consumable
+ * as the `src` of a `script` tag or via AMD or similar client-side loading.
+ *
+ * This module DOES include its dependencies.
+ */
 import babel from 'rollup-plugin-babel';
-import builtins from 'rollup-plugin-node-builtins';
 import commonjs from 'rollup-plugin-commonjs';
-import replace from 'rollup-plugin-replace';
+import json from 'rollup-plugin-json';
 import resolve from 'rollup-plugin-node-resolve';
-import path from 'path';
-
-const pkg = require(path.resolve(__dirname, '../package.json'));
 
 export default {
   moduleName: 'videojsErrors',
@@ -18,17 +20,12 @@ export default {
   },
   legacy: true,
   plugins: [
-    builtins(),
-    replace({
-      delimiters: ['__', '__'],
-      include: 'src/plugin.js',
-      VERSION: pkg.version
-    }),
     resolve({
       browser: true,
       main: true,
       jsnext: true
     }),
+    json(),
     commonjs({
       sourceMap: false
     }),
@@ -42,7 +39,10 @@ export default {
           modules: false
         }]
       ],
-      plugins: ['external-helpers']
+      plugins: [
+        'external-helpers',
+        'transform-object-assign'
+      ]
     })
   ]
 };

@@ -1,3 +1,14 @@
+<a name="3.0.0"></a>
+# [3.0.0](https://github.com/brightcove/videojs-errors/compare/v1.0.0...v3.0.0) (2017-05-19)
+
+### Chores
+
+* Update tooling using generator v5 prerelease. ([#99](https://github.com/brightcove/videojs-errors/issues/99)) ([b0e53e5](https://github.com/brightcove/videojs-errors/commit/b0e53e5))
+
+### BREAKING CHANGES
+
+* Removed Bower support.
+
 ## 2.0.2 (2017-05-15)
 * Fixed some tooling issues, including missing `dist/lang` files.
 

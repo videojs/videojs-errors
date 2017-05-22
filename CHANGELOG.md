@@ -1,3 +1,10 @@
+<a name="3.0.1"></a>
+## [3.0.1](https://github.com/brightcove/videojs-errors/compare/v3.0.0...v3.0.1) (2017-05-22)
+
+### Chores
+
+* Add translations for some new strings. ([#101](https://github.com/brightcove/videojs-errors/issues/101)) ([b3dc97a](https://github.com/brightcove/videojs-errors/commit/b3dc97a))
+
 <a name="3.0.0"></a>
 # [3.0.0](https://github.com/brightcove/videojs-errors/compare/v1.0.0...v3.0.0) (2017-05-19)
 

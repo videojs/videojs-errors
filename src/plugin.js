@@ -65,6 +65,7 @@ const defaults = {
 
 const initPlugin = function(player, options) {
   let monitor;
+  let waiting;
   const listeners = [];
 
   const updateErrors = function(updates) {
@@ -85,6 +86,19 @@ const initPlugin = function(player, options) {
 
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
+    // start the loading spinner if player has stalled
+    window.clearTimeout(waiting);
+    player.removeClass('vjs-waiting');
+    waiting = window.setTimeout(function() {
+      // player already has an error
+      // or is not playing under normal conditions
+      if (player.error() || player.paused() || player.ended()) {
+        return;
+      }
+
+      player.addClass('vjs-waiting');
+    }, 1000);
+
     window.clearTimeout(monitor);
     monitor = window.setTimeout(function() {
       // player already has an error
@@ -115,6 +129,7 @@ const initPlugin = function(player, options) {
       player.off(listener[0], listener[1]);
     }
     window.clearTimeout(monitor);
+    window.clearTimeout(waiting);
   };
 
   // creates and tracks a player listener if the player looks alive

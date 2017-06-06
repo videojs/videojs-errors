@@ -1,5 +1,4 @@
 import videojs from 'video.js';
-import window from 'global/window';
 import document from 'global/document';
 
 const FlashObj = videojs.getComponent('Flash');
@@ -66,6 +65,7 @@ const defaults = {
 const initPlugin = function(player, options) {
   let monitor;
   let waiting;
+  let isStalling;
   const listeners = [];
 
   const updateErrors = function(updates) {
@@ -86,21 +86,27 @@ const initPlugin = function(player, options) {
 
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
+    // at this point the player has recovered
+    player.clearTimeout(waiting);
+    if (isStalling) {
+      isStalling = false;
+      player.removeClass('vjs-waiting');
+    }
+
     // start the loading spinner if player has stalled
-    window.clearTimeout(waiting);
-    player.removeClass('vjs-waiting');
-    waiting = window.setTimeout(function() {
+    waiting = player.setTimeout(function() {
       // player already has an error
       // or is not playing under normal conditions
       if (player.error() || player.paused() || player.ended()) {
         return;
       }
 
+      isStalling = true;
       player.addClass('vjs-waiting');
     }, 1000);
 
-    window.clearTimeout(monitor);
-    monitor = window.setTimeout(function() {
+    player.clearTimeout(monitor);
+    monitor = player.setTimeout(function() {
       // player already has an error
       // or is not playing under normal conditions
       if (player.error() || player.paused() || player.ended()) {
@@ -128,8 +134,8 @@ const initPlugin = function(player, options) {
       listener = listeners.shift();
       player.off(listener[0], listener[1]);
     }
-    window.clearTimeout(monitor);
-    window.clearTimeout(waiting);
+    player.clearTimeout(monitor);
+    player.clearTimeout(waiting);
   };
 
   // creates and tracks a player listener if the player looks alive

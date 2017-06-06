@@ -115,8 +115,11 @@ QUnit.test('progress events while playing reset the spinner', function(assert) {
     'the plugin adds spinner class to the player'
   );
 
-  // but playback resumes!
-  this.player.trigger('progress');
+  // resume playback
+  this.player.currentTime = function() {
+    return 1;
+  };
+  this.player.trigger('timeupdate');
   assert.notOk(this.player.hasClass('vjs-waiting'), 'spinner removed');
 });
 

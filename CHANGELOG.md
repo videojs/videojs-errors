@@ -1,3 +1,10 @@
+<a name="3.0.2"></a>
+## [3.0.2](https://github.com/brightcove/videojs-errors/compare/v3.0.1...v3.0.2) (2017-06-08)
+
+### Bug Fixes
+
+* show spinner if player has stalled ([#104](https://github.com/brightcove/videojs-errors/issues/104)) ([a89513f](https://github.com/brightcove/videojs-errors/commit/a89513f))
+
 <a name="3.0.1"></a>
 ## [3.0.1](https://github.com/brightcove/videojs-errors/compare/v3.0.0...v3.0.1) (2017-05-22)
 

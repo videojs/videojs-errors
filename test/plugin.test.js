@@ -94,6 +94,35 @@ QUnit.test('play() without a src is an error', function(assert) {
     'error type is no source');
 });
 
+QUnit.test('no progress for 1 second shows the loading spinner', function(assert) {
+  this.player.src(sources);
+  this.player.trigger('play');
+  this.clock.tick(1 * 1000);
+
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player'
+  );
+});
+
+QUnit.test('progress events while playing reset the spinner', function(assert) {
+  this.player.src(sources);
+  this.player.trigger('play');
+  // stalled for awhile
+  this.clock.tick(44 * 1000);
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player'
+  );
+
+  // resume playback
+  this.player.currentTime = function() {
+    return 1;
+  };
+  this.player.trigger('timeupdate');
+  assert.notOk(this.player.hasClass('vjs-waiting'), 'spinner removed');
+});
+
 QUnit.test('no progress for 45 seconds is an error', function(assert) {
   let errors = 0;
 

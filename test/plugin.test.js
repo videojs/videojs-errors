@@ -97,6 +97,12 @@ QUnit.test('play() without a src is an error', function(assert) {
 QUnit.test('no progress for 1 second shows the loading spinner', function(assert) {
   this.player.src(sources);
   this.player.trigger('play');
+  this.player.currentTime = function() {
+    return 10;
+  };
+  this.player.duration = function() {
+    return 20;
+  };
   this.clock.tick(1 * 1000);
 
   assert.ok(
@@ -105,9 +111,35 @@ QUnit.test('no progress for 1 second shows the loading spinner', function(assert
   );
 });
 
+QUnit.test('no progress for 1 near end of video triggers ended', function(assert) {
+  let ended = 0;
+
+  this.player.on('ended', function() {
+    ended++;
+  });
+
+  this.player.src(sources);
+  this.player.trigger('play');
+  this.player.currentTime = function() {
+    return 1;
+  };
+  this.player.duration = function() {
+    return 1.2;
+  };
+  this.clock.tick(1 * 1000);
+
+  assert.strictEqual(ended, 1, 'has ended');
+});
+
 QUnit.test('progress events while playing reset the spinner', function(assert) {
   this.player.src(sources);
   this.player.trigger('play');
+  this.player.currentTime = function() {
+    return 10;
+  };
+  this.player.duration = function() {
+    return 20;
+  };
   // stalled for awhile
   this.clock.tick(44 * 1000);
   assert.ok(

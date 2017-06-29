@@ -15,6 +15,7 @@ const defaults = {
   timeout: 45 * 1000,
   dismiss: defaultDismiss,
   progressDisabled: false,
+  durationTolerance: 0.5,
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',
@@ -98,6 +99,13 @@ const initPlugin = function(player, options) {
       // player already has an error
       // or is not playing under normal conditions
       if (player.error() || player.paused() || player.ended()) {
+        return;
+      }
+
+      // if the player has started to stall and
+      // playback is almost at the end just end playback
+      if ((player.duration() - player.currentTime()) < options.durationTolerance) {
+        player.trigger('ended');
         return;
       }
 

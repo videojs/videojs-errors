@@ -36,6 +36,19 @@ You probably want to include the default stylesheet, too. It displays error mess
 
 If you're not a fan of the default styling, you can drop in your own stylesheet. The only new element to worry about is `vjs-errors-dialog` which is the container for the error messages.
 
+When using via **NPM/Browserify**
+```shell
+npm install videojs-errors
+```
+
+You need to add videojs-errors as plugin to the videojs module:
+```js
+import videojs from 'video.js';
+import videojsErrors from 'videojs-errors';
+
+videojs.plugin('errors', videojsErrors);
+```
+
 ### Localization
 The plugin supports multiple languages when using Video.JS v4.7.3 or greater. In order to add additional language support, add the language file after your plugin as follows:
 

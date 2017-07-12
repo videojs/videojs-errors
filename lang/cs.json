@@ -1,0 +1,17 @@
+{
+  "No video has been loaded": "Nebylo načteno žádné video",
+  "Could not download the video": "Video nelze stáhnout",
+  "The video connection was lost, please confirm you are connected to the internet": "Připojení k serveru s videem bylo ztraceno, ujistěte se, že jste připojeni k internetu",
+  "The video is bad or in a format that cannot be played on your browser": "Video je požkozené, nebo je ve formátu, který nemůže být vaším prohlížečem přehrán",
+  "This video is either unavailable or not supported in this browser": "Toto video je buď nedostupné nebo nepodporované v tomto prohlížeči",
+  "Error Code": "Chybový kód",
+  "Technical details": "Technické informace",
+  "The video download was cancelled": "Stahování videa bylo přerušeno",
+  "The video you are trying to watch is encrypted and we do not know how to decrypt it": "Video, které se snažíte přehrát, je zašifrované a my nevíme, jak ho rozšifrovat",
+  "An unanticipated problem was encountered, check back soon and try again": "Nastal neočekávaný problém, zkuste to brzy znovu",
+  "This video is restricted from playing on your current domain": "Toto video je zakázané přehrávat na vaší současné doméně",
+  "This video is restricted at your current IP address": "Toto video je zakázané přehrávat na vaší současné IP adrese",
+  "This video is restricted from playing in your current geographic region": "Toto video je zakázané přehrávat ve vaší současné geografické oblasti",
+  "If you are using an older browser please try upgrading or installing Flash.": "Pokud používáte starší prohlížeč, zkuste aktualizovat nebo nainstalovat Flash.",
+  "OK": "OK"
+}

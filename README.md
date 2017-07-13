@@ -21,6 +21,28 @@ A plugin that displays user-friendly messages when Video.js encounters an error.
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Getting Started
+**Importing via NPM/Babel/Browserify**
+```shell
+npm install videojs-errors
+```
+
+You may need to add videojs-errors as plugin to the videojs module:
+```js
+import videojs from 'video.js';
+import videojsErrors from 'videojs-errors';
+
+//For VideoJS 5 and below
+videojs.plugin('errors', videojsErrors);
+
+//For VideoJS 6
+videojs.registerPlugin('errors', videojsErrors);
+```
+
+Installing the styles will depend on your build tool.
+[Here's](http://brunch.io/docs/using-modules) an example of including styles with brunch. See Including Module's styles section.
+
+
+**Importing via script tag**
 
 The plugin automatically registers itself when you include videojs.errors.js in your page:
 
@@ -35,19 +57,6 @@ You probably want to include the default stylesheet, too. It displays error mess
 ```
 
 If you're not a fan of the default styling, you can drop in your own stylesheet. The only new element to worry about is `vjs-errors-dialog` which is the container for the error messages.
-
-When using via **NPM/Browserify**
-```shell
-npm install videojs-errors
-```
-
-You need to add videojs-errors as plugin to the videojs module:
-```js
-import videojs from 'video.js';
-import videojsErrors from 'videojs-errors';
-
-videojs.plugin('errors', videojsErrors);
-```
 
 ### Localization
 The plugin supports multiple languages when using Video.JS v4.7.3 or greater. In order to add additional language support, add the language file after your plugin as follows:

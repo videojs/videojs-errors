@@ -281,7 +281,7 @@ const initPlugin = function(player, options) {
     player.off('play', onPlayStartMonitor);
     player.off('play', onPlayNoSource);
     player.off('dispose', onDisposeHandler);
-    player.off('error', onErrorHandler);
+    player.off(['aderror', 'error'], onErrorHandler);
   };
 
   const reInitPlugin = function(newOptions) {
@@ -300,7 +300,7 @@ const initPlugin = function(player, options) {
   player.on('play', onPlayStartMonitor);
   player.on('play', onPlayNoSource);
   player.on('dispose', onDisposeHandler);
-  player.on('error', onErrorHandler);
+  player.on(['aderror', 'error'], onErrorHandler);
 
   player.ready(() => {
     player.addClass('vjs-errors');

@@ -1,3 +1,14 @@
+<a name="3.0.3"></a>
+## [3.0.3](https://github.com/brightcove/videojs-errors/compare/v3.0.2...v3.0.3) (2017-09-06)
+
+### Features
+
+* Add Czech translation ([#106](https://github.com/brightcove/videojs-errors/issues/106)) ([3cb9c1e](https://github.com/brightcove/videojs-errors/commit/3cb9c1e))
+
+### Bug Fixes
+
+* Resolve an issue where 'error' events triggered on the player during contrib-ads playback would not be recognized. ([#109](https://github.com/brightcove/videojs-errors/issues/109)) ([3b48430](https://github.com/brightcove/videojs-errors/commit/3b48430))
+
 <a name="3.0.2"></a>
 ## [3.0.2](https://github.com/brightcove/videojs-errors/compare/v3.0.1...v3.0.2) (2017-06-08)
 

@@ -58,6 +58,9 @@ const defaults = {
     },
     'PLAYER_ERR_GEO_RESTRICTED': {
       headline: 'This video is restricted from playing in your current geographic region'
+    },
+    'FLASHLS_ERR_CROSS_DOMAIN': {
+      headline: 'The video could not be loaded: crossdomain access denied.'
     }
   }
 };
@@ -217,7 +220,7 @@ const initPlugin = function(player, options) {
       return;
     }
 
-    error = videojs.mergeOptions(error, options.errors[error.code || 0]);
+    error = videojs.mergeOptions(error, options.errors[error.code || error.type || 0]);
 
     if (error.message) {
       details = `<div class="vjs-errors-details">${player.localize('Technical details')}

@@ -66,6 +66,7 @@ Additionally, some custom errors have been added as reference for future extensi
 - PLAYER_ERR_DOMAIN_RESTRICTED
 - PLAYER_ERR_IP_RESTRICTED
 - PLAYER_ERR_GEO_RESTRICTED
+- FLASHLS_ERR_CROSS_DOMAIN
 
 **Note:**
 

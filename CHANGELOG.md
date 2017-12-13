@@ -1,3 +1,41 @@
+<a name="3.1.0"></a>
+# [3.1.0](https://github.com/brightcove/videojs-errors/compare/v1.0.0...v3.1.0) (2017-12-13)
+
+### Features
+
+* add custom error for flashls crossdomain errors ([#111](https://github.com/brightcove/videojs-errors/issues/111)) ([9d20fbd](https://github.com/brightcove/videojs-errors/commit/9d20fbd))
+* Add Czech translation ([#106](https://github.com/brightcove/videojs-errors/issues/106)) ([3cb9c1e](https://github.com/brightcove/videojs-errors/commit/3cb9c1e))
+* Add new custom errors and allow defining custom errors at runtime ([#90](https://github.com/brightcove/videojs-errors/issues/90)) ([4bd0cd9](https://github.com/brightcove/videojs-errors/commit/4bd0cd9))
+* Change codes of recently-added errors, allow type and code to be shared, and add `getAll()` method. ([#96](https://github.com/brightcove/videojs-errors/issues/96)) ([f39c0f6](https://github.com/brightcove/videojs-errors/commit/f39c0f6))
+
+### Bug Fixes
+
+* Fix tests for video.js 6 ([#77](https://github.com/brightcove/videojs-errors/issues/77)) ([0d71164](https://github.com/brightcove/videojs-errors/commit/0d71164))
+* Resolve an issue where 'error' events triggered on the player during contrib-ads playback would not be recognized. ([#109](https://github.com/brightcove/videojs-errors/issues/109)) ([3b48430](https://github.com/brightcove/videojs-errors/commit/3b48430))
+* show spinner if player has stalled ([#104](https://github.com/brightcove/videojs-errors/issues/104)) ([a89513f](https://github.com/brightcove/videojs-errors/commit/a89513f))
+
+### Chores
+
+* **package:** update browserify to version 13.3.0 ([#58](https://github.com/brightcove/videojs-errors/issues/58)) ([e61edb6](https://github.com/brightcove/videojs-errors/commit/e61edb6))
+* **package:** update karma to version 1.4.1 ([#69](https://github.com/brightcove/videojs-errors/issues/69)) ([7cd5e45](https://github.com/brightcove/videojs-errors/commit/7cd5e45))
+* **package:** update node-sass to version 4.5.0 ([#70](https://github.com/brightcove/videojs-errors/issues/70)) ([f7d7793](https://github.com/brightcove/videojs-errors/commit/f7d7793))
+* **package:** update npm-run-all to version 3.1.2 ([#48](https://github.com/brightcove/videojs-errors/issues/48)) ([0b3f13d](https://github.com/brightcove/videojs-errors/commit/0b3f13d))
+* **package:** update portscanner to version 2.1.1 ([#47](https://github.com/brightcove/videojs-errors/issues/47)) ([b83b979](https://github.com/brightcove/videojs-errors/commit/b83b979))
+* **package:** update shelljs to version 0.7.6 ([#60](https://github.com/brightcove/videojs-errors/issues/60)) ([9b966f6](https://github.com/brightcove/videojs-errors/commit/9b966f6))
+* Add translations for some new strings. ([#101](https://github.com/brightcove/videojs-errors/issues/101)) ([b3dc97a](https://github.com/brightcove/videojs-errors/commit/b3dc97a))
+* Update tooling using generator v5 prerelease. ([#99](https://github.com/brightcove/videojs-errors/issues/99)) ([b0e53e5](https://github.com/brightcove/videojs-errors/commit/b0e53e5))
+* update travis ([#71](https://github.com/brightcove/videojs-errors/issues/71)) ([86d7807](https://github.com/brightcove/videojs-errors/commit/86d7807))
+
+### Code Refactoring
+
+* Updates for Video.js 6.0 compatibility. ([48ed04a](https://github.com/brightcove/videojs-errors/commit/48ed04a))
+
+
+### BREAKING CHANGES
+
+* Removed Bower support.
+* Changed the codes of recently-added errors; so, they will no avoid collisions more reliably with 1.x implementations.
+
 <a name="3.0.3"></a>
 ## [3.0.3](https://github.com/brightcove/videojs-errors/compare/v3.0.2...v3.0.3) (2017-09-06)
 

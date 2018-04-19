@@ -234,7 +234,6 @@ QUnit.test('progress clears player timeout errors', function(assert) {
 
 QUnit.test('reinitialising plugin during playback starts timeout handler', function(assert) {
   let errors = 0;
-  const oldPaused = this.player.paused;
 
   this.player.on('error', function() {
     errors++;
@@ -243,9 +242,7 @@ QUnit.test('reinitialising plugin during playback starts timeout handler', funct
   this.player.trigger('play');
 
   // reinitialise while playing
-  this.player.paused = () => false;
   this.player.errors();
-  this.player.paused = oldPaused;
 
   this.clock.tick(45 * 1000);
 

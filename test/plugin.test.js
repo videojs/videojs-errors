@@ -212,6 +212,7 @@ QUnit.test('when dispose is triggered should not throw error ', function(assert)
   assert.ok(!this.player.error(),
     'should not throw player error when dispose is called.');
 
+  // reset this.player because otherwise afterEach will fail
   this.fixture.appendChild(this.video);
   this.player = videojs(this.video);
 });

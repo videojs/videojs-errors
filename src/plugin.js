@@ -318,7 +318,9 @@ const errors = function(options) {
 
 ['extend', 'getAll', 'disableProgress'].forEach(k => {
   errors[k] = function() {
-    videojs.log.warn(`The errors.${k}() method is not available until the plugin has been initialized!`);
+    videojs.log.warn(
+      `The errors.${k}() method is not available until the plugin has been initialized!`
+    );
   };
 });
 

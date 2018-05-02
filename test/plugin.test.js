@@ -206,11 +206,15 @@ QUnit.test('the plugin cleans up after its previous incarnation when called agai
 QUnit.test('when dispose is triggered should not throw error ', function(assert) {
   this.player.src(sources);
   this.player.trigger('play');
-  this.player.trigger('dispose');
+  this.player.dispose();
   this.clock.tick(45 * 1000);
 
   assert.ok(!this.player.error(),
     'should not throw player error when dispose is called.');
+
+  // reset this.player because otherwise afterEach will fail
+  this.fixture.appendChild(this.video);
+  this.player = videojs(this.video);
 });
 
 QUnit.test('progress clears player timeout errors', function(assert) {

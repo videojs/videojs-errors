@@ -22,6 +22,22 @@ A plugin that displays user-friendly messages when Video.js encounters an error.
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Getting Started
+**Importing via npm/Babel/Browserify/webpack**
+```shell
+npm install videojs-errors
+```
+
+Them import in your JavaScript
+```js
+import videojs from 'video.js';
+import 'videojs-errors';
+```
+
+Installing the styles will depend on your build tool.
+[Here's](http://brunch.io/docs/using-modules) an example of including styles with brunch. See Including Module's styles section.
+
+
+**Importing via script tag**
 
 The plugin automatically registers itself when you include videojs.errors.js in your page:
 

@@ -1,3 +1,26 @@
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/brightcove/videojs-errors/compare/v3.1.0...v4.0.0) (2018-05-02)
+
+### Features
+
+* Add timeout getter/setter ([#114](https://github.com/brightcove/videojs-errors/issues/114)) ([cb45723](https://github.com/brightcove/videojs-errors/commit/cb45723))
+* drop v5 support ([#119](https://github.com/brightcove/videojs-errors/issues/119)) ([f4440c1](https://github.com/brightcove/videojs-errors/commit/f4440c1))
+
+### Bug Fixes
+
+* make the plugin ready for videojs 7 ([#117](https://github.com/brightcove/videojs-errors/issues/117)) ([8d96f2a](https://github.com/brightcove/videojs-errors/commit/8d96f2a)), closes [#116](https://github.com/brightcove/videojs-errors/issues/116)
+* Restart timeout monitor if playing when reinitialised ([#113](https://github.com/brightcove/videojs-errors/issues/113)) ([af868ed](https://github.com/brightcove/videojs-errors/commit/af868ed))
+
+### Documentation
+
+* **README:** Add usage npm/bundler usage ([#108](https://github.com/brightcove/videojs-errors/issues/108)) ([ec86764](https://github.com/brightcove/videojs-errors/commit/ec86764))
+* **README:** fix typo ([ec724b7](https://github.com/brightcove/videojs-errors/commit/ec724b7))
+
+
+### BREAKING CHANGES
+
+* drop v5 support.
+
 <a name="3.1.0"></a>
 # [3.1.0](https://github.com/brightcove/videojs-errors/compare/v1.0.0...v3.1.0) (2017-12-13)
 

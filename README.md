@@ -21,21 +21,15 @@ A plugin that displays user-friendly messages when Video.js encounters an error.
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Getting Started
-**Importing via NPM/Babel/Browserify**
+**Importing via npm/Babel/Browserify/webpack**
 ```shell
 npm install videojs-errors
 ```
 
-You may need to add videojs-errors as plugin to the videojs module:
+Them import in your JavaScript
 ```js
 import videojs from 'video.js';
-import videojsErrors from 'videojs-errors';
-
-//For VideoJS 5 and below
-videojs.plugin('errors', videojsErrors);
-
-//For VideoJS 6
-videojs.registerPlugin('errors', videojsErrors);
+import 'videojs-errors';
 ```
 
 Installing the styles will depend on your build tool.

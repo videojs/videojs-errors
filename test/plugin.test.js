@@ -236,6 +236,25 @@ QUnit.test('progress clears player timeout errors', function(assert) {
   assert.strictEqual(this.player.error(), null, 'error removed');
 });
 
+QUnit.test('reinitialising plugin during playback starts timeout handler', function(assert) {
+  let errors = 0;
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+  this.player.trigger('play');
+
+  // reinitialise while playing
+  this.player.errors();
+
+  this.clock.tick(45 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted an error');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+});
+
 // safari 7 on OSX can emit stalls when playback is just fine
 QUnit.test('stalling by itself is not an error', function(assert) {
   this.player.src(sources);

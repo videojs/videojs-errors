@@ -309,6 +309,11 @@ const initPlugin = function(player, options) {
     player.addClass('vjs-errors');
   });
 
+  // if the plugin is re-initialised during playback, start the timeout handler.
+  if (!player.paused()) {
+    onPlayStartMonitor();
+  }
+
   player.errors = reInitPlugin;
 };
 

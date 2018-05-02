@@ -27,7 +27,7 @@ A plugin that displays user-friendly messages when Video.js encounters an error.
 npm install videojs-errors
 ```
 
-Them import in your JavaScript
+Then import in your JavaScript
 ```js
 import videojs from 'video.js';
 import 'videojs-errors';

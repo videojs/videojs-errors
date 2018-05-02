@@ -16,6 +16,7 @@ A plugin that displays user-friendly messages when Video.js encounters an error.
   - [Custom Errors](#custom-errors)
   - [Custom Errors without a Type](#custom-errors-without-a-type)
   - [`getAll()`](#getall)
+  - [`timeout()`](#timeout)
 - [Known Issues](#known-issues)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -144,6 +145,14 @@ var errors = player.errors.getAll();
 
 console.log(errors['1'].type); // "MEDIA_ERR_ABORTED"
 ```
+
+### `timeout()`
+
+After the errors plugin has been initialized on a player, a `timeout()` method is available on the `errors()` plugin method.
+
+A new timeout may be set by passing a timeout in milliseconds, e.g. `player.errors.timeout(5 * 1000)`.
+
+If no argument is passed, the current timeout value is returned. 
 
 ## Known Issues
 

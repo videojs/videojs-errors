@@ -295,6 +295,19 @@ const initPlugin = function(player, options) {
   reInitPlugin.extend = (errors) => updateErrors(errors);
   reInitPlugin.getAll = () => videojs.mergeOptions(options.errors);
 
+  // Get / set timeout value. Restart monitor if changed.
+  reInitPlugin.timeout = function(timeout) {
+    if (typeof timeout === 'undefined') {
+      return options.timeout;
+    }
+    if (timeout !== options.timeout) {
+      options.timeout = timeout;
+      if (!player.paused()) {
+        onPlayStartMonitor();
+      }
+    }
+  };
+
   reInitPlugin.disableProgress = function(disabled) {
     options.progressDisabled = disabled;
     onPlayStartMonitor();

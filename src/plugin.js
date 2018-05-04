@@ -1,5 +1,6 @@
 import videojs from 'video.js';
 import document from 'global/document';
+import {version as VERSION} from '../package.json';
 
 const FlashObj = videojs.getComponent('Flash');
 const defaultDismiss = !videojs.browser.IS_IPHONE;
@@ -327,6 +328,9 @@ const initPlugin = function(player, options) {
     onPlayStartMonitor();
   }
 
+  // Include the version number.
+  reInitPlugin.VERSION = VERSION;
+
   player.errors = reInitPlugin;
 };
 
@@ -341,6 +345,9 @@ const errors = function(options) {
     );
   };
 });
+
+// Include the version number.
+errors.VERSION = VERSION;
 
 // Register the plugin with video.js.
 registerPlugin('errors', errors);

@@ -28,6 +28,7 @@ export default {
   },
   legacy: true,
   plugins: [
+    json(),
     multiEntry({
       exports: false
     }),

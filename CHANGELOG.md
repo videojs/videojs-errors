@@ -1,3 +1,10 @@
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/brightcove/videojs-errors/compare/v4.0.0...v4.1.0) (2018-05-08)
+
+### Features
+
+* add standard VERSION property ([#120](https://github.com/brightcove/videojs-errors/issues/120)) ([c475d12](https://github.com/brightcove/videojs-errors/commit/c475d12))
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/brightcove/videojs-errors/compare/v3.1.0...v4.0.0) (2018-05-02)
 

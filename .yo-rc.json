@@ -1,0 +1,14 @@
+{
+  "generator-videojs-plugin": {
+    "scope": "",
+    "name": "errors",
+    "description": "A Video.js plugin for custom error reporting",
+    "author": "Brightcove, Inc.",
+    "license": "apache2",
+    "pluginType": "advanced",
+    "css": true,
+    "docs": true,
+    "lang": true,
+    "husky": "lint"
+  }
+}

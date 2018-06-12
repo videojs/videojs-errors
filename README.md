@@ -4,8 +4,11 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/videojs/videojs-errors.svg)](https://greenkeeper.io/)
 [![Slack Status](http://slack.videojs.com/badge.svg)](http://slack.videojs.com)
 
+[![NPM](https://nodei.co/npm/videojs-errors.png?downloads=true&downloadRank=true)](https://nodei.co/npm/videojs-errors/)
 
 A plugin that displays user-friendly messages when Video.js encounters an error.
+
+Maintenance Status: Stable
 
 ### Table of Contents
 

@@ -1,7 +1,7 @@
 # videojs-errors
 
-[![Build Status](https://travis-ci.org/videojs/videojs-errors.svg?branch=master)](https://travis-ci.org/videojs/videojs-errors.svg)
-[![Greenkeeper badge](https://badges.greenkeeper.io/videojs/videojs-errors.svg)](https://greenkeeper.io/)
+[![Build Status](https://travis-ci.org/brightcove/videojs-errors.svg?branch=master)](https://travis-ci.org/brightcove/videojs-errors)
+[![Greenkeeper badge](https://badges.greenkeeper.io/brightcove/videojs-errors.svg)](https://greenkeeper.io/)
 [![Slack Status](http://slack.videojs.com/badge.svg)](http://slack.videojs.com)
 
 [![NPM](https://nodei.co/npm/videojs-errors.png?downloads=true&downloadRank=true)](https://nodei.co/npm/videojs-errors/)

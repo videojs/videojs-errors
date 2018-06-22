@@ -6,23 +6,16 @@
   "license": "Apache-2.0",
   "main": "dist/videojs-errors.cjs.js",
   "module": "dist/videojs-errors.es.js",
-  "engines": {
-    "node": ">=4.4.0"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/brightcove/videojs-errors.git"
   },
   "keywords": [
-    "flash",
-    "html5",
-    "player",
-    "video",
     "videojs",
     "videojs-plugin"
   ],
   "generator-videojs-plugin": {
-    "version": "6.0.8"
+    "version": "6.0.9"
   },
   "scripts": {
     "prebuild": "npm run clean",
@@ -67,7 +60,7 @@
   ],
   "dependencies": {
     "global": "^4.3.2",
-    "video.js": "6.10.2 || ^7.0.3"
+    "video.js": "^6 || ^7"
   },
   "devDependencies": {
     "autoprefixer": "^8.6.0",

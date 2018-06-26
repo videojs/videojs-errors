@@ -2,6 +2,7 @@
     Default State: Hidden
 -------------------------------------------------------------------------------
 */
+
 .vjs-error-display {
   color: #fff;
   display: none;
@@ -28,6 +29,7 @@
     Full Size Styles
 -------------------------------------------------------------------------------
 */
+
 .vjs-errors-dialog {
   text-align: left;
   border: 1px #999 solid;
@@ -40,8 +42,7 @@
   padding-left: 1%;
   padding-right: 1%;
   background: rgba(24, 24, 24, 0.8);
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)";
-  /* IE8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#CC000000, endColorstr=#CC000000)"; /* IE8 */
 }
 
 .vjs-errors-details {
@@ -90,8 +91,7 @@
   top: 0;
   left: 15px;
   right: 15px;
-  bottom: 61px;
-  /* dialog padding + ok button + 10 */
+  bottom: 61px; /* dialog padding + ok button + 10 */
 }
 
 .vjs-errors-headline {
@@ -116,6 +116,7 @@
     "Extra small" Styles
 -------------------------------------------------------------------------------
 */
+
 .vjs-xs.vjs-error-display {
   font-size: 14px;
   background-color: #000;
@@ -152,7 +153,9 @@
     copy of the extra small styles above yet without ".vjs-xs".
 -------------------------------------------------------------------------------
 */
+
 @media (max-width: 600px), (max-height: 250px) {
+
   .vjs-error-display {
     font-size: 14px;
     background-color: #000;

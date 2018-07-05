@@ -1,10 +1,14 @@
 # videojs-errors
 
 [![Build Status](https://travis-ci.org/brightcove/videojs-errors.svg?branch=master)](https://travis-ci.org/brightcove/videojs-errors)
+[![Greenkeeper badge](https://badges.greenkeeper.io/brightcove/videojs-errors.svg)](https://greenkeeper.io/)
+[![Slack Status](http://slack.videojs.com/badge.svg)](http://slack.videojs.com)
+
+[![NPM](https://nodei.co/npm/videojs-errors.png?downloads=true&downloadRank=true)](https://nodei.co/npm/videojs-errors/)
 
 A plugin that displays user-friendly messages when Video.js encounters an error.
 
-### Table of Contents
+Maintenance Status: Stable
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -168,7 +172,7 @@ After the errors plugin has been initialized on a player, a `timeout()` method i
 
 A new timeout may be set by passing a timeout in milliseconds, e.g. `player.errors.timeout(5 * 1000)`.
 
-If no argument is passed, the current timeout value is returned. 
+If no argument is passed, the current timeout value is returned.
 
 ## Known Issues
 

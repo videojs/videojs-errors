@@ -1,3 +1,10 @@
+<a name="4.1.1"></a>
+## [4.1.1](https://github.com/brightcove/videojs-errors/compare/v4.1.0...v4.1.1) (2018-07-05)
+
+### Chores
+
+* generator v6 ([#122](https://github.com/brightcove/videojs-errors/issues/122)) ([846d151](https://github.com/brightcove/videojs-errors/commit/846d151))
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/brightcove/videojs-errors/compare/v4.0.0...v4.1.0) (2018-05-08)
 

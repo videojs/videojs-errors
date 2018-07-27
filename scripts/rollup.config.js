@@ -114,8 +114,6 @@ const plugins = {
 // clone module plugins, remove babel
 const esPlugins = plugins.module.slice();
 
-esPlugins.splice(plugins.module.indexOf(primedPlugins.babel), 1);
-
 // clone umd plugins, remove babel, add uglify then babel
 const minPlugins = plugins.umd.slice();
 

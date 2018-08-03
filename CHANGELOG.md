@@ -1,3 +1,14 @@
+<a name="4.1.2"></a>
+## [4.1.2](https://github.com/brightcove/videojs-errors/compare/v4.1.1...v4.1.2) (2018-08-03)
+
+### Bug Fixes
+
+* babel the es dist, by updating the generator ([#127](https://github.com/brightcove/videojs-errors/issues/127)) ([983b83f](https://github.com/brightcove/videojs-errors/commit/983b83f))
+
+### Chores
+
+* **package:** update dependencies, enable greenkeeper ([#126](https://github.com/brightcove/videojs-errors/issues/126)) ([7e95841](https://github.com/brightcove/videojs-errors/commit/7e95841))
+
 <a name="4.1.1"></a>
 ## [4.1.1](https://github.com/brightcove/videojs-errors/compare/v4.1.0...v4.1.1) (2018-07-05)
 

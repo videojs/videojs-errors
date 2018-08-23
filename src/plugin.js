@@ -16,6 +16,7 @@ const defaults = {
   timeout: 45 * 1000,
   dismiss: defaultDismiss,
   progressDisabled: false,
+  ignorePlayStartMonitor: false,
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',
@@ -179,6 +180,10 @@ const initPlugin = function(player, options) {
   };
 
   const onPlayStartMonitor = function() {
+    if (options.ignorePlayStartMonitor) {
+      return;
+    }
+
     let lastTime = 0;
 
     cleanup();

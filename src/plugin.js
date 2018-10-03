@@ -15,7 +15,6 @@ const defaults = {
   message: '',
   timeout: 45 * 1000,
   dismiss: defaultDismiss,
-  progressDisabled: false,
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',
@@ -194,10 +193,6 @@ const initPlugin = function(player, options) {
         resetMonitor();
       }
     });
-
-    if (!options.progressDisabled) {
-      healthcheck('progress', resetMonitor);
-    }
   };
 
   const onPlayNoSource = function() {
@@ -309,11 +304,6 @@ const initPlugin = function(player, options) {
     }
   };
 
-  reInitPlugin.disableProgress = function(disabled) {
-    options.progressDisabled = disabled;
-    onPlayStartMonitor();
-  };
-
   player.on('play', onPlayStartMonitor);
   player.on('play', onPlayNoSource);
   player.on('dispose', onDisposeHandler);
@@ -338,7 +328,7 @@ const errors = function(options) {
   initPlugin(this, videojs.mergeOptions(defaults, options));
 };
 
-['extend', 'getAll', 'disableProgress'].forEach(k => {
+['extend', 'getAll'].forEach(k => {
   errors[k] = function() {
     videojs.log.warn(
       `The errors.${k}() method is not available until the plugin has been initialized!`

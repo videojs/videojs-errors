@@ -138,10 +138,8 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
-QUnit.test('when progress watching is disabled, progress within 45 seconds is an error', function(assert) {
+QUnit.test('progress events are ignored during timeout', function(assert) {
   let errors = 0;
-
-  this.player.errors.disableProgress(true);
 
   this.player.on('error', function() {
     errors++;
@@ -155,8 +153,6 @@ QUnit.test('when progress watching is disabled, progress within 45 seconds is an
   assert.strictEqual(errors, 1, 'emitted an error');
   assert.strictEqual(this.player.error().code, -2, 'error code is -2');
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
-
-  this.player.errors.disableProgress(false);
 });
 
 QUnit.test('Flash API is unavailable when using Flash is an error', function(assert) {
@@ -217,7 +213,7 @@ QUnit.test('when dispose is triggered should not throw error ', function(assert)
   this.player = videojs(this.video);
 });
 
-QUnit.test('progress clears player timeout errors', function(assert) {
+QUnit.test('progress does not clear player timeout errors', function(assert) {
   let errors = 0;
 
   this.player.on('error', function() {
@@ -233,7 +229,7 @@ QUnit.test('progress clears player timeout errors', function(assert) {
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 
   this.player.trigger('progress');
-  assert.strictEqual(this.player.error(), null, 'error removed');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
 });
 
 QUnit.test('reinitialising plugin during playback starts timeout handler', function(assert) {
@@ -306,23 +302,6 @@ QUnit.test('timing out multiple times only throws a single error', function(asse
   // wait long enough for another timeout
   this.clock.tick(50 * 1000);
   assert.strictEqual(errors, 1, 'only one error fired');
-});
-
-QUnit.test('progress events while playing reset the player timeout', function(assert) {
-  let errors = 0;
-
-  this.player.on('error', function() {
-    errors++;
-  });
-  this.player.src(sources);
-  this.player.trigger('play');
-  // stalled for awhile
-  this.clock.tick(44 * 1000);
-  // but playback resumes!
-  this.player.trigger('progress');
-  this.clock.tick(44 * 1000);
-
-  assert.strictEqual(errors, 0, 'no errors emitted');
 });
 
 QUnit.test('no signs of playback triggers a player timeout', function(assert) {

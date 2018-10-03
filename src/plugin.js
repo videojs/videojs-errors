@@ -304,6 +304,10 @@ const initPlugin = function(player, options) {
     }
   };
 
+  // no-op API
+  // TODO: remove in a major version
+  reInitPlugin.disableProgress = () => {};
+
   player.on('play', onPlayStartMonitor);
   player.on('play', onPlayNoSource);
   player.on('dispose', onDisposeHandler);

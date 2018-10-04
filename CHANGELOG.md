@@ -1,3 +1,16 @@
+<a name="4.2.0"></a>
+# [4.2.0](https://github.com/brightcove/videojs-errors/compare/v4.1.3...v4.2.0) (2018-10-04)
+
+### Bug Fixes
+
+* ignore progress events ([#143](https://github.com/brightcove/videojs-errors/issues/143)) ([348f670](https://github.com/brightcove/videojs-errors/commit/348f670))
+* Remove the postinstall script to prevent install issues ([#138](https://github.com/brightcove/videojs-errors/issues/138)) ([a2b2839](https://github.com/brightcove/videojs-errors/commit/a2b2839))
+
+### Chores
+
+* update to generator-videojs-plugin[@7](https://github.com/7).2.0 ([1e77e8c](https://github.com/brightcove/videojs-errors/commit/1e77e8c))
+* **package:** update rollup to version 0.66.0 ([#140](https://github.com/brightcove/videojs-errors/issues/140)) ([459f9fb](https://github.com/brightcove/videojs-errors/commit/459f9fb))
+
 <a name="4.1.3"></a>
 ## [4.1.3](https://github.com/brightcove/videojs-errors/compare/v4.1.2...v4.1.3) (2018-08-23)
 

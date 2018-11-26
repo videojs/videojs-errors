@@ -89,9 +89,11 @@ QUnit.test('play() without a src is an error', function(assert) {
 
   assert.strictEqual(errors, 1, 'emitted an error');
   assert.strictEqual(this.player.error().code, -1, 'error code is -1');
-  assert.strictEqual(this.player.error().type,
+  assert.strictEqual(
+    this.player.error().type,
     'PLAYER_ERR_NO_SRC',
-    'error type is no source');
+    'error type is no source'
+  );
 });
 
 QUnit.test('no progress for 1 second shows the loading spinner', function(assert) {
@@ -179,7 +181,8 @@ QUnit.test('Flash API is unavailable when using Flash is an error', function(ass
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
-QUnit.test('the plugin cleans up after its previous incarnation when called again',
+QUnit.test(
+  'the plugin cleans up after its previous incarnation when called again',
   function(assert) {
     let errors = 0;
 
@@ -197,7 +200,8 @@ QUnit.test('the plugin cleans up after its previous incarnation when called agai
     assert.strictEqual(errors, 1, 'emitted a single error');
     assert.strictEqual(this.player.error().code, -1, 'error code is -1');
     assert.strictEqual(this.player.error().type, 'PLAYER_ERR_NO_SRC');
-  });
+  }
+);
 
 QUnit.test('when dispose is triggered should not throw error ', function(assert) {
   this.player.src(sources);
@@ -205,8 +209,10 @@ QUnit.test('when dispose is triggered should not throw error ', function(assert)
   this.player.dispose();
   this.clock.tick(45 * 1000);
 
-  assert.ok(!this.player.error(),
-    'should not throw player error when dispose is called.');
+  assert.ok(
+    !this.player.error(),
+    'should not throw player error when dispose is called.'
+  );
 
   // reset this.player because otherwise afterEach will fail
   this.fixture.appendChild(this.video);
@@ -320,9 +326,11 @@ QUnit.test('no signs of playback triggers a player timeout', function(assert) {
 
   assert.strictEqual(errors, 1, 'emitted a single error');
   assert.strictEqual(this.player.error().code, -2, 'error code is -2');
-  assert.strictEqual(this.player.error().type,
+  assert.strictEqual(
+    this.player.error().type,
     'PLAYER_ERR_TIMEOUT',
-    'type is player timeout');
+    'type is player timeout'
+  );
 });
 
 QUnit.test('time changes while playing reset the player timeout', function(assert) {
@@ -456,10 +464,14 @@ QUnit.test('custom error details should override defaults', function(assert) {
   // trigger the error in question
   this.player.error(4);
   // confirm results
-  assert.strictEqual(this.errorDisplay.$('.vjs-errors-headline').textContent,
-    customError.headline, 'headline should match custom override value');
-  assert.strictEqual(this.errorDisplay.$('.vjs-errors-message').textContent,
-    customError.message, 'message should match custom override value');
+  assert.strictEqual(
+    this.errorDisplay.$('.vjs-errors-headline').textContent,
+    customError.headline, 'headline should match custom override value'
+  );
+  assert.strictEqual(
+    this.errorDisplay.$('.vjs-errors-message').textContent,
+    customError.message, 'message should match custom override value'
+  );
 });
 
 QUnit.test('Append Flash error details when flash is not supported', function(assert) {
@@ -481,9 +493,11 @@ QUnit.test('Append Flash error details when flash is not supported', function(as
   // trigger the error in question
   this.player.error(4);
   // confirm results
-  assert.equal(this.errorDisplay.$('.vjs-errors-flashmessage').textContent,
+  assert.equal(
+    this.errorDisplay.$('.vjs-errors-flashmessage').textContent,
     'If you are using an older browser please try upgrading or installing Flash.',
-    'Flash Error message should be displayed');
+    'Flash Error message should be displayed'
+  );
   // Restoring isSupported to the old value
   videojs.getComponent('Flash').isSupported = oldIsSupported;
 });

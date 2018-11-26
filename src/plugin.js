@@ -225,9 +225,7 @@ const initPlugin = function(player, options) {
     }
 
     if (error.code === 4 && FlashObj && !FlashObj.isSupported()) {
-      const flashMessage = player.localize(
-        'If you are using an older browser please try upgrading or installing Flash.'
-      );
+      const flashMessage = player.localize('If you are using an older browser please try upgrading or installing Flash.');
 
       details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     }
@@ -334,9 +332,7 @@ const errors = function(options) {
 
 ['extend', 'getAll'].forEach(k => {
   errors[k] = function() {
-    videojs.log.warn(
-      `The errors.${k}() method is not available until the plugin has been initialized!`
-    );
+    videojs.log.warn(`The errors.${k}() method is not available until the plugin has been initialized!`);
   };
 });
 

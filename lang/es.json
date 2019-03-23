@@ -6,6 +6,8 @@
   "This video is either unavailable or not supported in this browser": "Este vídeo no está disponible o es incompatible con este navegador.",
   "Error Code": "Código de error",
   "Technical details": "Detalles técnicos",
+  "The video download was cancelled": "La descarga ha sido cancelada",
+  "The video you are trying to watch is encrypted and we do not know how to decrypt it": "El vídeo que está tratando de visualizar está encriptado y no es posible desencriptarlo",
   "An unanticipated problem was encountered, check back soon and try again": "Ha surgido un problema imprevisto. Vuelva a intentarlo más tarde.",
   "This video is restricted from playing on your current domain": "Este vídeo tiene restricciones y no puede reproducirse en su dominio actual.",
   "This video is restricted at your current IP address": "Este vídeo tiene restricciones y no puede reproducirse en su dirección IP actual.",

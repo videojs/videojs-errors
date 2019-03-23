@@ -237,7 +237,7 @@ const initPlugin = function(player, options) {
     dialogContent =
      `<div class="vjs-errors-content-container">
       <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
-        <div><b>${this.localize('Error Code')}</b>: ${(error.type || error.code)}</div>
+        <div class="vjs-errors-code"><b>${this.localize('Error Code')}:</b> ${(error.type || error.code)}</div>
         ${details}
       </div>`;
 

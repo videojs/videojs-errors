@@ -1,5 +1,6 @@
 import videojs from 'video.js';
 import document from 'global/document';
+import window from 'global/window';
 import {version as VERSION} from '../package.json';
 
 const FlashObj = videojs.getComponent('Flash');
@@ -69,6 +70,7 @@ const initPlugin = function(player, options) {
   let monitor;
   let waiting;
   let isStalling;
+  let isIOS;
   const listeners = [];
 
   const updateErrors = function(updates) {
@@ -86,6 +88,29 @@ const initPlugin = function(player, options) {
 
   // Make sure we flesh out initially-provided errors.
   updateErrors();
+
+  const iOSPlayback = function() {
+
+    const iDevices = [
+      'iPad',
+      'iPhone',
+      'iPod'
+    ];
+
+    if (window.navigator.platform) {
+      while (iDevices.length) {
+        if (window.navigator.platform === iDevices.pop()) {
+          isIOS = true;
+          return;
+        }
+      }
+    }
+    isIOS = false;
+    return;
+  };
+
+  // iOS Playback
+  iOSPlayback();
 
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
@@ -113,6 +138,13 @@ const initPlugin = function(player, options) {
       // player already has an error
       // or is not playing under normal conditions
       if (player.error() || player.paused() || player.ended()) {
+        return;
+      }
+
+      if (isIOS &&
+        (player.networkState() === 1 || player.networkState() === 2)) {
+        player.removeClass('vjs-waiting');
+        player.pause();
         return;
       }
 

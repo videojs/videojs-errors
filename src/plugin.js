@@ -1,5 +1,6 @@
 import videojs from 'video.js';
 import document from 'global/document';
+import window from 'global/window';
 import {version as VERSION} from '../package.json';
 
 const FlashObj = videojs.getComponent('Flash');
@@ -116,13 +117,6 @@ const initPlugin = function(player, options) {
         return;
       }
 
-      if (videojs.browser.IS_IOS &&
-        (player.bufferedEnd() > player.currentTime() + 1)) {
-        player.removeClass('vjs-waiting');
-        player.play();
-        return;
-      }
-
       player.error({
         code: -2,
         type: 'PLAYER_ERR_TIMEOUT'
@@ -180,6 +174,15 @@ const initPlugin = function(player, options) {
 
       fn.call(this);
     };
+
+    if (videojs.browser.IS_IOS) {
+      player.on(['stalled', 'suspend'], (e) => {
+        if (window.navigator.onLine && player.bufferedEnd() > player.currentTime() + 1) {
+          player.removeClass('vjs-waiting');
+          player.pause();
+        }
+      });
+    }
 
     player.on(type, check);
     listeners.push([type, check]);

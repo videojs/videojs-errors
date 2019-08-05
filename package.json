@@ -23,11 +23,11 @@
     "build:css": "node-sass src/plugin.scss dist/videojs-errors.css --output-style=compressed --linefeed=lf",
     "build:js": "rollup -c scripts/rollup.config.js",
     "prebuild:lang": "npm-run-all -s prebuild:lang:*",
-    "prebuild:lang:zh-rm": "shx rm -f lang/zh-Han*.json",
-    "prebuild:lang:zh-s": "shx cp lang/zh-CN.json lang/zh-Hans.json",
-    "prebuild:lang:zh-t": "shx cp lang/zh-TW.json lang/zh-Hant.json",
+    "prebuild:lang:chinese-s": "shx cp lang/zh-CN.json lang/zh-Hans.json",
+    "prebuild:lang:chinese-t": "shx cp lang/zh-TW.json lang/zh-Hant.json",
     "build:lang": "vjslang --dir dist/lang",
-    "clean": "shx rm -rf ./dist ./test/dist",
+    "postbuild:lang": "shx cp -R lang/* dist/lang/",
+    "clean": "shx rm -rf ./dist ./test/dist ./lang/zh-Han*.json",
     "postclean": "shx mkdir -p ./dist ./test/dist",
     "docs": "npm-run-all docs:*",
     "docs:api": "jsdoc src -g plugins/markdown -r -d docs/api",
@@ -106,7 +106,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prebuild:lang && git add lang/ && lint-staged"
+      "pre-commit": "lint-staged"
     }
   }
 }

@@ -1,3 +1,27 @@
+<a name="4.3.0"></a>
+# [4.3.0](https://github.com/brightcove/videojs-errors/compare/v4.2.0...v4.3.0) (2019-08-06)
+
+### Features
+
+* Add class to error code line and make colon bold ([#164](https://github.com/brightcove/videojs-errors/issues/164)) ([7734d36](https://github.com/brightcove/videojs-errors/commit/7734d36))
+
+### Bug Fixes
+
+* **lang:** Improved translations ([#165](https://github.com/brightcove/videojs-errors/issues/165)) ([5aa4877](https://github.com/brightcove/videojs-errors/commit/5aa4877))
+* **lang:** Update Chinese (Simplified) and Chinese (Traditional) and clone them to more correct language codes ([#176](https://github.com/brightcove/videojs-errors/issues/176)) ([568d41d](https://github.com/brightcove/videojs-errors/commit/568d41d))
+
+### Chores
+
+* **package:** Update dependencies ([#172](https://github.com/brightcove/videojs-errors/issues/172)) ([90e8bbe](https://github.com/brightcove/videojs-errors/commit/90e8bbe))
+* **package:** Update development dependencies. ([#167](https://github.com/brightcove/videojs-errors/issues/167)) ([a0f4f96](https://github.com/brightcove/videojs-errors/commit/a0f4f96))
+* **package:** update lint-staged to version 8.1.0 ([#153](https://github.com/brightcove/videojs-errors/issues/153)) ([9322988](https://github.com/brightcove/videojs-errors/commit/9322988))
+* **package:** update npm-run-all/videojs-generator-verify for security ([d355dd5](https://github.com/brightcove/videojs-errors/commit/d355dd5))
+* **package:** update videojs-generate-karma-config to version 5.0.0 ([#152](https://github.com/brightcove/videojs-errors/issues/152)) ([7ffd25f](https://github.com/brightcove/videojs-errors/commit/7ffd25f))
+* **package:** update videojs-generate-karma-config to version 5.1.0 ([553b961](https://github.com/brightcove/videojs-errors/commit/553b961))
+* **package:** update videojs-generate-rollup-config to version 2.3.1 ([#154](https://github.com/brightcove/videojs-errors/issues/154)) ([f67d225](https://github.com/brightcove/videojs-errors/commit/f67d225))
+* **package:** update videojs-languages to version 2.0.0 ([#142](https://github.com/brightcove/videojs-errors/issues/142)) ([0299e75](https://github.com/brightcove/videojs-errors/commit/0299e75))
+* **package:** update videojs-standard to version 8.0.2 ([#155](https://github.com/brightcove/videojs-errors/issues/155)) ([cd0f8ca](https://github.com/brightcove/videojs-errors/commit/cd0f8ca))
+
 <a name="4.2.0"></a>
 # [4.2.0](https://github.com/brightcove/videojs-errors/compare/v4.1.3...v4.2.0) (2018-10-04)
 

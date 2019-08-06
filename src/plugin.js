@@ -6,8 +6,8 @@ import {version as VERSION} from '../package.json';
 const FlashObj = videojs.getComponent('Flash');
 const defaultDismiss = !videojs.browser.IS_IPHONE;
 
-export const TIME_FUDGE_FACTOR = 1 / 30;
-export const SAFE_TIME_DELTA = TIME_FUDGE_FACTOR * 3;
+const TIME_FUDGE_FACTOR = 1 / 30;
+const SAFE_TIME_DELTA = TIME_FUDGE_FACTOR * 3;
 
 // Video.js 5/6 cross-compatibility.
 const registerPlugin = videojs.registerPlugin || videojs.plugin;
@@ -180,7 +180,7 @@ const initPlugin = function(player, options) {
 
     // If iOS check if we have a real stalled or supend event or
     // we got stalled/suspend due headphones where disconnected during playback
-    if (videojs.browser.IS_IOS) {
+    if (!player.paused() && videojs.browser.IS_IOS) {
       player.on(['stalled', 'suspend'], (e) => {
         if (window.navigator.onLine &&
             player.bufferedEnd() + SAFE_TIME_DELTA >= player.currentTime()) {

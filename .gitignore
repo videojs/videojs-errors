@@ -31,3 +31,6 @@ docs/api/
 test/dist/
 .eslintcache
 .yo-rc.json
+
+# Ignore Chinese clones for now.
+lang/zh-Han*.json

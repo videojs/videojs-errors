@@ -8,5 +8,10 @@
   "Technical details": "技術細節",
   "The video download was cancelled": "已取消下載影片",
   "The video you are trying to watch is encrypted and we do not know how to decrypt it": "您嘗試觀看的影片已加密，而且解密方法未知",
-  "An unanticipated problem was encountered, check back soon and try again": "發生未預期的問題，請稍後查看並再試一次"
+  "An unanticipated problem was encountered, check back soon and try again": "發生未預期的問題，請稍後查看並再試一次",
+  "This video is restricted from playing on your current domain": "此視訊遭到限制，無法在您目前的網域播放",
+  "This video is restricted at your current IP address": "此視訊遭到限制，無法在您目前的 IP 位址播放",
+  "This video is restricted from playing in your current geographic region": "此視訊遭到限制，無法在您目前的地理區域播放",
+  "If you are using an older browser please try upgrading or installing Flash.": "如果您是使用舊版的瀏覽器，請嘗試升級或是安裝 Flash。",
+  "OK": "確定"
 }

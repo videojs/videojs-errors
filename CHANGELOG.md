@@ -1,3 +1,14 @@
+<a name="4.3.1"></a>
+## [4.3.1](https://github.com/brightcove/videojs-errors/compare/v4.3.0...v4.3.1) (2020-02-08)
+
+### Bug Fixes
+
+* **lang:** Add missing Arabic translations ([#185](https://github.com/brightcove/videojs-errors/issues/185)) ([708b398](https://github.com/brightcove/videojs-errors/commit/708b398))
+
+### Chores
+
+* **package:** Update development dependencies ([#186](https://github.com/brightcove/videojs-errors/issues/186)) ([98ce727](https://github.com/brightcove/videojs-errors/commit/98ce727))
+
 <a name="4.3.0"></a>
 # [4.3.0](https://github.com/brightcove/videojs-errors/compare/v4.2.0...v4.3.0) (2019-08-06)
 

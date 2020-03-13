@@ -309,7 +309,7 @@ const initPlugin = function(player, options) {
   player.on('play', onPlayStartMonitor);
   player.on('play', onPlayNoSource);
   player.on('dispose', onDisposeHandler);
-  player.on(['aderror', 'error'], onErrorHandler);
+  player.on(['aderror', 'contenterror', 'error'], onErrorHandler);
 
   player.ready(() => {
     player.addClass('vjs-errors');

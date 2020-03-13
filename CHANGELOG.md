@@ -1,3 +1,10 @@
+<a name="4.3.2"></a>
+## [4.3.2](https://github.com/brightcove/videojs-errors/compare/v4.3.1...v4.3.2) (2020-03-13)
+
+### Bug Fixes
+
+* Trigger error handler on contenterror as well ([#191](https://github.com/brightcove/videojs-errors/issues/191)) ([723b2a6](https://github.com/brightcove/videojs-errors/commit/723b2a6))
+
 <a name="4.3.1"></a>
 ## [4.3.1](https://github.com/brightcove/videojs-errors/compare/v4.3.0...v4.3.1) (2020-02-08)
 

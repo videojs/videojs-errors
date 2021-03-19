@@ -15,6 +15,7 @@ const defaults = {
   message: '',
   timeout: 45 * 1000,
   dismiss: defaultDismiss,
+  disableTimeoutsInBackground: false,
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',
@@ -114,8 +115,7 @@ const initPlugin = function(player, options) {
       // player already has an error
       // or is not playing under normal conditions
       if (player.error() || player.paused() || player.ended() ||
-          // also make sure we don't trigger a timeout error if in the background
-          document.visibilityState === 'hidden') {
+          (options.disableTimeoutsInBackground && document.visibilityState === 'hidden')) {
         return;
       }
 
@@ -197,9 +197,11 @@ const initPlugin = function(player, options) {
       }
     });
 
-    // Remove any previously added 'visibilitychange' handler and add new one
-    player.off(document, 'visibilitychange', toggleMonitor);
-    player.on(document, 'visibilitychange', toggleMonitor);
+    if (options.disableTimeoutsInBackground) {
+      // Remove any previously added 'visibilitychange' handler and add new one
+      player.off(document, 'visibilitychange', toggleMonitor);
+      player.on(document, 'visibilitychange', toggleMonitor);
+    }
   };
 
   // Toggle error monitoring based on document visibilityState
@@ -232,7 +234,7 @@ const initPlugin = function(player, options) {
       return;
     }
 
-    // Stop toggling the monitoring on 'visibilitychange' now that error has occurred
+    // Stop any monitor toggling now that an error has occurred
     player.off(document, 'visibilitychange', toggleMonitor);
 
     error = videojs.mergeOptions(error, options.errors[error.code || error.type || 0]);

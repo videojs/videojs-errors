@@ -154,6 +154,9 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
 QUnit.test('no progress for 45 seconds is not an error if the document was already hidden when playback started', function(assert) {
   let errors = 0;
 
+  // Re-init with option
+  this.player.errors({disableTimeoutsInBackground: true});
+
   this.player.on('error', function() {
     errors++;
   });
@@ -192,6 +195,9 @@ QUnit.test('no progress for 45 seconds is not an error if the document was alrea
 QUnit.test('no progress for 45 seconds is not an error if the document becomes hidden after playback starts', function(assert) {
   let errors = 0;
 
+  // Re-init with option
+  this.player.errors({disableTimeoutsInBackground: true});
+
   this.player.on('error', function() {
     errors++;
   });
@@ -228,6 +234,9 @@ QUnit.test('no progress for 45 seconds is not an error if the document becomes h
 
 QUnit.test('document visibility timeout toggling is disabled after error has occurred', function(assert) {
   let errors = 0;
+
+  // Re-init with option
+  this.player.errors({disableTimeoutsInBackground: true});
 
   this.player.on('error', function() {
     errors++;

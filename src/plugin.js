@@ -15,7 +15,7 @@ const defaults = {
   message: '',
   timeout: 45 * 1000,
   dismiss: defaultDismiss,
-  disableTimeoutsInBackground: false,
+  disableTimeoutsInBackground: true,
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',

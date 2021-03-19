@@ -151,11 +151,8 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
-QUnit.test('no progress for 45 seconds is not an error if the document was already hidden when playback started', function(assert) {
+QUnit.test('player will not timeout while the document is hidden (when already hidden before playback starts)', function(assert) {
   let errors = 0;
-
-  // Re-init with option
-  this.player.errors({disableTimeoutsInBackground: true});
 
   this.player.on('error', function() {
     errors++;
@@ -192,11 +189,8 @@ QUnit.test('no progress for 45 seconds is not an error if the document was alrea
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
-QUnit.test('no progress for 45 seconds is not an error if the document becomes hidden after playback starts', function(assert) {
+QUnit.test('player will not timeout while document is hidden (if document becomes hidden after playback starts)', function(assert) {
   let errors = 0;
-
-  // Re-init with option
-  this.player.errors({disableTimeoutsInBackground: true});
 
   this.player.on('error', function() {
     errors++;
@@ -235,9 +229,6 @@ QUnit.test('no progress for 45 seconds is not an error if the document becomes h
 QUnit.test('document visibility timeout toggling is disabled after error has occurred', function(assert) {
   let errors = 0;
 
-  // Re-init with option
-  this.player.errors({disableTimeoutsInBackground: true});
-
   this.player.on('error', function() {
     errors++;
   });
@@ -263,6 +254,31 @@ QUnit.test('document visibility timeout toggling is disabled after error has occ
   assert.strictEqual(errors, 1, 'still has one error');
   assert.ok(this.player.error() !== null, 'error is not null after visibilitychange');
   assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+});
+
+QUnit.test('player will timeout while document is hidden when disableTimeoutsInBackground option is false', function(assert) {
+  let errors = 0;
+
+  // Re-init with option
+  this.player.errors({disableTimeoutsInBackground: false});
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  // document becomes hidden
+  document.visibilityState = 'hidden';
+  Events.trigger(document, 'visibilitychange');
+
+  this.clock.tick(44 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted an error even though hidden');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
 QUnit.test('progress events are ignored during timeout', function(assert) {

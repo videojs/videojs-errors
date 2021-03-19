@@ -67,6 +67,7 @@ const defaults = {
 
 const initPlugin = function(player, options) {
   let monitor;
+  let toggleMonitor;
   let waiting;
   let isStalling;
   const listeners = [];
@@ -112,7 +113,9 @@ const initPlugin = function(player, options) {
     monitor = player.setTimeout(function() {
       // player already has an error
       // or is not playing under normal conditions
-      if (player.error() || player.paused() || player.ended()) {
+      if (player.error() || player.paused() || player.ended() ||
+          // also make sure we don't trigger a timeout error if in the background
+          document.visibilityState === 'hidden') {
         return;
       }
 
@@ -193,6 +196,19 @@ const initPlugin = function(player, options) {
         resetMonitor();
       }
     });
+
+    // Remove any previously added 'visibilitychange' handler and add new one
+    player.off(document, 'visibilitychange', toggleMonitor);
+    player.on(document, 'visibilitychange', toggleMonitor);
+  };
+
+  // Toggle error monitoring based on document visibilityState
+  toggleMonitor = function() {
+    if (document.visibilityState === 'hidden') {
+      cleanup();
+    } else {
+      onPlayStartMonitor();
+    }
   };
 
   const onPlayNoSource = function() {
@@ -215,6 +231,9 @@ const initPlugin = function(player, options) {
     if (!error) {
       return;
     }
+
+    // Stop toggling the monitoring on 'visibilitychange' now that error has occurred
+    player.off(document, 'visibilitychange', toggleMonitor);
 
     error = videojs.mergeOptions(error, options.errors[error.code || error.type || 0]);
 
@@ -279,6 +298,7 @@ const initPlugin = function(player, options) {
     player.off('play', onPlayNoSource);
     player.off('dispose', onDisposeHandler);
     player.off(['aderror', 'error'], onErrorHandler);
+    player.off(document, 'visibilitychange', toggleMonitor);
   };
 
   const reInitPlugin = function(newOptions) {

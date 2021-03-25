@@ -320,6 +320,19 @@ const initPlugin = function(player, options) {
     }
   };
 
+  // Get / set backgroundTimeout value. Restart monitor if changed.
+  reInitPlugin.backgroundTimeout = function(timeout) {
+    if (typeof timeout === 'undefined') {
+      return options.backgroundTimeout;
+    }
+    if (timeout !== options.backgroundTimeout) {
+      options.backgroundTimeout = timeout;
+      if (!player.paused()) {
+        onPlayStartMonitor();
+      }
+    }
+  };
+
   // no-op API
   // TODO: remove in a major version
   reInitPlugin.disableProgress = () => {};

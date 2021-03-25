@@ -218,7 +218,7 @@ QUnit.test('timeout in background is 5 minutes by default if the document is hid
 QUnit.test('background timeout can be set with backgroundTimeout option', function(assert) {
   let errors = 0;
 
-  // Re-init with option
+  // Init with custom option
   this.player.errors({backgroundTimeout: 10 * 1000});
 
   this.player.on('error', function() {
@@ -250,10 +250,48 @@ QUnit.test('background timeout can be set with backgroundTimeout option', functi
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
+QUnit.test('background timeout can be set/get via player.errors.backgroundTimeout()', function(assert) {
+  let errors = 0;
+
+  assert.strictEqual(this.player.errors.backgroundTimeout(), 300000, 'backgroundTimeout() returns default value');
+
+  this.player.errors.backgroundTimeout(20 * 1000);
+
+  assert.strictEqual(this.player.errors.backgroundTimeout(), 20000, 'backgroundTimeout() returns new value');
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player after 1 sec of no progress'
+  );
+
+  // document becomes hidden
+  document.visibilityState = 'hidden';
+  Events.trigger(document, 'visibilitychange');
+
+  this.clock.tick(19 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error in background after 19 sec');
+
+  this.clock.tick(1 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted an error after 20 sec');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+});
+
 QUnit.test('timeout is disabled in background if backgroundTimeout option === Infinity', function(assert) {
   let errors = 0;
 
-  // Re-init with option
+  // Init with custom option
   this.player.errors({backgroundTimeout: Infinity});
 
   this.player.on('error', function() {

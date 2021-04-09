@@ -68,7 +68,6 @@ const defaults = {
 
 const initPlugin = function(player, options) {
   let monitor;
-  let cleanup;
   let waiting;
   let isStalling;
   const listeners = [];
@@ -91,12 +90,25 @@ const initPlugin = function(player, options) {
 
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
-    // at this point the player has recovered
+    // clear out any existing player error now that playback has recovered
+    if (player.error() && player.error().code === -2) {
+      player.error(null);
+    }
+
     player.clearTimeout(waiting);
+    player.clearTimeout(monitor);
+
     if (isStalling) {
       isStalling = false;
 
       player.removeClass('vjs-waiting');
+    }
+
+    // Disable timeouts in the background altogether according to the backgroundTimeout
+    // option, or if the player is muted, as browsers may throttle javascript timers to
+    // 1 minute in that case
+    if (document.visibilityState === 'hidden' && (options.backgroundTimeout === Infinity || player.muted())) {
+      return;
     }
 
     // start the loading spinner if player has stalled
@@ -111,20 +123,10 @@ const initPlugin = function(player, options) {
       player.addClass('vjs-waiting');
     }, 1000);
 
-    player.clearTimeout(monitor);
-
     monitor = player.setTimeout(function() {
       // player already has an error
       // or is not playing under normal conditions
       if (player.error() || player.paused() || player.ended()) {
-        return;
-      }
-
-      // Disable timeouts in the background altogether according to the backgroundTimeout
-      // option, or if the player is muted, as browsers may throttle javascript timers to
-      // 1 minute in that case
-      if (document.visibilityState === 'hidden' && (options.backgroundTimeout === Infinity || player.muted())) {
-        cleanup();
         return;
       }
 
@@ -133,16 +135,10 @@ const initPlugin = function(player, options) {
         type: 'PLAYER_ERR_TIMEOUT'
       });
     }, document.visibilityState === 'hidden' ? options.backgroundTimeout : options.timeout);
-
-    // clear out any existing player timeout
-    // playback has recovered
-    if (player.error() && player.error().code === -2) {
-      player.error(null);
-    }
   };
 
   // clear any previously registered listeners
-  cleanup = function() {
+  const cleanup = function() {
     let listener;
 
     while (listeners.length) {

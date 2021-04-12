@@ -107,7 +107,9 @@ const initPlugin = function(player, options) {
     // Disable timeouts in the background altogether according to the backgroundTimeout
     // option, or if the player is muted, as browsers may throttle javascript timers to
     // 1 minute in that case
-    if (document.visibilityState === 'hidden' && (options.backgroundTimeout === Infinity || player.muted())) {
+    if ((document.visibilityState === 'hidden' &&
+          (options.backgroundTimeout === Infinity || player.muted())) ||
+        options.timeout === Infinity) {
       return;
     }
 

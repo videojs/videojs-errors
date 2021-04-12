@@ -3,6 +3,7 @@ import document from 'global/document';
 import QUnit from 'qunit';
 import sinon from 'sinon';
 import videojs from 'video.js';
+import Events from 'video.js';
 
 import plugin from '../src/plugin';
 
@@ -15,6 +16,12 @@ const sources = [{
   src: 'movie.webm',
   type: 'video/webm'
 }];
+
+// Override document.visibilityState so we can set it in tests
+Object.defineProperty(document, 'visibilityState', {
+  value: document.visibilityState,
+  writable: true
+});
 
 QUnit.test('the environment is sane', function(assert) {
   assert.strictEqual(typeof Array.isArray, 'function', 'es5 exists');
@@ -45,6 +52,8 @@ QUnit.module('videojs-errors', {
       return false;
     };
 
+    this.originalVisibilityState_ = document.visibilityState;
+
     // initialize the plugin with the default options
     this.player.errors();
     this.errorDisplay = this.player.getChild('errorDisplay');
@@ -54,6 +63,8 @@ QUnit.module('videojs-errors', {
   },
 
   afterEach() {
+    document.visibilityState = this.originalVisibilityState_;
+
     this.player.dispose();
     this.clock.restore();
   }
@@ -138,6 +149,234 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
   assert.strictEqual(errors, 1, 'emitted an error');
   assert.strictEqual(this.player.error().code, -2, 'error code is -2');
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+});
+
+QUnit.test('timeout in background is 5 minutes by default if the document is hidden when playback starts', function(assert) {
+  let errors = 0;
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  document.visibilityState = 'hidden';
+
+  // simulates case where player starts playing while already in a background
+  // tab (i.e. no 'visibilitychange' event is observed)
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player after 1 sec of no progress'
+  );
+
+  this.clock.tick(44 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error after default foreground 45sec timeout');
+
+  this.clock.tick(255 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted an error after 5 minutes');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+});
+
+QUnit.test('timeout in background is 5 minutes by default if the document is hidden after playback starts', function(assert) {
+  let errors = 0;
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player after 1 sec of no progress'
+  );
+
+  // document becomes hidden
+  document.visibilityState = 'hidden';
+  Events.trigger(document, 'visibilitychange');
+
+  this.clock.tick(299 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error in background after 4 min 59 sec');
+
+  this.clock.tick(1 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted an error after 5 minutes');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+});
+
+QUnit.test('background timeout can be set with backgroundTimeout option', function(assert) {
+  let errors = 0;
+
+  // Init with custom option
+  this.player.errors({backgroundTimeout: 10 * 1000});
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player after 1 sec of no progress'
+  );
+
+  // document becomes hidden
+  document.visibilityState = 'hidden';
+  Events.trigger(document, 'visibilitychange');
+
+  this.clock.tick(9 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error in background after 9 sec');
+
+  this.clock.tick(1 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted an error after 10 sec');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+});
+
+QUnit.test('background timeout can be set/get via player.errors.backgroundTimeout()', function(assert) {
+  let errors = 0;
+
+  assert.strictEqual(this.player.errors.backgroundTimeout(), 300000, 'backgroundTimeout() returns default value');
+
+  this.player.errors.backgroundTimeout(20 * 1000);
+
+  assert.strictEqual(this.player.errors.backgroundTimeout(), 20000, 'backgroundTimeout() returns new value');
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player after 1 sec of no progress'
+  );
+
+  // document becomes hidden
+  document.visibilityState = 'hidden';
+  Events.trigger(document, 'visibilitychange');
+
+  this.clock.tick(19 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error in background after 19 sec');
+
+  this.clock.tick(1 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted an error after 20 sec');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+});
+
+QUnit.test('timeout is disabled in background if backgroundTimeout option === Infinity', function(assert) {
+  let errors = 0;
+
+  // Init with custom option
+  this.player.errors({backgroundTimeout: Infinity});
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player after 1 sec of no progress'
+  );
+
+  // document becomes hidden
+  document.visibilityState = 'hidden';
+  Events.trigger(document, 'visibilitychange');
+
+  this.clock.tick(300 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error in background after 5 minutes');
+
+  this.clock.tick(300 * 1000);
+
+  assert.strictEqual(errors, 0, 'still did not emit an error in background after another 5 minutes');
+});
+
+QUnit.test('timeout is disabled in background if the player is muted', function(assert) {
+  let errors = 0;
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player after 1 sec of no progress'
+  );
+
+  this.player.muted(true);
+
+  // document becomes hidden
+  document.visibilityState = 'hidden';
+  Events.trigger(document, 'visibilitychange');
+
+  this.clock.tick(300 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error in background after 5 minutes');
+});
+
+QUnit.test('background/foreground timeout toggling is disabled after error has occurred', function(assert) {
+  let errors = 0;
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+  this.player.trigger('play');
+
+  this.clock.tick(45 * 1000);
+
+  assert.strictEqual(errors, 1, 'emitted an error');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
+  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
+
+  // document becomes hidden then visible
+  document.visibilityState = 'hidden';
+  Events.trigger(document, 'visibilitychange');
+  document.visibilityState = 'visible';
+  Events.trigger(document, 'visibilitychange');
+
+  this.clock.tick(1 * 1000);
+
+  // resetMonitor() will set player.error(null) when the 'visibilitychange' handler is
+  // triggered, so we should expect that *not* to happen if the handler has been removed
+  assert.strictEqual(errors, 1, 'still has one error');
+  assert.ok(this.player.error() !== null, 'error is not null after visibilitychange');
+  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
 });
 
 QUnit.test('progress events are ignored during timeout', function(assert) {

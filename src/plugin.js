@@ -14,6 +14,7 @@ const defaults = {
   code: '',
   message: '',
   timeout: 45 * 1000,
+  backgroundTimeout: 300 * 1000,
   dismiss: defaultDismiss,
   errors: {
     '1': {
@@ -89,11 +90,25 @@ const initPlugin = function(player, options) {
 
   // clears the previous monitor timeout and sets up a new one
   const resetMonitor = function() {
-    // at this point the player has recovered
+    // clear out any existing player error now that playback has recovered
+    if (player.error() && player.error().code === -2) {
+      player.error(null);
+    }
+
     player.clearTimeout(waiting);
+    player.clearTimeout(monitor);
+
     if (isStalling) {
       isStalling = false;
+
       player.removeClass('vjs-waiting');
+    }
+
+    // Disable timeouts in the background altogether according to the backgroundTimeout
+    // option, or if the player is muted, as browsers may throttle javascript timers to
+    // 1 minute in that case
+    if (document.visibilityState === 'hidden' && (options.backgroundTimeout === Infinity || player.muted())) {
+      return;
     }
 
     // start the loading spinner if player has stalled
@@ -108,7 +123,6 @@ const initPlugin = function(player, options) {
       player.addClass('vjs-waiting');
     }, 1000);
 
-    player.clearTimeout(monitor);
     monitor = player.setTimeout(function() {
       // player already has an error
       // or is not playing under normal conditions
@@ -120,13 +134,7 @@ const initPlugin = function(player, options) {
         code: -2,
         type: 'PLAYER_ERR_TIMEOUT'
       });
-    }, options.timeout);
-
-    // clear out any existing player timeout
-    // playback has recovered
-    if (player.error() && player.error().code === -2) {
-      player.error(null);
-    }
+    }, document.visibilityState === 'hidden' ? options.backgroundTimeout : options.timeout);
   };
 
   // clear any previously registered listeners
@@ -193,6 +201,11 @@ const initPlugin = function(player, options) {
         resetMonitor();
       }
     });
+
+    // Restart timeout monitor when the document transitions between the
+    // foreground and background
+    player.off(document, 'visibilitychange', onPlayStartMonitor);
+    player.on(document, 'visibilitychange', onPlayStartMonitor);
   };
 
   const onPlayNoSource = function() {
@@ -215,6 +228,9 @@ const initPlugin = function(player, options) {
     if (!error) {
       return;
     }
+
+    // Stop restarting the monitor on visibilitychanges now that an error has occurred
+    player.off(document, 'visibilitychange', onPlayStartMonitor);
 
     error = videojs.mergeOptions(error, options.errors[error.code || error.type || 0]);
 
@@ -276,6 +292,7 @@ const initPlugin = function(player, options) {
 
     player.removeClass('vjs-errors');
     player.off('play', onPlayStartMonitor);
+    player.off(document, 'visibilitychange', onPlayStartMonitor);
     player.off('play', onPlayNoSource);
     player.off('dispose', onDisposeHandler);
     player.off(['aderror', 'error'], onErrorHandler);
@@ -296,6 +313,19 @@ const initPlugin = function(player, options) {
     }
     if (timeout !== options.timeout) {
       options.timeout = timeout;
+      if (!player.paused()) {
+        onPlayStartMonitor();
+      }
+    }
+  };
+
+  // Get / set backgroundTimeout value. Restart monitor if changed.
+  reInitPlugin.backgroundTimeout = function(timeout) {
+    if (typeof timeout === 'undefined') {
+      return options.backgroundTimeout;
+    }
+    if (timeout !== options.backgroundTimeout) {
+      options.backgroundTimeout = timeout;
       if (!player.paused()) {
         onPlayStartMonitor();
       }

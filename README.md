@@ -21,6 +21,7 @@ Maintenance Status: Stable
   - [Custom Errors without a Type](#custom-errors-without-a-type)
   - [`getAll()`](#getall)
   - [`timeout()`](#timeout)
+  - [`backgroundTimeout()`](#backgroundtimeout)
 - [Known Issues](#known-issues)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -172,7 +173,13 @@ After the errors plugin has been initialized on a player, a `timeout()` method i
 
 A new timeout may be set by passing a timeout in milliseconds, e.g. `player.errors.timeout(5 * 1000)`.
 
+Setting the timeout to `Infinity` will turn off this check.
+
 If no argument is passed, the current timeout value is returned.
+
+### `backgroundTimeout()`
+
+This functions exactly like [timeout](#timeout) except the default value is 5 minutes.
 
 ## Known Issues
 

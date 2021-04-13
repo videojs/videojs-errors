@@ -1,3 +1,15 @@
+<a name="4.4.0"></a>
+# [4.4.0](https://github.com/brightcove/videojs-errors/compare/v4.3.2...v4.4.0) (2021-04-13)
+
+### Features
+
+* Add backgroundTimeout option ([#198](https://github.com/brightcove/videojs-errors/issues/198)) ([d8d9efc](https://github.com/brightcove/videojs-errors/commit/d8d9efc))
+* allow turning off timeout by setting it to Infinity ([#204](https://github.com/brightcove/videojs-errors/issues/204)) ([b73f160](https://github.com/brightcove/videojs-errors/commit/b73f160)), closes [#134](https://github.com/brightcove/videojs-errors/issues/134)
+
+### Chores
+
+* don't run tests on version ([#205](https://github.com/brightcove/videojs-errors/issues/205)) ([c349883](https://github.com/brightcove/videojs-errors/commit/c349883))
+
 <a name="4.3.2"></a>
 ## [4.3.2](https://github.com/brightcove/videojs-errors/compare/v4.3.1...v4.3.2) (2020-03-13)
 

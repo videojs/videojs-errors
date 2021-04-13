@@ -109,7 +109,7 @@ const initPlugin = function(player, options) {
     // 1 minute in that case
     if ((document.visibilityState === 'hidden' &&
           (options.backgroundTimeout === Infinity || player.muted())) ||
-        options.timeout === Infinity) {
+        (document.visibilityState === 'visible' && options.timeout === Infinity)) {
       return;
     }
 

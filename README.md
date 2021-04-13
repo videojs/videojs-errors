@@ -173,7 +173,7 @@ After the errors plugin has been initialized on a player, a `timeout()` method i
 
 A new timeout may be set by passing a timeout in milliseconds, e.g. `player.errors.timeout(5 * 1000)`.
 
-Settint the timeout to `Infinity` will turn off this check.
+Setting the timeout to `Infinity` will turn off this check.
 
 If no argument is passed, the current timeout value is returned.
 

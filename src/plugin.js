@@ -110,7 +110,7 @@ const initPlugin = function(player, options) {
     const disableValues = [Infinity, -1];
 
     if ((document.visibilityState === 'hidden' &&
-        (disableValues.includes(options.backgroundTimeout) || player.muted())) ||
+        (player.muted() || disableValues.includes(options.backgroundTimeout))) ||
         (document.visibilityState === 'visible' && disableValues.includes(options.timeout))) {
       return;
     }

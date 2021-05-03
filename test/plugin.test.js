@@ -414,6 +414,38 @@ QUnit.test('timeout is disabled in foreground if timeout option === Infinity', f
   assert.strictEqual(errors, 0, 'still did not emit an error in background after another 45 seconds');
 });
 
+QUnit.test('timeout is disabled in foreground if timeout option === -1', function(assert) {
+  let errors = 0;
+
+  // Init with custom option
+  this.player.errors({timeout: -1});
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.notOk(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin does not have a spinner class because timeout is disabled'
+  );
+
+  // document is visible
+  document.visibilityState = 'visible';
+
+  this.clock.tick(45 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error in background after 45 seconds');
+
+  this.clock.tick(45 * 1000);
+
+  assert.strictEqual(errors, 0, 'still did not emit an error in background after another 45 seconds');
+});
+
 QUnit.test('background/foreground timeout toggling is disabled after error has occurred', function(assert) {
   let errors = 0;
 

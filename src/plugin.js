@@ -111,7 +111,7 @@ const initPlugin = function(player, options) {
 
     if ((document.visibilityState === 'hidden' &&
         (disableValues.includes(options.backgroundTimeout) || player.muted())) ||
-        (document.visibilityState === 'visible' && options.timeout === Infinity)) {
+        (document.visibilityState === 'visible' && disableValues.includes(options.timeout))) {
       return;
     }
 

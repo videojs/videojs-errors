@@ -321,6 +321,39 @@ QUnit.test('timeout is disabled in background if backgroundTimeout option === In
   assert.strictEqual(errors, 0, 'still did not emit an error in background after another 5 minutes');
 });
 
+QUnit.test('timeout is disabled in background if backgroundTimeout option === -1', function(assert) {
+  let errors = 0;
+
+  // Init with custom option
+  this.player.errors({backgroundTimeout: -1});
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.ok(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin adds spinner class to the player after 1 sec of no progress'
+  );
+
+  // document becomes hidden
+  document.visibilityState = 'hidden';
+  Events.trigger(document, 'visibilitychange');
+
+  this.clock.tick(300 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error in background after 5 minutes');
+
+  this.clock.tick(300 * 1000);
+
+  assert.strictEqual(errors, 0, 'still did not emit an error in background after another 5 minutes');
+});
+
 QUnit.test('timeout is disabled in background if the player is muted', function(assert) {
   let errors = 0;
 
@@ -354,6 +387,38 @@ QUnit.test('timeout is disabled in foreground if timeout option === Infinity', f
 
   // Init with custom option
   this.player.errors({timeout: Infinity});
+
+  this.player.on('error', function() {
+    errors++;
+  });
+  this.player.src(sources);
+
+  this.player.trigger('play');
+
+  this.clock.tick(1 * 1000);
+
+  assert.notOk(
+    this.player.hasClass('vjs-waiting'),
+    'the plugin does not have a spinner class because timeout is disabled'
+  );
+
+  // document is visible
+  document.visibilityState = 'visible';
+
+  this.clock.tick(45 * 1000);
+
+  assert.strictEqual(errors, 0, 'did not emit an error in background after 45 seconds');
+
+  this.clock.tick(45 * 1000);
+
+  assert.strictEqual(errors, 0, 'still did not emit an error in background after another 45 seconds');
+});
+
+QUnit.test('timeout is disabled in foreground if timeout option === -1', function(assert) {
+  let errors = 0;
+
+  // Init with custom option
+  this.player.errors({timeout: -1});
 
   this.player.on('error', function() {
     errors++;

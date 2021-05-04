@@ -1,3 +1,10 @@
+<a name="4.5.0"></a>
+# [4.5.0](https://github.com/brightcove/videojs-errors/compare/v4.4.0...v4.5.0) (2021-05-04)
+
+### Features
+
+* add support for -1 timeout and backgroundTimeout values ([#206](https://github.com/brightcove/videojs-errors/issues/206)) ([cf0ea56](https://github.com/brightcove/videojs-errors/commit/cf0ea56))
+
 <a name="4.4.0"></a>
 # [4.4.0](https://github.com/brightcove/videojs-errors/compare/v4.3.2...v4.4.0) (2021-04-13)
 

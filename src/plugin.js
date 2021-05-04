@@ -108,10 +108,11 @@ const initPlugin = function(player, options) {
     // option, or if the player is muted, as browsers may throttle javascript timers to
     // 1 minute in that case
     const disableValues = [Infinity, -1];
+    const disableValueMatch = (valArray, option) => valArray.indexOf(option) !== -1;
 
     if ((document.visibilityState === 'hidden' &&
-        (player.muted() || disableValues.includes(options.backgroundTimeout))) ||
-        (document.visibilityState === 'visible' && disableValues.includes(options.timeout))) {
+        (player.muted() || disableValueMatch(disableValues, options.backgroundTimeout))) ||
+        (document.visibilityState === 'visible' && disableValueMatch(disableValues, options.timeout))) {
       return;
     }
 

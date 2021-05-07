@@ -18,20 +18,28 @@ const defaults = {
   errors: {
     '1': {
       type: 'MEDIA_ERR_ABORTED',
-      headline: 'The video download was cancelled'
+      headline: 'The video download was cancelled',
+      message: 'You aborted the media playback.'
     },
     '2': {
       type: 'MEDIA_ERR_NETWORK',
       headline: 'The video connection was lost, please confirm you are ' +
-                'connected to the internet'
+                'connected to the internet',
+      message: 'A network error caused the media download to fail part-way.' +
+               'Currently most helpful for MP4 and/or progressive download video formats. ' +
+               'See the Known issues section of the Display Error Messages Plugin document for details.'
     },
     '3': {
       type: 'MEDIA_ERR_DECODE',
-      headline: 'The video is bad or in a format that cannot be played on your browser'
+      headline: 'The video is bad or in a format that cannot be played on your browser',
+      message: 'The media playback was aborted due to a corruption problem or because' +
+      'the media used features your browser did not support.'
     },
     '4': {
       type: 'MEDIA_ERR_SRC_NOT_SUPPORTED',
-      headline: 'This video is either unavailable or not supported in this browser'
+      headline: 'This video is either unavailable or not supported in this browser',
+      message: 'The media could not be loaded, either because the server or network failed ' +
+               'or because the format is not supported.'
     },
     '5': {
       type: 'MEDIA_ERR_ENCRYPTED',
@@ -50,17 +58,126 @@ const defaults = {
       type: 'PLAYER_ERR_TIMEOUT',
       headline: 'Could not download the video'
     },
-    'PLAYER_ERR_DOMAIN_RESTRICTED': {
-      headline: 'This video is restricted from playing on your current domain'
-    },
-    'PLAYER_ERR_IP_RESTRICTED': {
-      headline: 'This video is restricted at your current IP address'
-    },
-    'PLAYER_ERR_GEO_RESTRICTED': {
-      headline: 'This video is restricted from playing in your current geographic region'
-    },
     'FLASHLS_ERR_CROSS_DOMAIN': {
       headline: 'The video could not be loaded: crossdomain access denied.'
+    },
+    'VIDEO_CLOUD_ERR_DUPLICATE_PARAMETERS': {
+      headline: 'Invalid Request: Duplicate Parameter',
+      message: 'The same parameter name was provided more than once in the request'
+    },
+    'VIDEO_CLOUD_ERR_TOKEN_REQUIRED': {
+      headline: 'Access Denied: Missing Token',
+      message: 'Video cannot be played without a token'
+    },
+    'VIDEO_CLOUD_ERR_TOKEN_INVALID': {
+      headline: 'Access Denied: Invalid Token',
+      message: 'Video cannot be played without a valid token'
+    },
+    'PLAYER_ERR_DOMAIN_RESTRICTED': {
+      headline: 'Playback Denied: Domain Restricted',
+      message: 'Video not playable on this domain.'
+    },
+    'PLAYER_ERR_IP_RESTRICTED': {
+      headline: 'Playback Denied: IP',
+      message: 'Your IP address does not have access to this video.'
+    },
+    'PLAYER_ERR_GEO_RESTRICTED': {
+      headline: 'Playback Denied: Location',
+      message: 'Video unavailable from your current location.'
+    },
+    'PLAYER_ERR_OFFER_RESTRICTED': {
+      headline: 'Playback Denied: Offer Restricted',
+      message: 'Video not playable with your entitlements.'
+    },
+    'PLAYER_ERR_TAG_RESTRICTED': {
+      headline: 'Playback Denied: Tags',
+      message: 'Video does not have tags required for playback.'
+    },
+    'PLAYER_ERR_ACCOUNT_ID': {
+      headline: 'Playback Denied: Account ID',
+      message: 'Account ID missing or invalid.'
+    },
+    'VIDEO_CLOUD_ERR_VIDEO_NOT_PLAYABLE': {
+      headline: 'Playback Denied: Unavailable',
+      message: 'Video is not currently available for playback.'
+    },
+    'VIDEO_CLOUD_ERR_PLAYLIST_NOT_PLAYABLE': {
+      headline: 'Playback Denied: Unavailable',
+      message: 'Playlists is not currently available for playback.'
+    },
+    'VIDEO_CLOUD_DENIED_BY_STREAM_LIMIT_CREATE': {
+      headline: 'Stream Limiting: New Viewers',
+      message: 'Limited stream has reached the maximum number of viewers.'
+    },
+    'VIDEO_CLOUD_DENIED_BY_STREAM_LIMIT_RENEW': {
+      headline: 'Stream Limiting: Existing Viewers',
+      message: 'Limited stream is already being watched by the maximum number of viewers.'
+    },
+    'VIDEO_CLOUD_DENIED_BY_STREAM_LIMITING': {
+      headline: 'Stream Limiting: New Viewers',
+      message: 'Limited stream has reached the maximum number of viewers.'
+    },
+    'VIDEO_CLOUND_DENIED_BY_DEVICE_LIMITING': {
+      headline: 'Device Limiting: New Viewers',
+      message: 'Maximum number of streams has been reached on this device.'
+    },
+    'VIDEO_CLOUD_ERR_VIDEO_NOT_FOUND': {
+      headline: 'Video Unavailable: Not Found',
+      message: 'Video cannot be found.'
+    },
+    'VIDEO_CLOUD_ERR_PLAYLIST_NOT_FOUND': {
+      headline: 'Playlist Unavailable: Not Found',
+      message: 'Playlist cannot be found.'
+    },
+    'VIDEO_CLOUD_ERR_METHOD_NOT_ALLOWED': {
+      headline: 'API: Method not allowed'
+    },
+    'VIDEO_CLOUD_ERR_SERVER': {
+      headline: 'Server: Internal server error'
+    },
+    'VIDEO_CLOUD_ERR_VIDEO_RETRIEVE_FAILURE': {
+      headline: 'Server Error: Video',
+      message: 'Video unavailable.'
+    },
+    'VIDEO_CLOUD_ERR_ACCOUNT_RETRIEVE_FAILURE': {
+      headline: 'Server Error: Account',
+      message: 'Account unavailable.'
+    },
+    'VIDEO_CLOUD_ERR_VIDEO_URLS_RETRIEVE_FAILURE': {
+      headline: 'Server Error: Video URLs',
+      message: 'Stream URLs unavailable'
+    },
+    'VIDEO_CLOUD_ERR_PLAYLIST_RETRIEVE_FAILURE': {
+      headline: 'Server Error: Playlist',
+      message: 'Video playlist unavailable.'
+    },
+    'VIDEO_CLOUD_ERR_PLAYBACK_RIGHT_RETRIEVE_FAILURE': {
+      headline: 'Server Error: Playback Rights',
+      message: 'Entitlements unavailable.'
+    },
+    'VIDEO_CLOUD_ERR_PLAYLIST_VIDEOS_RETRIEVE_FAILURE': {
+      headline: 'Server Error: Playlist Videos',
+      message: 'Playlist videos unavailable.'
+    },
+    'VIDEO_CLOUD_ERR_LICENSE_RETRIEVE_FAILURE': {
+      headline: 'Server Error: License',
+      message: 'Stream license unavailable.'
+    },
+    'VIDEO_CLOUD_ERR_OFFERS_RETRIEVE_FAILURE': {
+      headline: 'Server Error: Offers',
+      message: 'Stream offers unavailable.'
+    },
+    'VIDEO_CLOUD_ERR_RIGHTS_RETRIEVE_FAILURE': {
+      headline: 'Server Error: Rights',
+      message: 'Stream rights unavailable.'
+    },
+    'VIDEO_CLOUD_ERR_SERVICE_UNAVAILABLE': {
+      headline: 'Server Error: Unavailable',
+      message: 'The server is currently unavailable. Please try again later.'
+    },
+    'VIDEO_CLOUD_ERR_SERVICE_TIMEOUT': {
+      headline: 'Server Error: Timeout',
+      message: 'Recevied a timeout from the server. Please try again later.'
     }
   }
 };

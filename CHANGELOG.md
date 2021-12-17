@@ -1,3 +1,18 @@
+<a name="5.0.0"></a>
+# [5.0.0](https://github.com/brightcove/videojs-errors/compare/v4.5.0...v5.0.0) (2021-12-17)
+
+### Chores
+
+* skip vjsverify es check ([#214](https://github.com/brightcove/videojs-errors/issues/214)) ([df89683](https://github.com/brightcove/videojs-errors/commit/df89683))
+* Update generate-rollup-config to drop older browser support ([#211](https://github.com/brightcove/videojs-errors/issues/211)) ([e992df7](https://github.com/brightcove/videojs-errors/commit/e992df7))
+
+
+### BREAKING CHANGES
+
+* This removes support for some older browsers like IE 11
+
+Co-authored-by: Gary Katsevman <git@gkatsev.com>
+
 <a name="4.5.0"></a>
 # [4.5.0](https://github.com/brightcove/videojs-errors/compare/v4.4.0...v4.5.0) (2021-05-04)
 

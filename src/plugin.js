@@ -283,8 +283,10 @@ const initPlugin = function(player, options) {
       const dismissButton = display.el().querySelector('.vjs-errors-timeout-button-container > button:last-child');
 
       player.on(reloadButton, 'click', function() {
+        const source = player.currentSource();
+
         player.reset();
-        player.src(player.options_.sources);
+        player.src(source);
       });
       player.on(dismissButton, 'click', function() {
         display.close();

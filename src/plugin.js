@@ -291,6 +291,11 @@ const initPlugin = function(player, options) {
       player.on(dismissButton, 'click', function() {
         display.close();
       });
+
+      display.one('modalclose', () => {
+        player.off(reloadButton);
+        player.off(dismissButton);
+      });
     } else if (closeable) {
       // We should get a close button
       dialogContent +=

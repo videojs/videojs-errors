@@ -1,3 +1,10 @@
+<a name="5.1.0"></a>
+# [5.1.0](https://github.com/brightcove/videojs-errors/compare/v5.0.0...v5.1.0) (2022-06-13)
+
+### Features
+
+* improve the playback timeout error experience ([#223](https://github.com/brightcove/videojs-errors/issues/223)) ([235ff8f](https://github.com/brightcove/videojs-errors/commit/235ff8f))
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.com/brightcove/videojs-errors/compare/v4.5.0...v5.0.0) (2021-12-17)
 

@@ -49,7 +49,7 @@ const defaults = {
     },
     '-2': {
       type: 'PLAYER_ERR_TIMEOUT',
-      headline: 'Could not download the video'
+      headline: 'It looks like you\'re having playback issues. Reloading the video may help.'
     },
     'PLAYER_ERR_DOMAIN_RESTRICTED': {
       headline: 'This video is restricted from playing on your current domain'
@@ -255,17 +255,49 @@ const initPlugin = function(player, options) {
 
     content.className = 'vjs-errors-dialog';
     content.id = 'vjs-errors-dialog';
+
+    const errorCode = `<div class="vjs-errors-code"><b>${this.localize('Error Code')}:</b> ${(error.type || error.code)}</div>`;
+    const isTimeoutError = error.code === -2;
+
     dialogContent =
      `<div class="vjs-errors-content-container">
-      <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
-        <div class="vjs-errors-code"><b>${this.localize('Error Code')}:</b> ${(error.type || error.code)}</div>
-        ${details}
+        <h2 class="vjs-errors-headline">${this.localize(error.headline)}</h2>
+        ${isTimeoutError ? '' : errorCode}
+        ${isTimeoutError ? '' : details}
       </div>`;
 
     const closeable = display.closeable(!('dismiss' in error) || error.dismiss);
 
-    // We should get a close button
-    if (closeable) {
+    if (isTimeoutError) {
+      dialogContent +=
+       `<div class="vjs-errors-timeout-button-container">
+         <button>${this.localize('Reload Video')}</button>
+         <button>${this.localize('Dismiss')}</button>
+       </div>`;
+      content.innerHTML = dialogContent;
+      display.fillWith(content);
+
+      display.getChild('closeButton').hide();
+
+      const reloadButton = display.el().querySelector('.vjs-errors-timeout-button-container > button:first-child');
+      const dismissButton = display.el().querySelector('.vjs-errors-timeout-button-container > button:last-child');
+
+      player.on(reloadButton, 'click', function() {
+        const source = player.currentSource();
+
+        player.reset();
+        player.src(source);
+      });
+      player.on(dismissButton, 'click', function() {
+        display.close();
+      });
+
+      display.one('modalclose', () => {
+        player.off(reloadButton);
+        player.off(dismissButton);
+      });
+    } else if (closeable) {
+      // We should get a close button
       dialogContent +=
        `<div class="vjs-errors-ok-button-container">
           <button class="vjs-errors-ok-button">${this.localize('OK')}</button>

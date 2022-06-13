@@ -80,8 +80,37 @@
 }
 
 .vjs-errors-ok-button:hover {
-  border: 1px #FFF solid;
-  color: #CCC;
+  border: 1px #fff solid;
+  color: #ccc;
+}
+
+.vjs-errors-timeout-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+  text-align: center;
+}
+
+.vjs-errors-timeout-button-container button {
+  display: block;
+  width: 120px;
+  height: 36px;
+  background-color: #000;
+  border: 1px #999 solid;
+  border-radius: 5px;
+  color: #999;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.vjs-errors-timeout-button-container button:hover {
+  border: 1px #fff solid;
+  color: #ccc;
 }
 
 .vjs-errors-content-container {
@@ -155,7 +184,6 @@
 */
 
 @media (max-width: 600px), (max-height: 250px) {
-
   .vjs-error-display {
     font-size: 14px;
     background-color: #000;

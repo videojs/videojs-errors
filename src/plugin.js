@@ -254,7 +254,6 @@ const initPlugin = function(player, options) {
     const display = player.getChild('errorDisplay');
 
     content.className = 'vjs-errors-dialog';
-    content.id = 'vjs-errors-dialog';
 
     const errorCode = `<div class="vjs-errors-code"><b>${this.localize('Error Code')}:</b> ${(error.type || error.code)}</div>`;
     const isTimeoutError = error.code === -2;

@@ -1,3 +1,19 @@
+<a name="6.0.0"></a>
+# [6.0.0](https://github.com/brightcove/videojs-errors/compare/v5.1.0...v6.0.0) (2022-07-18)
+
+### Features
+
+* Remove vjs-errors-dialog id ([#226](https://github.com/brightcove/videojs-errors/issues/226)) ([54aed49](https://github.com/brightcove/videojs-errors/commit/54aed49))
+
+### Chores
+
+* update dependenices, use postcss instead of node-sass, remove .travis.yml ([#224](https://github.com/brightcove/videojs-errors/issues/224)) ([0b724bf](https://github.com/brightcove/videojs-errors/commit/0b724bf))
+
+
+### BREAKING CHANGES
+
+* The `vjs-errors-dialog` id attribute will no longer be available to target the div wrapping error content and UI elements. A `vjs-errors-dialog` class will still be present on instances of the div, as per usual.
+
 <a name="5.1.0"></a>
 # [5.1.0](https://github.com/brightcove/videojs-errors/compare/v5.0.0...v5.1.0) (2022-06-13)
 

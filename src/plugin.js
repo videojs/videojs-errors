@@ -2,6 +2,8 @@ import videojs from 'video.js';
 import document from 'global/document';
 import {version as VERSION} from '../package.json';
 
+const merge = (videojs.obj && videojs.obj.merge) || videojs.merge;
+
 const FlashObj = videojs.getComponent('Flash');
 const defaultDismiss = !videojs.browser.IS_IPHONE;
 
@@ -73,7 +75,7 @@ const initPlugin = function(player, options) {
   const listeners = [];
 
   const updateErrors = function(updates) {
-    options.errors = videojs.mergeOptions(options.errors, updates);
+    options.errors = merge(options.errors, updates);
 
     // Create `code`s from errors which don't have them (based on their keys).
     Object.keys(options.errors).forEach(k => {

@@ -88,14 +88,8 @@
     "videojs-standard": "^9.0.1"
   },
   "lint-staged": {
-    "*.js": [
-      "vjsstandard --fix",
-      "git add"
-    ],
-    "README.md": [
-      "npm run docs:toc",
-      "git add"
-    ]
+    "*.js": "vjsstandard --fix",
+    "README.md": "npm run docs:toc"
   },
   "husky": {
     "hooks": {

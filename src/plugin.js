@@ -4,11 +4,7 @@ import {version as VERSION} from '../package.json';
 
 const merge = (videojs.obj && videojs.obj.merge) || videojs.mergeOptions;
 
-const FlashObj = videojs.getComponent('Flash');
 const defaultDismiss = !videojs.browser.IS_IPHONE;
-
-// Video.js 5/6 cross-compatibility.
-const registerPlugin = videojs.registerPlugin || videojs.plugin;
 
 // Default options for the plugin.
 const defaults = {
@@ -61,9 +57,6 @@ const defaults = {
     },
     'PLAYER_ERR_GEO_RESTRICTED': {
       headline: 'This video is restricted from playing in your current geographic region'
-    },
-    'FLASHLS_ERR_CROSS_DOMAIN': {
-      headline: 'The video could not be loaded: crossdomain access denied.'
     }
   }
 };
@@ -162,19 +155,6 @@ const initPlugin = function(player, options) {
       // if there's an error do not reset the monitor and
       // clear the error unless time is progressing
       if (!player.error()) {
-        // error if using Flash and its API is unavailable
-        const tech = player.$('.vjs-tech');
-
-        if (tech &&
-            tech.type === 'application/x-shockwave-flash' &&
-            !tech.vjs_getProperty) {
-          player.error({
-            code: -2,
-            type: 'PLAYER_ERR_TIMEOUT'
-          });
-          return;
-        }
-
         // playback isn't expected if the player is paused
         if (player.paused()) {
           return resetMonitor();
@@ -239,18 +219,12 @@ const initPlugin = function(player, options) {
     // Stop restarting the monitor on visibilitychanges now that an error has occurred
     player.off(document, 'visibilitychange', onPlayStartMonitor);
 
-    error = videojs.mergeOptions(error, options.errors[error.code || error.type || 0]);
+    error = merge(error, options.errors[error.code || error.type || 0]);
 
     if (error.message) {
       details = `<div class="vjs-errors-details">${player.localize('Technical details')}
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
-    }
-
-    if (error.code === 4 && FlashObj && !FlashObj.isSupported()) {
-      const flashMessage = player.localize('If you are using an older browser please try upgrading or installing Flash.');
-
-      details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     }
 
     const display = player.getChild('errorDisplay');
@@ -282,20 +256,18 @@ const initPlugin = function(player, options) {
 
       const reloadButton = display.el().querySelector('.vjs-errors-timeout-button-container > button:first-child');
       const dismissButton = display.el().querySelector('.vjs-errors-timeout-button-container > button:last-child');
-
-      player.on(reloadButton, 'click', function() {
+      const reloadHandler = () => {
         const source = player.currentSource();
 
         player.reset();
         player.src(source);
-      });
-      player.on(dismissButton, 'click', function() {
-        display.close();
-      });
+      };
+
+      player.on(reloadButton, 'click', reloadHandler);
 
       display.one('modalclose', () => {
-        player.off(reloadButton);
-        player.off(dismissButton);
+        player.off(reloadButton, 'click', reloadHandler);
+        player.off(dismissButton, 'click', display.close);
       });
     } else if (closeable) {
       // We should get a close button
@@ -338,11 +310,11 @@ const initPlugin = function(player, options) {
 
   const reInitPlugin = function(newOptions) {
     onDisposeHandler();
-    initPlugin(player, videojs.mergeOptions(defaults, newOptions));
+    initPlugin(player, merge(defaults, newOptions));
   };
 
   reInitPlugin.extend = (errors) => updateErrors(errors);
-  reInitPlugin.getAll = () => videojs.mergeOptions(options.errors);
+  reInitPlugin.getAll = () => merge(options.errors);
 
   // Get / set timeout value. Restart monitor if changed.
   reInitPlugin.timeout = function(timeout) {
@@ -395,7 +367,7 @@ const initPlugin = function(player, options) {
 };
 
 const errors = function(options) {
-  initPlugin(this, videojs.mergeOptions(defaults, options));
+  initPlugin(this, merge(defaults, options));
 };
 
 ['extend', 'getAll'].forEach(k => {
@@ -408,6 +380,6 @@ const errors = function(options) {
 errors.VERSION = VERSION;
 
 // Register the plugin with video.js.
-registerPlugin('errors', errors);
+videojs.registerPlugin('errors', errors);
 
 export default errors;

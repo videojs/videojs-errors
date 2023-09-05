@@ -2,7 +2,7 @@ import videojs from 'video.js';
 import document from 'global/document';
 import {version as VERSION} from '../package.json';
 
-const merge = (videojs.obj && videojs.obj.merge) || videojs.merge;
+const merge = (videojs.obj && videojs.obj.merge) || videojs.mergeOptions;
 
 const FlashObj = videojs.getComponent('Flash');
 const defaultDismiss = !videojs.browser.IS_IPHONE;

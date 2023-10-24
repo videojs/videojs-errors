@@ -493,30 +493,6 @@ QUnit.test('progress events are ignored during timeout', function(assert) {
   assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
 });
 
-QUnit.test('Flash API is unavailable when using Flash is an error', function(assert) {
-  this.player.tech_.el_.type = 'application/x-shockwave-flash';
-  // when Flash dies the object methods go away
-  /* eslint-disable camelcase */
-  this.player.tech_.el_.vjs_getProperty = null;
-  /* eslint-enable camelcase */
-  this.player.paused = function() {
-    return true;
-  };
-
-  let errors = 0;
-
-  this.player.on('error', function() {
-    errors++;
-  });
-  this.player.src(sources);
-  this.player.trigger('play');
-  this.player.trigger('timeupdate');
-
-  assert.strictEqual(errors, 1, 'emitted an error');
-  assert.strictEqual(this.player.error().code, -2, 'error code is -2');
-  assert.strictEqual(this.player.error().type, 'PLAYER_ERR_TIMEOUT');
-});
-
 QUnit.test(
   'the plugin cleans up after its previous incarnation when called again',
   function(assert) {
@@ -808,34 +784,6 @@ QUnit.test('custom error details should override defaults', function(assert) {
     this.errorDisplay.$('.vjs-errors-message').textContent,
     customError.message, 'message should match custom override value'
   );
-});
-
-QUnit.test('Append Flash error details when flash is not supported', function(assert) {
-  const Flash = videojs.getTech('Flash');
-
-  // vjs6 won't have flash by default
-  if (!Flash) {
-    assert.notOk(Flash, 'flash tech not available, skipping unit test');
-    return;
-  }
-
-  const oldIsSupported = videojs.getComponent('Flash').isSupported;
-
-  // Mock up isSupported to be false
-  videojs.getComponent('Flash').isSupported = () => false;
-
-  // tick forward enough to ready the player
-  this.clock.tick(1);
-  // trigger the error in question
-  this.player.error(4);
-  // confirm results
-  assert.equal(
-    this.errorDisplay.$('.vjs-errors-flashmessage').textContent,
-    'If you are using an older browser please try upgrading or installing Flash.',
-    'Flash Error message should be displayed'
-  );
-  // Restoring isSupported to the old value
-  videojs.getComponent('Flash').isSupported = oldIsSupported;
 });
 
 QUnit.test('default error is dismissible', function(assert) {

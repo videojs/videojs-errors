@@ -4,7 +4,6 @@ import {version as VERSION} from '../package.json';
 
 const merge = (videojs.obj && videojs.obj.merge) || videojs.merge;
 
-const FlashObj = videojs.getComponent('Flash');
 const defaultDismiss = !videojs.browser.IS_IPHONE;
 
 // Video.js 5/6 cross-compatibility.
@@ -61,9 +60,6 @@ const defaults = {
     },
     'PLAYER_ERR_GEO_RESTRICTED': {
       headline: 'This video is restricted from playing in your current geographic region'
-    },
-    'FLASHLS_ERR_CROSS_DOMAIN': {
-      headline: 'The video could not be loaded: crossdomain access denied.'
     }
   }
 };
@@ -162,19 +158,6 @@ const initPlugin = function(player, options) {
       // if there's an error do not reset the monitor and
       // clear the error unless time is progressing
       if (!player.error()) {
-        // error if using Flash and its API is unavailable
-        const tech = player.$('.vjs-tech');
-
-        if (tech &&
-            tech.type === 'application/x-shockwave-flash' &&
-            !tech.vjs_getProperty) {
-          player.error({
-            code: -2,
-            type: 'PLAYER_ERR_TIMEOUT'
-          });
-          return;
-        }
-
         // playback isn't expected if the player is paused
         if (player.paused()) {
           return resetMonitor();
@@ -245,12 +228,6 @@ const initPlugin = function(player, options) {
       details = `<div class="vjs-errors-details">${player.localize('Technical details')}
         : <div class="vjs-errors-message">${player.localize(error.message)}</div>
         </div>`;
-    }
-
-    if (error.code === 4 && FlashObj && !FlashObj.isSupported()) {
-      const flashMessage = player.localize('If you are using an older browser please try upgrading or installing Flash.');
-
-      details += `<span class="vjs-errors-flashmessage">${flashMessage}</span>`;
     }
 
     const display = player.getChild('errorDisplay');

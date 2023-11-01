@@ -1,3 +1,14 @@
+<a name="6.1.0"></a>
+# [6.1.0](https://github.com/brightcove/videojs-errors/compare/v6.0.0...v6.1.0) (2023-11-01)
+
+### Features
+
+* remove old flash errors ([#238](https://github.com/brightcove/videojs-errors/issues/238)) ([8697517](https://github.com/brightcove/videojs-errors/commit/8697517))
+
+### Bug Fixes
+
+* prevent lint-staged git add warning and mergeOptions warning on Video.js[@8](https://github.com/8) ([#235](https://github.com/brightcove/videojs-errors/issues/235)) ([2b0966f](https://github.com/brightcove/videojs-errors/commit/2b0966f))
+
 <a name="6.0.0"></a>
 # [6.0.0](https://github.com/brightcove/videojs-errors/compare/v5.1.0...v6.0.0) (2022-07-18)
 

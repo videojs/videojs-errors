@@ -61,7 +61,7 @@
   ],
   "dependencies": {
     "global": "^4.4.0",
-    "video.js": "^6 || ^7"
+    "video.js": "^6 || ^7 || ^8"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",

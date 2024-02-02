@@ -13,7 +13,6 @@ Maintenance Status: Stable
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Getting Started](#getting-started)
   - [Localization](#localization)
   - [Supported Errors](#supported-errors)
@@ -88,7 +87,6 @@ Additionally, some custom errors have been added as reference for future extensi
 - PLAYER_ERR_DOMAIN_RESTRICTED
 - PLAYER_ERR_IP_RESTRICTED
 - PLAYER_ERR_GEO_RESTRICTED
-- FLASHLS_ERR_CROSS_DOMAIN
 
 **Note:**
 

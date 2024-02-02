@@ -89,7 +89,7 @@
   },
   "lint-staged": {
     "*.js": "vjsstandard --fix",
-    "README.md": "npm run docs:toc"
+    "README.md": "npm run docs"
   },
   "husky": {
     "hooks": {

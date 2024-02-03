@@ -43,7 +43,7 @@ QUnit.module('videojs-errors', {
     this.player = videojs(this.video);
 
     this.player.buffered = function() {
-      return videojs.createTimeRange(0, 0);
+      return (videojs.time && videojs.time.createTimeRanges || videojs.createTimeRange)(0, 0);
     };
     this.player.paused = function() {
       return false;
@@ -144,6 +144,10 @@ QUnit.test('no progress for 45 seconds is an error', function(assert) {
   });
   this.player.src(sources);
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
   this.clock.tick(45 * 1000);
 
   assert.strictEqual(errors, 1, 'emitted an error');
@@ -164,6 +168,10 @@ QUnit.test('timeout in background is 5 minutes by default if the document is hid
   // simulates case where player starts playing while already in a background
   // tab (i.e. no 'visibilitychange' event is observed)
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
 
   this.clock.tick(1 * 1000);
 
@@ -192,6 +200,10 @@ QUnit.test('timeout in background is 5 minutes by default if the document is hid
   this.player.src(sources);
 
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
 
   this.clock.tick(1 * 1000);
 
@@ -227,6 +239,10 @@ QUnit.test('background timeout can be set with backgroundTimeout option', functi
   this.player.src(sources);
 
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
 
   this.clock.tick(1 * 1000);
 
@@ -265,6 +281,10 @@ QUnit.test('background timeout can be set/get via player.errors.backgroundTimeou
   this.player.src(sources);
 
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
 
   this.clock.tick(1 * 1000);
 
@@ -455,6 +475,10 @@ QUnit.test('background/foreground timeout toggling is disabled after error has o
   this.player.src(sources);
   this.player.trigger('play');
 
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
+
   this.clock.tick(45 * 1000);
 
   assert.strictEqual(errors, 1, 'emitted an error');
@@ -484,6 +508,10 @@ QUnit.test('progress events are ignored during timeout', function(assert) {
   });
   this.player.src(sources);
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
   this.clock.tick(40 * 1000);
   this.player.trigger('progress');
   this.clock.tick(5 * 1000);
@@ -540,6 +568,10 @@ QUnit.test('progress does not clear player timeout errors', function(assert) {
   this.player.src(sources);
   this.player.trigger('play');
 
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
+
   this.clock.tick(45 * 1000);
 
   assert.strictEqual(errors, 1, 'emitted an error');
@@ -558,6 +590,10 @@ QUnit.test('reinitialising plugin during playback starts timeout handler', funct
   });
   this.player.src(sources);
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
 
   // reinitialise while playing
   this.player.errors();
@@ -585,6 +621,10 @@ QUnit.test('updating timeout during playback restarts timeout monitor', function
   });
   this.player.src(sources);
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
 
   // reinitialise while playing
   this.player.errors.timeout(1000);
@@ -634,6 +674,10 @@ QUnit.test('no signs of playback triggers a player timeout', function(assert) {
     event.stopImmediatePropagation();
   });
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
   this.clock.tick(45 * 1000);
 
   assert.strictEqual(errors, 1, 'emitted a single error');
@@ -725,6 +769,10 @@ QUnit.test('player timeouts do not occur if the video is ended', function(assert
     event.stopImmediatePropagation();
   });
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
   // simulate a misbehaving player that doesn't fire `ended`
   this.player.ended = function() {
     return true;
@@ -737,6 +785,10 @@ QUnit.test('player timeouts do not occur if the video is ended', function(assert
 QUnit.test('player timeouts do not overwrite existing errors', function(assert) {
   this.player.src(sources);
   this.player.trigger('play');
+
+  // Triggering playing is necessary as of Video.js 8, which introduced "retry
+  // on error" behavior
+  this.player.trigger('playing');
   this.player.error({
     type: 'custom',
     code: -7

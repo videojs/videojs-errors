@@ -1,3 +1,27 @@
+<a name="6.2.0"></a>
+# [6.2.0](https://github.com/brightcove/videojs-errors/compare/v6.1.0...v6.2.0) (2024-02-03)
+
+### Features
+
+* remove Flash errors ([#237](https://github.com/brightcove/videojs-errors/issues/237)) ([929b6ea](https://github.com/brightcove/videojs-errors/commit/929b6ea))
+
+### Chores
+
+* **deps-dev:** bump [@babel](https://github.com/babel)/traverse from 7.16.3 to 7.23.9 ([#240](https://github.com/brightcove/videojs-errors/issues/240)) ([92daba3](https://github.com/brightcove/videojs-errors/commit/92daba3))
+* **deps-dev:** bump follow-redirects from 1.15.1 to 1.15.5 ([#239](https://github.com/brightcove/videojs-errors/issues/239)) ([9ea936e](https://github.com/brightcove/videojs-errors/commit/9ea936e))
+* **deps-dev:** bump postcss from 8.4.14 to 8.4.31 ([#241](https://github.com/brightcove/videojs-errors/issues/241)) ([37110bf](https://github.com/brightcove/videojs-errors/commit/37110bf))
+* **deps:** bump [@xmldom](https://github.com/xmldom)/xmldom from 0.7.5 to 0.7.8 ([#229](https://github.com/brightcove/videojs-errors/issues/229)) ([31ebae8](https://github.com/brightcove/videojs-errors/commit/31ebae8))
+* **deps:** bump decode-uri-component from 0.2.0 to 0.2.2 ([#232](https://github.com/brightcove/videojs-errors/issues/232)) ([0c16a00](https://github.com/brightcove/videojs-errors/commit/0c16a00))
+* **deps:** bump engine.io from 6.2.0 to 6.2.1 ([#231](https://github.com/brightcove/videojs-errors/issues/231)) ([7f2a4b4](https://github.com/brightcove/videojs-errors/commit/7f2a4b4))
+* **deps:** bump json5 from 2.2.0 to 2.2.3 ([#233](https://github.com/brightcove/videojs-errors/issues/233)) ([661c16b](https://github.com/brightcove/videojs-errors/commit/661c16b))
+* **deps:** bump minimatch from 3.0.4 to 3.1.2 ([#236](https://github.com/brightcove/videojs-errors/issues/236)) ([e74d664](https://github.com/brightcove/videojs-errors/commit/e74d664))
+* **deps:** bump shell-quote from 1.7.2 to 1.7.3 ([#225](https://github.com/brightcove/videojs-errors/issues/225)) ([344733b](https://github.com/brightcove/videojs-errors/commit/344733b))
+* **deps:** bump socket.io-parser and socket.io ([#242](https://github.com/brightcove/videojs-errors/issues/242)) ([90caad9](https://github.com/brightcove/videojs-errors/commit/90caad9))
+* **deps:** bump socket.io-parser from 4.0.4 to 4.0.5 ([#230](https://github.com/brightcove/videojs-errors/issues/230)) ([713f3c0](https://github.com/brightcove/videojs-errors/commit/713f3c0))
+* **deps:** bump terser from 5.10.0 to 5.14.2 ([#227](https://github.com/brightcove/videojs-errors/issues/227)) ([5b8026d](https://github.com/brightcove/videojs-errors/commit/5b8026d))
+* **deps:** bump ua-parser-js from 0.7.31 to 0.7.33 ([#234](https://github.com/brightcove/videojs-errors/issues/234)) ([4148ab6](https://github.com/brightcove/videojs-errors/commit/4148ab6))
+* **deps:** use video.js 8.x by default, but maintain backward compatibility ([#243](https://github.com/brightcove/videojs-errors/issues/243)) ([7f7c5b1](https://github.com/brightcove/videojs-errors/commit/7f7c5b1))
+
 <a name="6.1.0"></a>
 # [6.1.0](https://github.com/brightcove/videojs-errors/compare/v6.0.0...v6.1.0) (2023-11-01)
 
